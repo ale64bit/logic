@@ -1,0 +1,687 @@
+\leftline{\xmplbx Chapter 2}
+\vglue .5\baselineskip 
+
+% ==============================================================================
+\beginsection NOTATION
+
+{\leftskip 1in
+\item{\a, \b, \c, \d:} syntactical variables over terms.
+\item{\A, \B, \C, \D:} syntactical variables over formulas.
+\item{\e:} syntactical variables over constant symbols.
+\item{\f, \g:} syntactical variables over function symbols.
+\item{\i, \j:} syntactical variables over names.
+\item{\p, \q:} syntactical variables over predicate symbols.
+\item{\u, \v:} syntactical variables over expressions.
+\item{\x, \y, \z, \w:} syntactical variables over (individual) variables.
+\par}
+
+% ==============================================================================
+\beginsection DEFINITIONS
+
+\item{$\bullet$} A {\it first-order language} has as symbols:
+\itemitem{a)} the {\it variables}: $x$, $y$, $z$, $w$, $x'$, $y'$, $z'$, $w'$, $x''$, $y''$, $z''$, $w''$, \dots
+\itemitem{b)} for each $n$, the $n${\it-ary function symbols} and the $n${\it-ary predicate symbols}.
+\itemitem{c)} the symbols $\neg$, $\lor$ and $\exists$.
+\smallskip
+
+\item{$\bullet$} A {\it term} is defined inductively as:
+\itemitem{i)} $\x$ is a term;
+\itemitem{ii)} if $\f$ is $n$-ary, then $\f\a_1 \dots \a_n$ is a term.
+\smallskip
+
+\item{$\bullet$} A {\it formula} is defined inductively as:
+\itemitem{i)} if $\p$ is $n$-ary, then an atomic formula $\p\a_1 \dots \a_n$ is a formula;
+\itemitem{ii)} $\neg \A$ is a formula;
+\itemitem{iii)} $\lor\A\B$ is a formula;
+\itemitem{iv)} $\exists \x\A$ is a formula.
+\smallskip
+
+\item{$\bullet$} A {\it designator} is an expression which is either a term or a formula.
+\smallskip
+
+\item{$\bullet$} A {\it structure} $\cal A$ for a first-order language $L$ consist of:
+\itemitem{i)} A nonempty set $|{\cal A}|$, the {\it universe} and its {\it individuals}.
+\itemitem{ii)} For each $n$-ary function symbol $\f$ of $L$, an $n$-ary function 
+$\f_{\cal A} : |{\cal A}| \to |{\cal A}|$. (In particular, for each constant 
+$\e$ of $L$, $\e_{\cal A}$ is an individual of $\cal A$.)
+\itemitem{iii)} For each $n$-ary predicate symbol $\p$ of $L$ other than $=$, an 
+$n$-ary predicate $\p_{\cal A}$ in $|{\cal A}|$.
+
+Also, ${\cal A}(\a)$ designates an individual and ${\cal A}(\A)$ designates a truth value.
+\smallskip
+
+\item{$\bullet$} A formula $\A$ is {\it valid} in ${\cal A}$ if ${\cal A}(\A') = \top$ for 
+every ${\cal A}$-instance $\A'$ of $\A$. In particular, a closed formula $\A$ is valid in
+${\cal A}$ iff ${\cal A}(\A) = \top$.
+\smallskip
+
+\item{$\bullet$} A formula $\A$ is {\it logically valid} if it's valid in every structure.
+\smallskip
+
+\item{$\bullet$} A formula $\A$ is a {\it consequence} of a set $\Gamma$ of formulas if the 
+validity of $\A$ follows from the validity of the formulas in $\Gamma$.
+\smallskip
+
+\item{$\bullet$} A formula $\A$ is a {\it logical consequence} of a set $\Gamma$ of formulas 
+if $\A$ is valid in every structure for $L$ in which all of the formulas in $\Gamma$ are valid.
+\smallskip
+
+\item{$\bullet$} A {\it first-order theory} is a formal system $T$ such that
+\itemitem{i)} the language of $T$ is a first-order language;
+\itemitem{ii)} the axioms of $T$ are the logical axioms of $L(T)$ and certain further axioms, the {\it nonlogical axioms};
+\itemitem{iii)} the rules of $T$ are Expansion, Contraction, Associative, Cut and $\exists$-Introduction.
+\smallskip
+
+\item{$\bullet$} A {\it model} of a theory $T$, is a structure for $L(T)$ in which all the nonlogical axioms of $T$ are valid.
+
+% ==============================================================================
+\beginsection LOGICAL AXIOMS
+
+{\leftskip 1in
+\itemitem{{\bf Propositional}:} $\neg \A \lor \A$
+\itemitem{{\bf Substitution}:} $\A_\x[\a] \to \exists \x\A$
+\itemitem{{\bf Identity}:} $\x = \x$
+\itemitem{{\bf Equality}:} $\x_1 = \y_1 \to \cdots \to \x_n = \y_n \to \f\x_1 \dots \x_n = \f\y_1 \dots \y_n$
+\itemitem{} $\x_1 = \y_1 \to \cdots \to \x_n = \y_n \to \p\x_1 \dots \x_n \to \p\y_1 \dots \y_n$
+\par}
+
+% ==============================================================================
+\beginsection RULES OF INFERENCE
+
+{\leftskip 1in
+\itemitem{{\bf Expansion}.} Infer $\B \lor \A$ from $\A$.
+\itemitem{{\bf Contraction}.} Infer $\A$ from $\A \lor \A$.
+\itemitem{{\bf Associative}.} Infer $(\A \lor \B) \lor \C$ from $\A \lor (\B \lor \C)$.
+\itemitem{{\bf Cut}.} Infer $\B \lor \C$ from $\A \lor \B$ and $\neg\A \lor \C$.
+\itemitem{{\bf $\exists$-Introduction}.} If $\x$ is not free in $\B$, infer $\exists \x\A \to \B$ from $\A \to \B$.
+\par}
+
+% ==============================================================================
+\beginsection RESULTS
+
+{\leftskip .5in
+
+\proclaim Lemma 1.
+If $\u_1, \dots, \u_n, \u_1', \dots, \u_n'$ are designators
+and $\u_1 \dots \u_n$ and $\u_1' \dots \u_n'$ are compatible,
+then $\u_i$ is $\u'_i$ for $i = 1, \dots , n$.
+
+\proclaim Formation Theorem.
+Every designator can be written in the form $\u\v_1\dots\v_n$, where 
+$\bf u$ is a symbol of index $n$ and $\v_1, \dots, \v_n$ are 
+designators, in one and only one way.
+
+\proclaim Lemma 2.
+Every occurrence of a symbol in a designator $\bf u$ begins an occurrence of a
+designator in $\bf u$.
+
+\proclaim Occurrence Theorem.
+Let $\bf u$ be a symbol of index $n$, and let $\v_1, \dots, \v_n$ be 
+designators. Then any occurrence of a designator $\bf v$ in $\u\v_1 \dots \v_n$
+is either all of $\u\v_1 \dots \v_n$ or a part of one of the $\v_i$.
+
+\proclaim Lemma.
+Let $\cal A$ be a structure for $L$; $\bf a$ a variable-free term in $L({\cal A})$;
+$\bf i$ the name of ${\cal A}(\a)$. If $\bf b$ is a term of $L({\cal A})$ in
+which no variable except $\bf x$ occurs, then ${\cal A}({\bf b_x}[\a]) = {\cal A}({\bf b_x}[{\bf i}])$.
+If $\A$ is a formula of $L({\cal A})$ in which no variable except $\bf x$ is 
+free, then ${\cal A}({\bf A_x}[\a]) = {\cal A}({\bf A_x}[{\bf i}])$
+
+\proclaim Validity Theorem.
+If $T$ is a theory, then every theorem of $T$ is valid in $T$.
+
+\par}
+
+% ==============================================================================
+\beginsection EXERCISES
+
+% from Knuth's TAOCP macros.
+\newif\ifitempar \itempartrue
+\def\ans #1. {\textindent{\bf#1.}}
+\def\ansitem(#1){\ifitempar\par
+   \else\itempartrue\fi(#1)\enspace\ignorespaces}
+
+% ------------------------------------------------------------------------------
+\ans 1.
+\ansitem (a) Let $F(a_1, \dots, a_n)$ be any truth function. We can construct 
+another function
+$$
+F'(a_1, \dots, a_n) = H_{d,m}( H_{c,n}(a_1^1, \dots, a_n^1), \dots, H_{c,n}(a_1^m, \dots, a_n^m) )
+$$
+where the $a_1^i, \dots, a_n^i$ are all the tuples of truth values such that 
+$F(a_1^i, \dots, a_n^i) = \top$. Thus, $a_j^i = a_j$ or $a_j^i = H_\neg(a_j)$, 
+for some values of $i$ and $j$. Now, we can see that $F$ and $F'$ are the same 
+function, since any truth assignment $a_1', \dots, a_n'$ that satisfies (falsifies) 
+$F$, also satisfies (falsifies) $F'$, respectively. This is called 
+{\it Disjunctive Normal Form (DNF)}.
+
+We can also construct a similar function
+$$
+\eqalign{F''(a_1, \dots, a_n) &= H_{c,m}( H_\neg(H_{c,n}(a_1^1, \dots, a_n^1)), \dots, H_\neg(H_{c,n}(a_1^m, \dots, a_n^m)) )\cr
+&= H_{c,m}( H_{d,n}(H_\neg(a_1^1), \dots, H_\neg(a_n^1)), \dots, H_{d,n}(H_\neg(a_1^m), \dots, H_\neg(a_n^m)) )}$$
+where the $a_1^i, \dots, a_n^i$ are all the tuples of truth values such that 
+$F(a_1^i, \dots, a_n^i) = \bot$. It can be seen by a reasoning similar to above, 
+that $F$ and $F''$ are the same function. This is called {\it Conjunctive Normal 
+Form (CNF)}.
+\smallskip
+\ansitem (b) It can be seen that
+$$\eqalign{
+H_{c,n} &= H_\land(a_1, H_\land(a_2, \dots))\cr
+H_{d,n} &= H_\lor(a_1, H_\lor(a_2, \dots)).
+}$$
+This means we can define any truth function $F$ in terms of $H_\neg$, $H_\lor$ 
+and $H_\land$, due to (a). Additionally, we can convert each instance of 
+$H_\land(a, b)$ into $H_\neg(H_{\lor}(H_\neg(a), H_\neg(b)))$. Thus, every 
+truth function is definable in terms of $H_\neg$ and $H_{\lor}$.
+\smallskip
+\ansitem (c) Since $H_\lor(a, b)$ can be defined as $H_\to(H_\neg(a), b)$, 
+every truth function is definable in terms of $H_\neg$ and $H_\to$, due to (b).
+\smallskip
+\ansitem (d) Since $H_\lor(a, b)$ can be defined as $H_\neg(H_\land(H_\neg(a), H_\neg(b)))$, 
+every truth function is definable in terms of $H_\neg$ and $H_\land$, due to (b).
+\smallskip
+\ansitem (e) Consider the following identities, which can be easily verified 
+e.g. via their truth tables
+$$
+H_\lor(a, a) = a, \quad H_\lor(a, \top) = \top
+$$
+$$
+H_\land(a, a) = a, \quad H_\land(a, \top) = a
+$$
+$$
+H_\to(a, a) = \top, \quad H_\to(a, \top) = \top, \quad H_\to(\top, a) = a
+$$
+$$
+H_\leftrightarrow(a, a) = \top, \quad H_\leftrightarrow(a, \top) = a, \quad H_\leftrightarrow(\top, a) = a.
+$$
+Thus, any formula consisting of only those connectives and the free variable $a$ 
+can be inductively reduced to either $a$ or $\top$ and can never define $H_\neg$. 
+Those connectives can only define monotone functions while negation is not 
+monotone. Note that allowing constants in the expression would allow to define 
+negation as e.g. $H_\neg(a) = H_\to(a, \bot)$.
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 2. 
+\ansitem (a) Note that $H_d(a, b) = H_\land(H_\neg(a), H_\neg(b))$. We can then define
+$$\eqalign{H_\neg(a) &= H_d(a, a)\cr
+H_\lor(a, b) &= H_d(H_d(a, b), H_d(a, b))}$$
+and thus every truth function is definable in terms of $H_d$ 
+(using result from 1.1(b)).
+\smallskip
+\ansitem (b) Note that $H_s(a, b) = H_\neg(H_\land(a, b))$. We can then define
+$$\eqalign{H_\neg(a) &= H_s(a, a)\cr
+H_\lor(a, b) &= H_s(H_s(a, a), H_s(b, b))}$$
+and thus every truth function is definable in terms of $H_s$ 
+(using result from 1.1(b)).
+\smallskip
+\ansitem (c) Let $H$ be singulary with $H(a_1, \dots, a_n) = H'(a_i)$.
+The syntax of every truth function $F(a_1, \dots, a_m)$ definable 
+in terms of $H$ can be inductively defined by
+$$
+e ::= a_j \vert H(e_1, \dots, e_n)
+$$
+where $1 \le j \le m$ and $e_1, \dots, e_n$ are valid expressions.
+
+We can then reduce every expression to an equivalent expression that 
+involves a single $a_j$: as long as the expression has the form $H(e_1, \dots, e_n)$,
+we can replace it with $H'(e_i)$ and inductively reduce $e_i$. Thus, every truth 
+function $F$ definable in terms of $H$ is singulary and furthermore
+$$
+F(a_1, \dots, a_m) = {H'}^k(a_j)
+$$
+for some integers $k \ge 0$ and $1 \le j \le m$.
+\smallskip
+\ansitem (d) Note that since any $n$-ary truth function is completely 
+determined by its truth table, there are $2^{2^n}$ of them. So we know
+there are $2^{2^2}=16$ binary truth functions. Let's analyze them:
+
+\itemitem{-} Consider the four binary truth functions $H$ such that
+$$
+H(a, a) = a.
+$$
+It is easy to see that any function definable in terms of such $H$ can be 
+inductively reduced to $a$, in a similar fashion as before. Thus, none of these four
+functions can define every truth function (e.g. negation $H_{\neg}$ cannot
+be defined).
+
+\itemitem{-} Consider the four binary truth functions $H$ such that
+$$
+H(a,a) = \bot.
+$$
+For each of these four functions, we have
+$$
+H(a,\bot) \in \{a, \bot\}, \quad H(\bot, a) \in \{a, \bot\}
+$$
+and thus none of these four functions can define every truth function (e.g. 
+negation $H_{\neg}$ cannot be defined).
+
+\itemitem{-} Consider the four binary truth functions $H$ such that
+$$
+H(a,a) = \top.
+$$
+This case is symmetric to the previous one. For each of these four functions, we have
+$$
+H(a,\top) \in \{a, \top\}, \quad H(\top, a) \in \{a, \top\}
+$$
+and thus none of these four functions can define every truth function (e.g. 
+negation $H_{\neg}$ cannot be defined).
+
+\itemitem{-} For the four remaining binary truth functions, we have
+$$
+H(\top, \top) = \bot, \quad H(\bot, \bot) = \top.
+$$
+Two of those functions
+$$\eqalign{
+H_1(\top, \bot) &= \top, \quad H_1(\bot, \top) = \bot\cr
+H_2(\top, \bot) &= \bot, \quad H_2(\bot, \top) = \top}
+$$
+are singulary and thus cannot define functions such as $H_{\lor}$, 
+due to the result from 2.2(c). The two remaining functions are 
+$H_d$ and $H_s$, presented in 2.2(a) and 2.2(b), respectively.
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 3. If $\v$ is empty, then trivially neither $\u$ or $\v'$ are empty, 
+and they are both designators.
+
+Let's assume that $\v$ is not empty and that the designator $\u\v$ has the form
+${\bf t t}_1 \dots {\bf t}_n$. Since $\u\v$ and $\v\v'$ are 
+designators, they both begin with a symbol: thus $\v$ also begins with a symbol, since it
+is a non-empty prefix of $\v\v'$. The occurrence of this symbol in $\u\v$ 
+begins the occurrence of a designator $\u'$ in $\u\v$ (by Lemma 2), which is 
+compatible with $\v$. Moreover, the occurrence of $\u'$ in $\u\v$ is either 
+all of $\u\v$ or part of one of the ${\bf t}_i$ (by the Occurrence Theorem). In the 
+former case, it means that $\v$ is a designator and $\u$ and $\v'$ are 
+empty. On the other hand, if $\u'$ is part of one of the ${\bf t}_i$, it means that
+$\v\v'$ begins with $\u'$, and thus $\u'$ and $\v$ are the same
+(by the Formation Theorem) and $\v'$ is empty.
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 4. If a term is:
+\itemitem{i)} a variable $\x'$, then the substitution result is $\x$ itself, which 
+is also a term.
+\itemitem{ii)} a function application ${\bf fa}_1 \dots \a_n$, then $\a$ is one of 
+the $\a_i$ and the substitution result is also a term, or $\a$ is substituted
+in one of the terms $\a_i$, and it remains a term, by the induction hypothesis.
+
+If a formula is:
+\itemitem{i)} an atomic formula ${\bf pa}_1 \dots \a_n$, then substituting $\a$ in
+any of the $\a_i$ results in a term, as previously shown. Thus it remains a formula.
+\itemitem{ii)} $\neg \A$, then substituting $\a$ in $\A$ remains a formula by the
+induction hypothesis.
+\itemitem{iii)} $\lor\A\B$, then substituting $\a$ in $\A$ or $\B$ remains a 
+formula by the induction hypothesis.
+\itemitem{iv)} $\exists\y\A$, then substituting $\a$ in $\A$ remains a formula 
+by the induction hypothesis.
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 5. 
+
+\ansitem (a)
+The hinted function is defined as:
+$$\eqalign{f(\A) &= \top, \quad \hbox{for $\A$ atomic;}\cr
+f(\neg \A) &= \bot;\cr
+f(\A \lor \B) &= f(\B);\cr
+f(\exists \x\A) &= \top.\cr}$$
+
+Let's prove that if $\A$ is provable without propositional axioms then $f(\A) = \top$, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a substitution axiom: we have 
+$f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = f(\exists \x\A') = \top$;
+\itemitem{$\bullet$} an identity axiom: since it's an atomic formula, $f(\A) = f(\x = \x) = \top$;
+\itemitem{$\bullet$} an equality axiom: we have $f(\A) =
+f(\x_1 = \y_1 \to \x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2) =
+f(\neg (\x_1 = \y_1) \lor \neg (\x_2 = \y_2) \lor \neg (\x_1 = \x_2) \lor (\y_1 = \y_2)) =
+f(\y_1 = \y_2) = \top$;
+\itemitem{$\bullet$} the expansion rule: we have $f(\A) = f(\B' \lor \A')$ with $f(\A') = \top$ by the induction hypothesis.
+In this case $f(\A) = f(\A') = \top$;
+\itemitem{$\bullet$} the contraction rule: we have $f(\A) = f(\A')$ with $f(\A' \lor \A') = \top$ by the induction hypothesis. 
+In this case $f(\A' \lor \A') = f(\A') = f(\A) = \top$;
+\itemitem{$\bullet$} the associative rule: we have $f(\A) = f((\A' \lor \B') \lor \C')$ with $f(\A' \lor (\B' \lor \C')) = \top$ by the induction hypothesis.
+In this case $f(\A' \lor (\B' \lor \C')) = f(\B' \lor \C') = f(\C') = f(\A) = \top$;
+\itemitem{$\bullet$} the cut rule: we have $f(\A) = f(\B' \lor \C')$ with $f(\A' \lor \B') = \top$ and $f(\neg \A' \lor \C') = \top$ by the induction hypothesis.
+In this case $f(\neg \A' \lor \C') = f(\C') = f(\A) = \top$;
+\itemitem{$\bullet$} the $\exists$-introduction rule: we have $f(\A) = f(\exists \x\A' \to \B')$ with $f(\A' \to \B') = \top$ by the induction hypothesis.
+In this case $f(\A' \to \B') = f(\neg \A' \lor \B') = f(\B') = f(\A) = \top$.
+
+Thus, if $\A$ is provable without propositional axioms, we have $f(\A) = \top$.
+But $f(\neg \neg (x=x) \lor \neg (x=x)) = f(\neg (x=x)) = \bot$ and so it is not provable without propositional axioms.
+\smallskip
+
+\ansitem (b)
+The hinted function is defined as:
+$$\eqalign{f(\A) &= \top, \quad \hbox{for $\A$ atomic;}\cr
+f(\neg \A) &= \neg f(\A);\cr
+f(\A \lor \B) &= f(\A) \lor f(\B);\cr
+f(\exists \x\A) &= \bot.\cr}$$
+
+Let's prove that if $\A$ is provable without substitution axioms then $f(\A) = \top$, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \lor f(\A') = \top$;
+\itemitem{$\bullet$} an identity axiom: since it's an atomic formula, $f(\A) = f(\x = \x) = \top$;
+\itemitem{$\bullet$} an equality axiom: we have $f(\A) = 
+f(\x_1 = \y_1 \to \x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2) =
+f(\neg (\x_1 = \y_1) \lor \neg (\x_2 = \y_2) \lor \neg (\x_1 = \x_2) \lor (\y_1 = \y_2)) =
+\neg f(\x_1 = \y_1) \lor \neg f(\x_2 = \y_2) \lor \neg f(\x_1 = \x_2) \lor f(\y_1 = \y_2) = \top$;
+\itemitem{$\bullet$} the expansion rule: we have $f(\A) = f(\B' \lor \A')$ with $f(\A') = \top$ by the induction hypothesis.
+In this case $f(\B' \lor \A') = f(\B') \lor f(\A') = f(\A) = \top$;
+\itemitem{$\bullet$} the contraction rule: we have $f(\A) = f(\A')$ with $f(\A' \lor \A') = \top$ by the induction hypothesis. 
+In this case $f(\A' \lor \A') = f(\A') \lor f(\A') = f(\A') = f(\A) = \top$;
+\itemitem{$\bullet$} the associative rule: we have $f(\A) = f((\A' \lor \B') \lor \C')$ with $f(\A' \lor (\B' \lor \C')) = \top$ by the induction hypothesis.
+In this case $f(\A' \lor (\B' \lor \C')) = f(\A') \lor f(\B' \lor \C') = f(\A') \lor f(\B') \lor f(\C') =
+f(\A' \lor \B') \lor f(\C') = f((\A' \lor \B') \lor \C') = \top$;
+\itemitem{$\bullet$} the cut rule: we have $f(\A) = f(\B' \lor \C')$ with $f(\A' \lor \B') = \top$ and $f(\neg \A' \lor \C') = \top$ by the induction hypothesis.
+In this case we have $f(\B' \lor \C') = f(\B') \lor f(\C')$, $f(\A' \lor \B') = f(\A') \lor f(\B')$ and
+$f(\neg \A' \lor \C') = \neg f(\A') \lor f(\C')$. If $f(\A') = \top$, then $f(\C') = \top$. 
+If $f(\A') = \bot$, then $f(\B') = \top$. Thus $f(\B') \lor f(\C') = f(\A) = \top$;
+\itemitem{$\bullet$} the $\exists$-introduction rule: we have $f(\A) = f(\exists \x\A' \to \B')$ with $f(\A' \to \B') = \top$ by the induction hypothesis.
+In this case $f(\A) = f(\neg \exists \x\A' \lor \B') = \neg f(\exists \x\A') \lor f(\B') = \top$.
+
+Thus, if $\A$ is provable without substitution axioms, we have $f(\A) = \top$. 
+But $f(x=x \to \exists x(x=x)) = \neg f(x=x) \lor f(\exists x(x=x)) = \bot$ and so it is not provable without substitution axioms.
+\smallskip
+
+\ansitem (c)
+The hinted function is defined as:
+$$\eqalign{f(\A) &= \bot, \quad \hbox{for $\A$ atomic;}\cr
+f(\neg \A) &= \neg f(\A);\cr
+f(\A \lor \B) &= f(\A) \lor f(\B);\cr
+f(\exists \x\A) &= f(\A).\cr}$$
+
+Let's prove that if $\A$ is provable without identity axioms then $f(\A) = \top$, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \lor f(\A') = \top$;
+\itemitem{$\bullet$} a substitution axiom: we have 
+$f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = \neg f(\A'_\x[\a]) \lor f(\A') = \top$ (see below for this case);
+\itemitem{$\bullet$} an equality axiom: we have $f(\A) = 
+f(\x_1 = \y_1 \to \x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2) =
+f(\neg (\x_1 = \y_1) \lor \neg (\x_2 = \y_2) \lor \neg (\x_1 = \x_2) \lor (\y_1 = \y_2)) =
+\neg f(\x_1 = \y_1) \lor \neg f(\x_2 = \y_2) \lor \neg f(\x_1 = \x_2) \lor f(\y_1 = \y_2) = \top$;
+\itemitem{$\bullet$} the expansion rule: we have $f(\A) = f(\B' \lor \A')$ with $f(\A') = \top$ by the induction hypothesis.
+In this case $f(\B' \lor \A') = f(\B') \lor f(\A') = f(\A) = \top$;
+\itemitem{$\bullet$} the contraction rule: we have $f(\A) = f(\A')$ with $f(\A' \lor \A') = \top$ by the induction hypothesis. 
+In this case $f(\A' \lor \A') = f(\A') \lor f(\A') = f(\A') = f(\A) = \top$;
+\itemitem{$\bullet$} the associative rule: we have $f(\A) = f((\A' \lor \B') \lor \C')$ with $f(\A' \lor (\B' \lor \C')) = \top$ by the induction hypothesis.
+In this case $f(\A' \lor (\B' \lor \C')) = f(\A') \lor f(\B' \lor \C') = f(\A') \lor f(\B') \lor f(\C') =
+f(\A' \lor \B') \lor f(\C') = f((\A' \lor \B') \lor \C') = \top$;
+\itemitem{$\bullet$} the cut rule: we have $f(\A) = f(\B' \lor \C')$ with $f(\A' \lor \B') = \top$ and $f(\neg \A' \lor \C') = \top$ by the induction hypothesis.
+In this case we have $f(\B' \lor \C') = f(\B') \lor f(\C')$, $f(\A' \lor \B') = f(\A') \lor f(\B')$ and
+$f(\neg \A' \lor \C') = \neg f(\A') \lor f(\C')$. If $f(\A') = \top$, then $f(\C') = \top$. 
+If $f(\A') = \bot$, then $f(\B') = \top$. Thus $f(\B') \lor f(\C') = f(\A) = \top$;
+\itemitem{$\bullet$} the $\exists$-introduction rule: we have $f(\A) = f(\exists \x\A' \to \B')$ with $f(\A' \to \B') = \top$ by the induction hypothesis.
+In this case $f(\A) = f(\neg \exists \x\A' \lor \B') = \neg f(\A') \lor f(\B') = f(\neg \A' \lor \B') = f(\A' \to \B') = \top$.
+
+To treat substitution axioms, let's show that $f(\A_\x[\a]) = f(\A)$ by induction on the length of $\A$:
+\itemitem{$\bullet$} for $\A$ atomic with form ${\bf pb}_1 \dots \b_n$: we have $f(\A_\x[\a]) = f({{\bf pb}_1}_\x[\a] \dots {\b_n}_\x[\a]) = \bot$
+and $f(\A) = f({\bf pb}_1 \dots \b_n) = \bot$.
+\itemitem{$\bullet$} for $\A$ with form $\neg \A'$: we have $f(\A_\x[\a]) = \neg f(\A'_\x[\a])$
+and $f(\A) = \neg f(\A')$ and $f(\A'_\x[\a]) = f(\A')$ by the induction hypothesis.
+\itemitem{$\bullet$} for $\A$ with form $\A' \lor \B'$: we have $f(\A_\x[\a]) = f(\A'_\x[\a]) \lor f(\B'_\x[\a])$
+and $f(\A) = f(\A') \lor f(\B')$ and $f(\A'_\x[\a]) = f(\A')$ and
+$f(\B'_\x[\a]) = f(\B')$ by the induction hypothesis.
+\itemitem{$\bullet$} for $\A$ with form $\exists \y\A'$: we have $f(\exists \y\A'_\x[\a]) = f(\A'_\x[\a])$
+and $f(\exists \y\A') = f(\A')$ and $f(\A'_\x[\a]) = f(\A')$ by the induction hypothesis.
+
+Thus, if $\A$ is provable without identity axioms, we have $f(\A) = \top$. 
+But $f(x=x) = \bot$ and so it is not provable without identity axioms.
+\smallskip
+
+\ansitem (d) 
+The hinted function is defined as:
+$$\eqalign{f(\e_i = \e_j) &= \top \quad \hbox{iff $i \le j$;}\cr
+f(\neg \A) &= \neg f(\A);\cr
+f(\A \lor \B) &= f(\A) \lor f(\B);\cr
+f(\exists \x\A) &= \top \quad \hbox{iff $f(\A_\x[\e_i]) = \top$ for some $i$}.\cr}$$
+
+Let's prove that if $\A$ is provable without equality axioms then $f(\A') = \top$ for every formula obtained from $\A$ by 
+replacing each variable by some $\e_i$ at all its free occurrences, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \lor f(\A') = \top$ 
+for every closed formula $\A''$ obtained from $\A'$ by replacing each variable by some $\e_i$ at all its free occurrences;
+\itemitem{$\bullet$} a substitution axiom: we have $f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = \neg f(\A'_\x[\a]) \lor f(\exists \x\A')$.
+For every closed formula $\A''$ obtained from $\A'$ by replacing each variable (except $\x$) by some $\e_i$ at all its free occurrences: if
+$f(\A''_\x[\e_i]) = \top$ for some $i$, then $f(\exists \x\A'') = \top$ by the definition of $f$. Otherwise, $f(\A''_\x[\e_i]) = \bot$ for all $i$
+and thus $\neg f(\A''_\x[\e_i]) = \top$;
+\itemitem{$\bullet$} an identity axiom: $f(\A) = f(\x = \x) = \top$ for any substitution of $\x$ by some $\e_i$;
+\itemitem{$\bullet$} the expansion rule: we have $f(\A) = f(\B' \lor \A') = f(\B') \lor f(\A')$ with $f(\A') = \top$ 
+for every closed formula $\A''$ obtained from $\A'$ by replacing each variable by some $\e_i$ at all its free occurrences, by the induction hypothesis;
+\itemitem{$\bullet$} the contraction rule: we have $f(\A) = f(\A')$ with $f(\A' \lor \A') = f(\A') \lor f(\A') = f(\A') = \top$ 
+for every closed formula $\A''$ obtained from $\A'$ by replacing each variable by some $\e_i$ at all its free occurrences, by the induction hypothesis;
+\itemitem{$\bullet$} the associative rule: we have $f(\A) = f((\A' \lor \B') \lor \C') = f(\A') \lor f(\B') \lor f(\C')$ 
+with $f(\A' \lor (\B' \lor \C')) = f(\A') \lor f(\B') \lor f(\C') = \top$ 
+for every closed formulas $\A''$, $\B''$ and $\C''$ obtained from $\A'$, $\B'$ and $\C'$, respectively, by replacing each variable by 
+some $\e_i$ at all its free occurrences, by the induction hypothesis;
+\itemitem{$\bullet$} the cut rule: we have $f(\A) = f(\B' \lor \C') = f(\B') \lor f(\C')$ with $f(\A' \lor \B') = f(\A') \lor f(\B') = \top$ 
+and $f(\neg \A' \lor \C') = \neg f(\A') \lor f(\C') = \top$ for every closed formulas $\A''$, $\B''$ and $\C''$ obtained from $\A'$, $\B'$ and $\C'$, 
+respectively, by replacing each variable by some $\e_i$ at all its free occurrences, by the induction hypothesis.
+If $f(\A') = \top$, then $f(\C') = \top$. If $f(\A') = \bot$, then $f(\B') = \top$. Thus $f(\B') \lor f(\C') = f(\A) = \top$;
+\itemitem{$\bullet$} the $\exists$-introduction rule: we have $f(\A) = f(\exists \x\A' \to \B') = \neg f(\exists \x\A') \lor f(\B')$ 
+with $f(\A' \to \B') = \neg f(\A') \lor f(\B') = \top$ for every closed formula $\A''$ and $\B''$ obtained from $\A'$ and $\B'$, respectively, 
+by replacing each variable by some $\e_i$ at all its free occurrences, by the induction hypothesis. If $f(\B') = \top$, then $f(\A) = \top$ follows 
+trivially. Otherwise, we must have $f(\A') = \bot$ for all closed formulas $\A''$ obtained from $\A'$ as described above. This implies that
+$f(\exists \x\A') = \bot$ and thus $f(\A) = \top$.
+
+Thus, if $\A$ is provable without equality axioms, we have $f(\A') = \top$ for every formula $\A'$ obtained from $\A$
+by replacing each variable by some $\e_i$ at all its free occurences. 
+But $f(x=y \to x=z \to x=x \to y=z) = \neg f(x=y) \lor \neg f(x=z) \lor \neg f(x=x) \lor f(y=z) = \bot$ since it does not hold
+for the substitution $[\x, \y, \z] \to [\e_1, \e_3, \e_2]$ and so it is not provable without equality axioms.
+\smallskip
+
+\ansitem (e)
+The hinted function is defined as:
+$$\eqalign{f(\A) &= \top, \quad \hbox{for $\A$ atomic;}\cr
+f(\neg \A) &= \neg f(\A);\cr
+f(\A \lor \B) &= f(\A) \leftrightarrow \neg f(\B);\cr
+f(\exists \x\A) &= f(\A).\cr}$$
+
+Let's prove that if $\A$ is provable without the expansion rule then $f(\A) = \top$, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \leftrightarrow \neg f(\A') = \top$;
+\itemitem{$\bullet$} a substitution axiom: we have 
+$f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = \neg f(\A'_\x[\a]) \leftrightarrow \neg f(\A') = \top$ (see below for this case);
+\itemitem{$\bullet$} an identity axiom: since it's an atomic formula, $f(\A) = f(\x = \x) = \top$;
+\itemitem{$\bullet$} an equality axiom: we have $f(\A) = 
+f(\x_1 = \y_1 \to \x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2) =
+f(\neg (\x_1 = \y_1) \lor \neg (\x_2 = \y_2) \lor \neg (\x_1 = \x_2) \lor (\y_1 = \y_2)) =
+\neg f(\x_1 = \y_1) \leftrightarrow \neg f(\x_2 = \y_2) \leftrightarrow \neg f(\x_1 = \x_2) \leftrightarrow \neg f(\y_1 = \y_2) = \top$;
+\itemitem{$\bullet$} the contraction rule: we have $f(\A) = f(\A')$ with $f(\A' \lor \A') = \top$ by the induction hypothesis. 
+However, this is a contradiction since $f(\A') \leftrightarrow \neg f(\A') = \bot$ for any $\bf A'$ so it's not possible to have a proof where the contraction rule is applied (???);
+\itemitem{$\bullet$} the associative rule: we have $f(\A) = f((\A' \lor \B') \lor \C')$ with $f(\A' \lor (\B' \lor \C')) = \top$ by the induction hypothesis.
+In this case $f(\A' \lor (\B' \lor \C')) = f(\A') \leftrightarrow \neg f(\B' \lor \C') = f(\A') \leftrightarrow \neg (f(\B') \leftrightarrow \neg f(\C')) =
+f(\A') \leftrightarrow (f(\B') \leftrightarrow f(\C'))$ and $f((\A' \lor \B') \lor \C') = f(\A' \lor \B') \leftrightarrow \neg f(\C') =
+(f(\A') \leftrightarrow \neg f(\B')) \leftrightarrow \neg f(\C') = f(\A') \leftrightarrow f(\B') \leftrightarrow f(\C')$;
+\itemitem{$\bullet$} the cut rule: we have $f(\A) = f(\B' \lor \C')$ with $f(\A' \lor \B') = \top$ and $f(\neg \A' \lor \C') = \top$ by the induction hypothesis.
+In this case $f(\A' \lor \B') = f(\A') \leftrightarrow \neg f(\B')$ and 
+$f(\neg \A \lor \C') = \neg f(\A') \leftrightarrow \neg f(\C') = f(\A') \leftrightarrow f(\C')$, and 
+thus $f(\B') \leftrightarrow \neg f(\C') = f(\B' \lor \C') = f(\A) = \top$;
+\itemitem{$\bullet$} the $\exists$-introduction rule: we have $f(\A) = f(\exists \x\A' \to \B')$ with $f(\A' \to \B') = \top$ by the induction hypothesis.
+In this case $f(\neg \A' \lor \B') = f(\A') \leftrightarrow f(\B')$ and $f(\neg \exists \x\A' \lor \B') = f(\A') \leftrightarrow f(\B')$.
+
+To treat substitution axioms, let's show that $f(\A_\x[\a]) = f(\A)$ by induction on the length of $\A$:
+\itemitem{$\bullet$} for $\A$ atomic with form ${\bf pb}_1 \dots \b_n$: we have $f(\A_\x[\a]) = f({{\bf pb}_1}_\x[\a] \dots {\b_n}_\x[\a]) = \top$
+and $f(\A) = f({\bf pb}_1 \dots \b_n) = \top$.
+\itemitem{$\bullet$} for $\A$ with form $\neg \A'$: we have $f(\A_\x[\a]) = \neg f(\A'_\x[\a])$
+and $f(\A) = \neg f(\A')$ and $f(\A'_\x[\a]) = f(\A')$ by the induction hypothesis.
+\itemitem{$\bullet$} for $\A$ with form $\A' \lor \B'$: we have $f(\A_\x[\a]) = f(\A'_\x[\a]) \leftrightarrow \neg f(\B'_\x[\a])$
+and $f(\A) = f(\A') \leftrightarrow \neg f(\B')$ and $f(\A'_\x[\a]) = f(\A')$ and
+$f(\B'_\x[\a]) = f(\B')$ by the induction hypothesis.
+\itemitem{$\bullet$} for $\A$ with form $\exists \y\A'$: we have $f(\exists \y\A'_\x[\a]) = f(\A'_\x[\a])$
+and $f(\exists \y\A') = f(\A')$ and $f(\A'_\x[\a]) = f(\A')$ by the induction hypothesis.
+
+Thus, if $\A$ is provable without the expansion rule, we have $f(\A) = \top$. 
+But $f(x=x \lor (\neg (x=x) \lor (x=x))) = f(x=x) \leftrightarrow \neg (\neg f(x=x) \leftrightarrow \neg f(x=x)) = \bot$ and so it is not provable without the expansion rule.
+\smallskip
+
+\ansitem (f)
+The hinted function is defined as:
+$$\eqalign{f(\A) &= \top, \quad \hbox{for $\A$ atomic;}\cr
+f(\neg \A) &= \bot;\cr
+f(\A \lor \B) &= \top;\cr
+f(\exists \x\A) &= \bot.\cr}$$
+
+Let's prove that if $\A$ is provable without the contraction rule then $f(\A) = \top$, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \top$;
+\itemitem{$\bullet$} a substitution axiom: we have 
+$f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = \top$;
+\itemitem{$\bullet$} an identity axiom: since it's an atomic formula, $f(\A) = f(\x = \x) = \top$;
+\itemitem{$\bullet$} an equality axiom: we have $f(\A) = 
+f(\x_1 = \y_1 \to \x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2) =
+f(\neg (\x_1 = \y_1) \lor \neg (\x_2 = \y_2) \lor \neg (\x_1 = \x_2) \lor (\y_1 = \y_2)) = \top$;
+\itemitem{$\bullet$} the expansion rule: we have $f(\A) = f(\B' \lor \A')$ with $f(\A') = \top$ by the induction hypothesis.
+In this case $f(\A) = f(\B' \lor \A') = \top$;
+\itemitem{$\bullet$} the associative rule: we have $f(\A) = f((\A' \lor \B') \lor \C')$ with $f(\A' \lor (\B' \lor \C')) = \top$ by the induction hypothesis.
+In this case $f(\A) = f((\A' \lor \B') \lor \C') = \top$;
+\itemitem{$\bullet$} the cut rule: we have $f(\A) = f(\B' \lor \C')$ with $f(\A' \lor \B') = \top$ and $f(\neg \A' \lor \C') = \top$ by the induction hypothesis.
+In this case $f(\A) = f(\B' \lor \C') = \top$;
+\itemitem{$\bullet$} the $\exists$-introduction rule: we have $f(\A) = f(\exists \x\A' \to \B')$ with $f(\A' \to \B') = \top$ by the induction hypothesis.
+In this case $f(\A) = f(\neg \exists \x\A' \lor \B') = \top$.
+
+Thus, if $\A$ is provable without the contraction rule, we have $f(\A) = \top$. 
+But $f(\neg \neg (x=x)) = \bot$ and so it is not provable without the contraction rule.
+\smallskip
+
+\ansitem (g)
+The hinted function is defined as:
+$$\eqalign{f(\A) &= 0, \quad \hbox{for $\A$ atomic;}\cr
+f(\neg \A) &= 1 - f(\A);\cr
+f(\A \lor \B) &= f(\A) \cdot f(\B) \cdot (1 - f(\A) - f(\B));\cr
+f(\exists \x\A) &= f(\A).\cr}$$
+
+Let's prove that if $\A$ is provable without the associative rule then $f(\A) = 0$, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = 
+(1 - f(\A')) \cdot f(\A') \cdot (1 - (1 - f(\A')) - f(\A')) =
+(1 - f(\A')) \cdot f(\A') \cdot (f(\A') - f(\A')) = 0$;
+\itemitem{$\bullet$} a substitution axiom: we have 
+$f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = 
+(1 - f(\A'_\x[\a])) \cdot f(\A') \cdot (1 - (1 - f(\A'_\x[\a])) - f(\A')) = 0$ (see below for this case);
+\itemitem{$\bullet$} an identity axiom: since it's an atomic formula, $f(\A) = f(\x = \x) = 0$;
+\itemitem{$\bullet$} an equality axiom: we have 
+$$\eqalign{f(\A) &= f(\x_1 = \y_1 \to \x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2)\cr
+&= f(\neg (\x_1 = \y_1) \lor \neg (\x_2 = \y_2) \lor \neg (\x_1 = \x_2) \lor (\y_1 = \y_2))\cr
+&= (1-f(\x_1=\y_1)) \cdot f(\A') \cdot (f(\x_1 = \y_1) - f(\A'))}$$
+$$f(\A') = f(\x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2) = (1-f(\x_2 = \y_2)) \cdot f(\A'') \cdot (f(\x_2 = \y_2) - f(\A''))$$
+$$f(\A'') = f(\x_1 = \x_2 \to \y_1 = \y_2) = (1-f(\x_1 = \x_2)) \cdot f(\y_1 = \y_2) \cdot (f(\x_1 = \x_2) - f(\y_1 = \y_2)) = 0;$$
+\itemitem{$\bullet$} the expansion rule: we have $f(\A) = f(\B' \lor \A')$ with $f(\A') = 0$ by the induction hypothesis.
+In this case $f(\A) = f(\B') \cdot f(\A') \cdot (1 - f(\B') - f(\A')) = 0$;
+\itemitem{$\bullet$} the contraction rule: we have $f(\A) = f(\A')$ with $f(\A' \lor \A') = 0$ by the induction hypothesis. 
+In this case $f(\A' \lor \A') = f(\A') \cdot f(\A') \cdot (1 - f(\A') - f(\A')) = 0$ and the only integer solution is $f(\A') = 0$ and thus $f(\A) = 0$;
+\itemitem{$\bullet$} the cut rule: we have $f(\A) = f(\B' \lor \C')$ with $f(\A' \lor \B') = 0$ and $f(\neg \A' \lor \C') = 0$ by the induction hypothesis.
+Consider the equations
+$$\eqalignno{f(\A' \lor \B') &= f(\A') \cdot f(\B') \cdot (1 - f(\A') - f(\B')) = 0&(1)\cr
+f(\neg \A' \lor \C') &= (1 - f(\A')) \cdot f(\C') \cdot (f(\A') - f(\C')) = 0&(2)\cr
+f(\A) = f(\B' \lor \C') &= f(\B') \cdot f(\C') \cdot (1 - f(\B') - f(\C')) = 0&(3)
+}$$
+and the possible cases that satisfy equation (2). First, $(1-f(\A')) = 0$ implies that $f(\A') = 1$ and substituting in equation (1) we obtain $f(\B') \cdot (-f(\B')) = 0$
+which means that $f(\B') = 0$ which satisfies equation (3). Second, $f(\C') = 0$, which trivially satifies equation (3). Third, $f(\A') - f(\C') = 0$
+which implies $f(\A') = f(\C')$ and substituting in equation (1) we obtain $f(\C') \cdot f(\B') \cdot (1 - f(\C') - f(\B')) = 0$. 
+Thus, equation (3) is satisfied in all cases;
+\itemitem{$\bullet$} the $\exists$-introduction rule: we have $f(\A) = f(\exists \x\A' \to \B')$ with $f(\A' \to \B') = 0$ by the induction hypothesis.
+In this case $f(\A) = f(\neg \exists \x\A' \lor \B') = (1 -f(\A')) \cdot f(\B') \cdot (f(\A') - f(\B')) = f(\A' \to \B') = 0$.
+
+To treat substitution axioms, let's show that $f(\A_\x[\a]) = f(\A)$ by induction on the length of $\A$:
+\itemitem{$\bullet$} for $\A$ atomic with form ${\bf pb}_1 \dots \b_n$: we have $f(\A_\x[\a]) = f({{\bf pb}_1}_\x[\a] \dots {\b_n}_\x[\a]) = 0$
+and $f(\A) = f({\bf pb}_1 \dots \b_n) = 0$.
+\itemitem{$\bullet$} for $\A$ with form $\neg \A'$: we have $f(\A_\x[\a]) = 1 - f(\A'_\x[\a])$
+and $f(\A) = 1 - f(\A')$ and $f(\A'_\x[\a]) = f(\A')$ by the induction hypothesis.
+\itemitem{$\bullet$} for $\A$ with form $\A' \lor \B'$: we have $f(\A_\x[\a]) = 
+f(\A'_\x[\a]) \cdot f(\B'_\x[\a]) \cdot (1 - f(\A'_\x[\a]) - f(\B'_\x[\a]))$
+and $f(\A) = f(\A') \cdot f(\B') \cdot (1 - f(\A') - f(\B'))$ and $f(\A'_\x[\a]) = f(\A')$ and
+$f(\B'_\x[\a]) = f(\B')$ by the induction hypothesis.
+\itemitem{$\bullet$} for $\A$ with form $\exists \y\A'$: we have $f(\exists \y\A'_\x[\a]) = f(\A'_\x[\a])$
+and $f(\exists \y\A') = f(\A')$ and $f(\A'_\x[\a]) = f(\A')$ by the induction hypothesis.
+
+Thus, if $\A$ is provable without the associative rule, we have $f(\A) = 0$. 
+But $f(\neg (\neg (x=x) \lor \neg (x=x))) = 1 - f(\neg (x=x) \lor \neg (x=x)) = 1 - ((1-f(x=x))^2 \cdot (1 - 2 \cdot (1-f(x=x))))
+= 1 - (1 - 2) = 2$ and so it is not provable without the associative rule.
+\smallskip
+
+\ansitem (h)
+The hinted function is defined as:
+$$\eqalign{f(\A) &= \top \quad \hbox{for $\A$ atomic};\cr
+f(\neg \A) &= \cases{\top, &if $f(\A) = \bot$ or $\A$ is atomic;\cr
+                     \bot, &otherwise.}\cr
+f(\A \lor \B) &= f(\A) \lor f(\B);\cr
+f(\exists \x\A) &= f(\A).\cr}$$
+
+Let's prove that if $\A$ is provable without the cut rule then $f(\A) = \top$, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = f(\neg \A') \lor f(\A') = \top$
+(since if $f(\A') = \bot$, then $f(\neg \A') = \top$ from the definition of $f$);
+\itemitem{$\bullet$} a substitution axiom: we have 
+$f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = f(\neg \A'_\x[\a]) \lor f(\A') = \top$ (since 
+if $f(\A') = \bot$, then $f(\neg \A') = \top$ from the definition of $f$ and $f(\neg \A'_\x[\a]) = f(\neg \A')$. See below for this case);
+\itemitem{$\bullet$} an identity axiom: since it's an atomic formula, $f(\A) = f(\x = \x) = \top$;
+\itemitem{$\bullet$} an equality axiom: we have $f(\A) = 
+f(\x_1 = \y_1 \to \x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2) =
+f(\neg (\x_1 = \y_1) \lor \neg (\x_2 = \y_2) \lor \neg (\x_1 = \x_2) \lor (\y_1 = \y_2)) =
+f(\neg (\x_1 = \y_1)) \lor f(\neg (\x_2 = \y_2)) \lor f(\neg (\x_1 = \x_2)) \lor f(\y_1 = \y_2) = \top$;
+\itemitem{$\bullet$} the expansion rule: we have $f(\A) = f(\B' \lor \A')$ with $f(\A') = \top$ by the induction hypothesis.
+In this case $f(\A) = f(\B' \lor \A') = f(\B') \lor f(\A') = \top$;
+\itemitem{$\bullet$} the contraction rule: we have $f(\A) = f(\A')$ with $f(\A' \lor \A') = \top$ by the induction hypothesis. 
+In this case $f(\A' \lor \A') = f(\A') \lor f(\A') = \top$ and thus $f(\A) = f(\A') = \top$;
+\itemitem{$\bullet$} the associative rule: we have $f(\A) = f((\A' \lor \B') \lor \C')$ with $f(\A' \lor (\B' \lor \C')) = \top$ by the induction hypothesis.
+In this case $f(\A' \lor (\B' \lor \C')) = f(\A') \lor f(\B' \lor \C') = f(\A') \lor f(\B') \lor f(\C') =
+f(\A' \lor \B') \lor f(\C') = f((\A' \lor \B') \lor \C') = \top$;
+\itemitem{$\bullet$} the $\exists$-introduction rule: we have $f(\A) = f(\exists \x\A' \to \B')$ with $f(\A' \to \B') = \top$ by the induction hypothesis.
+In this case we have $f(\A) = f(\neg \exists \x\A' \lor \B') = f(\neg \exists \x\A') \lor f(\B')$ and $f(\neg \A') \lor f(\B') = \top$.
+So either $f(\neg \A') = \top$ or $f(\B') = \top$. In the latter case, it follows trivially that $f(\A) = \top$. In the former case,
+note that since $f(\exists \x\A) = f(\A)$ and $\exists \x\A$ is not atomic, then $f(\neg \exists \x\A') = f(\neg \A')$.
+
+To treat substitution axioms, let's show that $f(\A_\x[\a]) = f(\A)$ by induction on the length of $\A$:
+\itemitem{$\bullet$} for $\A$ atomic with form ${\bf pb}_1 \dots \b_n$: we have $f(\A_\x[\a]) = f({{\bf pb}_1}_\x[\a] \dots {\b_n}_\x[\a]) = \top$
+and $f(\A) = f({\bf pb}_1 \dots \b_n) = \top$.
+\itemitem{$\bullet$} for $\A$ with form $\neg \A'$ with $\A'$ atomic: we have $f(\A_\x[\a]) = f(\neg \A'_\x[\a]) = \top$
+and $f(\A) = f(\neg \A') = \top$.
+\itemitem{$\bullet$} for $\A$ with form $\neg \A'$ with $\A'$ not atomic: we have $f(\A_\x[\a]) = f(\neg \A'_\x[\a])$
+and $f(\A) = f(\neg \A')$ and $f(\A'_\x[\a]) = f(\A')$ by the induction hypothesis.
+\itemitem{$\bullet$} for $\A$ with form $\A' \lor \B'$: we have $f(\A_\x[\a]) = f(\A'_\x[\a]) \lor f(\B'_\x[\a])$
+and $f(\A) = f(\A') \lor f(\B')$ and $f(\A'_\x[\a]) = f(\A')$ and
+$f(\B'_\x[\a]) = f(\B')$ by the induction hypothesis.
+\itemitem{$\bullet$} for $\A$ with form $\exists \y\A'$: we have $f(\exists \y\A'_\x[\a]) = f(\A'_\x[\a])$
+and $f(\exists \y\A') = f(\A')$ and $f(\A'_\x[\a]) = f(\A')$ by the induction hypothesis.
+
+Thus, if $\A$ is provable without the cut rule, we have $f(\A) = \top$. 
+But $f(\neg \neg (x=x)) = \bot$ since $f(\neg (x=x)) = \top$ and so it is not provable without the cut rule.
+\smallskip
+
+\ansitem (i)
+The hinted function is defined as:
+$$\eqalign{f(\A) &= \top, \quad \hbox{for $\A$ atomic;}\cr
+f(\neg \A) &= \neg f(\A);\cr
+f(\A \lor \B) &= f(\A) \lor f(\B);\cr
+f(\exists \x\A) &= \top.\cr}$$
+
+Let's prove that if $\A$ is provable without the $\exists$-introduction rule then $f(\A) = \top$, by induction on the proof length.
+In a proof of $\A$, if $\A$ was obtained from:
+\itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \lor f(\A') = \top$;
+\itemitem{$\bullet$} a substitution axiom: we have 
+$f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = \neg f(\A'_\x[\a]) \lor f(\exists \x\A') = \top$;
+\itemitem{$\bullet$} an identity axiom: since it's an atomic formula, $f(\A) = f(\x = \x) = \top$;
+\itemitem{$\bullet$} an equality axiom: we have $f(\A) = 
+f(\x_1 = \y_1 \to \x_2 = \y_2 \to \x_1 = \x_2 \to \y_1 = \y_2) =
+f(\neg (\x_1 = \y_1) \lor \neg (\x_2 = \y_2) \lor \neg (\x_1 = \x_2) \lor (\y_1 = \y_2)) =
+\neg f(\x_1 = \y_1) \lor \neg f(\x_2 = \y_2) \lor \neg f(\x_1 = \x_2) \lor f(\y_1 = \y_2) = \top$;
+\itemitem{$\bullet$} the expansion rule: we have $f(\A) = f(\B' \lor \A')$ with $f(\A') = \top$ by the induction hypothesis.
+In this case $f(\A) = f(\B' \lor \A') = f(\B') \lor f(\A') = \top$;
+\itemitem{$\bullet$} the contraction rule: we have $f(\A) = f(\A')$ with $f(\A' \lor \A') = \top$ by the induction hypothesis. 
+In this case $f(\A' \lor \A') = f(\A') \lor f(\A') = f(\A') = f(\A) = \top$;
+\itemitem{$\bullet$} the associative rule: we have $f(\A) = f((\A' \lor \B') \lor \C')$ with $f(\A' \lor (\B' \lor \C')) = \top$ by the induction hypothesis.
+In this case $f(\A' \lor (\B' \lor \C')) = f(\A') \lor f(\B' \lor \C') = f(\A') \lor f(\B') \lor f(\C') =
+f(\A' \lor \B') \lor f(\C') = f((\A' \lor \B') \lor \C') = \top$;
+\itemitem{$\bullet$} the cut rule: we have $f(\A) = f(\B' \lor \C')$ with $f(\A' \lor \B') = \top$ and $f(\neg \A' \lor \C') = \top$ by the induction hypothesis.
+In this case we have $f(\B' \lor \C') = f(\B') \lor f(\C')$, $f(\A' \lor \B') = f(\A') \lor f(\B')$ and
+$f(\neg \A' \lor \C') = \neg f(\A') \lor f(\C')$. If $f(\A') = \top$, then $f(\C') = \top$. 
+If $f(\A') = \bot$, then $f(\B') = \top$. Thus $f(\B') \lor f(\C') = f(\A) = \top$;
+
+Thus, if $\A$ is provable without the $\exists$-introduction rule, we have $f(\A) = \top$. 
+But $f(\exists y \neg (x=x) \to \neg (x=x)) = \neg f(\exists y \neg (x=x)) \lor \neg f(x=x) = \bot$ and so it is 
+not provable without the $\exists$-introduction rule.
+\smallskip
+
+\vfill
+\break

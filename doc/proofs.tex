@@ -1,0 +1,143 @@
+\leftline{\xmplbx Proofs}
+% \vglue .5\baselineskip 
+
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 2 - Exercise 5(a)}
+\item{(1)} $\neg \neg (x = x) \lor \neg (x = x)$ \hfill [axiom: propositional]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 2 - Exercise 5(b)}
+\item{(1)} $\neg (x = x) \lor \exists x (x = x)$ \hfill [axiom: substitution]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 2 - Exercise 5(c)}
+\item{(1)} $(x = x)$ \hfill [axiom: identity]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 2 - Exercise 5(d)}
+\item{(1)} $\neg (x = y) \lor (\neg (x = z) \lor (\neg (x = x) \lor (y = z)))$ \hfill [axiom: equality]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 2 - Exercise 5(e)}
+\item{(1)} $(x = x)$ \hfill [axiom: identity]
+\item{(2)} $\neg (x = x) \lor (x = x)$ \hfill [rule: expansion: (1)]
+\item{(3)} $(x = x) \lor (\neg (x = x) \lor (x = x))$ \hfill [rule: expansion: (2)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 2 - Exercises 5(f) and 5(h)}
+\item{(1)} $(x = x)$ \hfill [axiom: identity]
+\item{(2)} $\neg \neg (x = x) \lor (x = x)$ \hfill [rule: expansion: (1)]
+\item{(3)} $\neg \neg \neg (x = x) \lor \neg \neg (x = x)$ \hfill [axiom: propositional]
+\item{(4)} $(x = x) \lor \neg \neg (x = x)$ \hfill [rule: cut: (2) (3)]
+\item{(5)} $\neg \neg (x = x) \lor \neg (x = x)$ \hfill [axiom: propositional]
+\item{(6)} $\neg (x = x) \lor \neg \neg (x = x)$ \hfill [rule: cut: (5) (3)]
+\item{(7)} $\neg \neg (x = x) \lor \neg \neg (x = x)$ \hfill [rule: cut: (4) (6)]
+\item{(8)} $\neg \neg (x = x)$ \hfill [rule: contraction: (7)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 2 - Exercise 5(g)}
+\item{(1)} $(x = x)$ \hfill [axiom: identity]
+\item{(2)} $\neg (\neg (x = x) \lor \neg (x = x)) \lor (\neg (x = x) \lor \neg (x = x))$ \hfill [axiom: propositional]
+\item{(3)} $(\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x)) \lor \neg (x = x)$ \hfill [rule: associative: (2)]
+\item{(4)} $(\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x)) \lor (x = x)$ \hfill [rule: expansion: (1)]
+\item{(5)} $\neg (\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x)) \lor (\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x))$ \hfill [axiom: propositional]
+\item{(6)} $\neg (x = x) \lor (\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x))$ \hfill [rule: cut: (3) (5)]
+\item{(7)} $(x = x) \lor (\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x))$ \hfill [rule: cut: (4) (5)]
+\item{(8)} $(\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x)) \lor (\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x))$ \hfill [rule: cut: (7) (6)]
+\item{(9)} $\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (x = x)$ \hfill [rule: contraction: (8)]
+\item{(10)} $\neg (\neg (x = x) \lor \neg (x = x)) \lor (x = x)$ \hfill [rule: expansion: (1)]
+\item{(11)} $\neg \neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (\neg (x = x) \lor \neg (x = x))$ \hfill [axiom: propositional]
+\item{(12)} $\neg (x = x) \lor \neg (\neg (x = x) \lor \neg (x = x))$ \hfill [rule: cut: (9) (11)]
+\item{(13)} $(x = x) \lor \neg (\neg (x = x) \lor \neg (x = x))$ \hfill [rule: cut: (10) (11)]
+\item{(14)} $\neg (\neg (x = x) \lor \neg (x = x)) \lor \neg (\neg (x = x) \lor \neg (x = x))$ \hfill [rule: cut: (13) (12)]
+\item{(15)} $\neg (\neg (x = x) \lor \neg (x = x))$ \hfill [rule: contraction: (14)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 2 - Exercise 5(i)}
+\item{(1)} $\neg \neg (x = x) \lor \neg (x = x)$ \hfill [axiom: propositional]
+\item{(2)} $\neg \exists y \neg (x = x) \lor \neg (x = x)$ \hfill [rule: e-introduction: (1)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - Section 1 - Lemma 1}
+\item{(1)} $\A \lor \B$ \hfill [premise]
+\item{(2)} $\neg \A \lor \A$ \hfill [axiom: propositional]
+\item{(3)} $\B \lor \A$ \hfill [rule: cut: (1) (2)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - Section 1 - Detachment Rule}
+\item{(1)} $\A$ \hfill [premise]
+\item{(2)} $\neg \A \lor \B$ \hfill [premise]
+\item{(3)} $\B \lor \A$ \hfill [rule: expansion: (1)]
+\item{(4)} $\neg \B \lor \B$ \hfill [axiom: propositional]
+\item{(5)} $\A \lor \B$ \hfill [rule: cut: (3) (4)]
+\item{(6)} $\B \lor \B$ \hfill [rule: cut: (5) (2)]
+\item{(7)} $\B$ \hfill [rule: contraction: (6)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - Section 1 - Tautology Theorem - result (B)}
+\item{(1)} $\A \lor \B$ \hfill [premise]
+\item{(2)} $\neg \neg \A \lor \neg \A$ \hfill [axiom: propositional]
+\item{(3)} $\neg \neg \neg \A \lor \neg \neg \A$ \hfill [axiom: propositional]
+\item{(4)} $\neg \A \lor \neg \neg \A$ \hfill [rule: cut: (2) (3)]
+\item{(5)} $\B \lor \neg \neg \A$ \hfill [rule: cut: (1) (4)]
+\item{(6)} $\neg \B \lor \B$ \hfill [axiom: propositional]
+\item{(7)} $\neg \neg \A \lor \B$ \hfill [rule: cut: (5) (6)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - Section 1 - Tautology Theorem - result (C)}
+\item{(1)} $\neg \A \lor \C$ \hfill [premise]
+\item{(2)} $\neg \B \lor \C$ \hfill [premise]
+\item{(3)} $\neg (\A \lor \B) \lor (\A \lor \B)$ \hfill [axiom: propositional]
+\item{(4)} $(\neg (\A \lor \B) \lor \A) \lor \B$ \hfill [rule: associative: (3)]
+\item{(5)} $\neg (\neg (\A \lor \B) \lor \A) \lor (\neg (\A \lor \B) \lor \A)$ \hfill [axiom: propositional]
+\item{(6)} $\B \lor (\neg (\A \lor \B) \lor \A)$ \hfill [rule: cut: (4) (5)]
+\item{(7)} $(\neg (\A \lor \B) \lor \A) \lor \C$ \hfill [rule: cut: (6) (2)]
+\item{(8)} $\C \lor (\neg (\A \lor \B) \lor \A)$ \hfill [rule: cut: (7) (5)]
+\item{(9)} $(\C \lor \neg (\A \lor \B)) \lor \A$ \hfill [rule: associative: (8)]
+\item{(10)} $\neg (\C \lor \neg (\A \lor \B)) \lor (\C \lor \neg (\A \lor \B))$ \hfill [axiom: propositional]
+\item{(11)} $\A \lor (\C \lor \neg (\A \lor \B))$ \hfill [rule: cut: (9) (10)]
+\item{(12)} $(\C \lor \neg (\A \lor \B)) \lor \C$ \hfill [rule: cut: (11) (1)]
+\item{(13)} $\C \lor (\C \lor \neg (\A \lor \B))$ \hfill [rule: cut: (12) (10)]
+\item{(14)} $(\C \lor \C) \lor \neg (\A \lor \B)$ \hfill [rule: associative: (13)]
+\item{(15)} $\neg (\C \lor \C) \lor (\C \lor \C)$ \hfill [axiom: propositional]
+\item{(16)} $\neg (\A \lor \B) \lor (\C \lor \C)$ \hfill [rule: cut: (14) (15)]
+\item{(17)} $(\neg (\A \lor \B) \lor \C) \lor \C$ \hfill [rule: associative: (16)]
+\item{(18)} $\neg (\neg (\A \lor \B) \lor \C) \lor (\neg (\A \lor \B) \lor \C)$ \hfill [axiom: propositional]
+\item{(19)} $\C \lor (\neg (\A \lor \B) \lor \C)$ \hfill [rule: cut: (17) (18)]
+\item{(20)} $\neg (\A \lor \B) \lor (\C \lor (\neg (\A \lor \B) \lor \C))$ \hfill [rule: expansion: (19)]
+\item{(21)} $(\neg (\A \lor \B) \lor \C) \lor (\neg (\A \lor \B) \lor \C)$ \hfill [rule: associative: (20)]
+\item{(22)} $\neg (\A \lor \B) \lor \C$ \hfill [rule: contraction: (21)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+
+\vfill
+\break
+
+% \{\} &\vdash &(EQNO)\cr

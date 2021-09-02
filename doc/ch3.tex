@@ -1,0 +1,28 @@
+\leftline{\xmplbx Chapter 3}
+\vglue .5\baselineskip 
+
+% ==============================================================================
+\beginsection DEFINITIONS
+
+\item{$\bullet$} A formula is {\it elementary} if it is either atomic or an instantiation.
+
+\item{$\bullet$} A {\it truth valuation} for $T$ is a mapping from the set of elementary 
+formulas in $T$ to the set of truth values.
+
+\item{$\bullet$} $\B$ is a {\it tautological consequence} of $\A_1, \dots , \A_n$ 
+if $V(\B) = \top$ for every truth valuation $V$ such that 
+$V(\A_1) = \cdots = V(\A_n) = \top$.
+
+\item{$\bullet$} A formula $\A$ is a {\it tautology} it is a tautological consequence of 
+the empty sequence of formulas, i.e. if $V(\A) = \top$ for every truth valuation $V$.
+
+% ==============================================================================
+\beginsection RESULTS
+
+\proclaim Tautology Theorem. If $\B$ is a tautological consequence of $\A_1, \dots, \A_n$,
+and $\vdash\A_1, \dots, \vdash \A_n$, then $\vdash \B$.
+
+\proclaim Corollary. Every tautology is a theorem.
+
+\vfill
+\break

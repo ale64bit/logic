@@ -1,0 +1,3 @@
+(tests
+ (names fol_tests proof_tests prover_tests)
+ (libraries ounit2 lib))
