@@ -77,7 +77,7 @@
 \hrule
 \medskip
 % ------------------------------------------------------------------------------
-\noindent {\bf Chapter 3 - Section 1 - Lemma 1}
+\noindent {\bf Chapter 3 - \S 3.1 - Lemma 1}
 \item{(1)} $\A \lor \B$ \hfill [premise]
 \item{(2)} $\neg \A \lor \A$ \hfill [axiom: propositional]
 \item{(3)} $\B \lor \A$ \hfill [rule: cut: (1) (2)]
@@ -85,7 +85,7 @@
 \hrule
 \medskip
 % ------------------------------------------------------------------------------
-\noindent {\bf Chapter 3 - Section 1 - Detachment Rule}
+\noindent {\bf Chapter 3 - \S 3.1 - Detachment Rule}
 \item{(1)} $\A$ \hfill [premise]
 \item{(2)} $\neg \A \lor \B$ \hfill [premise]
 \item{(3)} $\B \lor \A$ \hfill [rule: expansion: (1)]
@@ -97,7 +97,7 @@
 \hrule
 \medskip
 % ------------------------------------------------------------------------------
-\noindent {\bf Chapter 3 - Section 1 - Tautology Theorem - result (B)}
+\noindent {\bf Chapter 3 - \S 3.1 - Tautology Theorem - result (B)}
 \item{(1)} $\A \lor \B$ \hfill [premise]
 \item{(2)} $\neg \neg \A \lor \neg \A$ \hfill [axiom: propositional]
 \item{(3)} $\neg \neg \neg \A \lor \neg \neg \A$ \hfill [axiom: propositional]
@@ -109,7 +109,7 @@
 \hrule
 \medskip
 % ------------------------------------------------------------------------------
-\noindent {\bf Chapter 3 - Section 1 - Tautology Theorem - result (C)}
+\noindent {\bf Chapter 3 - \S 3.1 - Tautology Theorem - result (C)}
 \item{(1)} $\neg \A \lor \C$ \hfill [premise]
 \item{(2)} $\neg \B \lor \C$ \hfill [premise]
 \item{(3)} $\neg (\A \lor \B) \lor (\A \lor \B)$ \hfill [axiom: propositional]
@@ -132,6 +132,45 @@
 \item{(20)} $\neg (\A \lor \B) \lor (\C \lor (\neg (\A \lor \B) \lor \C))$ \hfill [rule: expansion: (19)]
 \item{(21)} $(\neg (\A \lor \B) \lor \C) \lor (\neg (\A \lor \B) \lor \C)$ \hfill [rule: associative: (20)]
 \item{(22)} $\neg (\A \lor \B) \lor \C$ \hfill [rule: contraction: (21)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - \S 3.1 - Tautology Theorem - frequently used cases (ii)}
+\item{(1)} $\neg \A \lor \B$ \hfill [premise]
+\item{(2)} $\neg \B \lor \C$ \hfill [premise]
+\item{(3)} $\neg \neg \A \lor \neg \A$ \hfill [axiom: propositional]
+\item{(4)} $\B \lor \neg \A$ \hfill [rule: cut: (1) (3)]
+\item{(5)} $\neg \A \lor \C$ \hfill [rule: cut: (4) (2)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - \S 3.1 - Tautology Theorem - frequently used cases (vi)}
+\item{(1)} $\neg \A \lor \B$ \hfill [premise]
+\item{(2)} $\neg \neg \A \lor \neg \A$ \hfill [axiom: propositional]
+\item{(3)} $\B \lor \neg \A$ \hfill [rule: cut: (1) (2)]
+\item{(4)} $\neg \neg \B \lor \neg \B$ \hfill [axiom: propositional]
+\item{(5)} $\neg \neg \neg \B \lor \neg \neg \B$ \hfill [axiom: propositional]
+\item{(6)} $\neg \B \lor \neg \neg \B$ \hfill [rule: cut: (4) (5)]
+\item{(7)} $\neg \A \lor \neg \neg \B$ \hfill [rule: cut: (3) (6)]
+\item{(8)} $\neg \neg \B \lor \neg \A$ \hfill [rule: cut: (7) (2)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - \S 3.2 - $\forall$-Introduction Rule}
+\item{(1)} $\neg \A \lor \B$ \hfill [premise]
+\item{(2)} $\neg \neg \A \lor \neg \A$ \hfill [axiom: propositional]
+\item{(3)} $\B \lor \neg \A$ \hfill [rule: cut: (1) (2)]
+\item{(4)} $\neg \neg \B \lor \neg \B$ \hfill [axiom: propositional]
+\item{(5)} $\neg \neg \neg \B \lor \neg \neg \B$ \hfill [axiom: propositional]
+\item{(6)} $\neg \B \lor \neg \neg \B$ \hfill [rule: cut: (4) (5)]
+\item{(7)} $\neg \A \lor \neg \neg \B$ \hfill [rule: cut: (3) (6)]
+\item{(8)} $\neg \neg \B \lor \neg \A$ \hfill [rule: cut: (7) (2)]
+\item{(9)} $\neg \exists \x \neg \B \lor \neg \A$ \hfill [rule: e-introduction: (8)]
+\item{(10)} $\neg \neg \exists \x \neg \B \lor \neg \exists \x \neg \B$ \hfill [axiom: propositional]
+\item{(11)} $\neg \A \lor \neg \exists \x \neg \B$ \hfill [rule: cut: (9) (10)]
 \medskip
 \hrule
 \medskip

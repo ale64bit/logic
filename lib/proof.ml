@@ -115,7 +115,7 @@ end
 module Meta = struct
   open Calculus
 
-  let neg_neg ctx a =
+  let neg_neg_intro ctx a =
     let* ctx, s2 = Rule.expansion ctx (Neg (Neg a)) a in
     let* ctx, s3 = Axiom.propositional ctx (Neg (Neg a)) in
     let* ctx, s4 = Rule.cut ctx s2 s3 in
@@ -287,6 +287,30 @@ module Meta = struct
         (Printf.sprintf "invalid general expansion: [%s] -> [%s]"
            (String.concat ", " (List.map string_of_formula a'))
            (String.concat ", " (List.map string_of_formula a)))
+
+  let rev_impl ctx = function
+    | Or (Neg a', b') as a ->
+        let* ctx, s1 = commute ctx a in
+        let* ctx, s2 = disj_neg_neg ctx s1 in
+        assert (s2 = Defined.impl (Neg b') (Neg a'));
+        proves ctx s2
+    | a ->
+        Error
+          (Printf.sprintf "invalid reverse implication reverse: %s"
+             (string_of_formula a))
+
+  let a_introduction ctx x a =
+    match a with
+    | Or (Neg a', b') when not (is_free x a') ->
+        let* ctx, s1 = rev_impl ctx a in
+        let* ctx, s2 = Rule.e_introduction ctx x s1 in
+        let* ctx, s3 = commute ctx s2 in
+        assert (s3 = Defined.impl a' (Defined.forall x b'));
+        proves ctx s3
+    | _ ->
+        Error
+          (Printf.sprintf "invalid a-introduction: %s %s" x
+             (string_of_formula a))
 end
 
 let print_proof out p =
@@ -311,7 +335,7 @@ let print_proof out p =
       Printf.fprintf out "(%.*d) %-*s [%s]\n" dig index (maxw + 8 + dw) s reason)
     sorted
 
-let print_proof_tex out p =
+let print_proof_tex ?(fmap = fun _ -> None) out p =
   let open Calculus in
   let sorted =
     List.sort
@@ -320,6 +344,6 @@ let print_proof_tex out p =
   in
   List.iter
     (fun (a, { index; reason }) ->
-      Printf.fprintf out "\\itemitem{(%d)} $%s$ \\hfill [%s]\n" index
-        (tex_of_formula a) reason)
+      Printf.fprintf out "\\item{(%d)} $%s$ \\hfill [%s]\n" index
+        (tex_of_formula ~fmap a) reason)
     sorted

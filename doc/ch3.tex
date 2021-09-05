@@ -19,10 +19,26 @@ the empty sequence of formulas, i.e. if $V(\A) = \top$ for every truth valuation
 % ==============================================================================
 \beginsection RESULTS
 
+\noindent {\bf \S3.1}
+
 \proclaim Tautology Theorem. If $\B$ is a tautological consequence of $\A_1, \dots, \A_n$,
 and $\vdash\A_1, \dots, \vdash \A_n$, then $\vdash \B$.
 
 \proclaim Corollary. Every tautology is a theorem.
+
+\proclaim Lemma 1. If $\vdash \A \lor \B$, then $\vdash \B \lor \A$.
+
+\proclaim Detachment Rule. If $\vdash \A$ and $\vdash \A \to \B$, then $\vdash \B$.
+
+\proclaim Corollary. If $\vdash \A_1, \dots, \vdash \A_n$, and $\vdash \A_1 \to \dots \to \A_n \to \B$, then $\vdash \B$.
+
+\proclaim Lemma 2. If $n \ge 2$, and $\A_1 \lor \cdots \lor \A_n$ is a tautology, then $\vdash \A_1 \lor \cdots \lor \A_n$.
+
+\noindent {\bf \S3.2}
+
+\proclaim $\forall$-Introduction Rule. If $\vdash \A \to \B$ and $\x$ is not free in $\A$, then $\vdash \A \to \forall\x\B$.
+
+\proclaim Generalization Rule. If $\vdash \A$, then $\vdash \forall\x\A$.
 
 \vfill
 \break

@@ -31,9 +31,9 @@ module Common = struct
 end
 
 (*
-  Pelletier, F.J. Seventy-five problems for testing automatic theorem provers.
-  J Autom Reasoning 2, 191–216 (1986).
-  https://doi.org/10.1007/BF02432151
+    Pelletier, F.J. Seventy-five problems for testing automatic theorem provers.
+    J Autom Reasoning 2, 191–216 (1986).
+    https://doi.org/10.1007/BF02432151
 *)
 module P75 = struct
   include Common
@@ -92,8 +92,8 @@ module P75 = struct
 end
 
 (*
-  Shoenfield, J.R. Mathematical Logic.
-  Reading, Mass., Addison-Wesley Pub. Co (1967)
+    Shoenfield, J.R. Mathematical Logic.
+    Reading, Mass., Addison-Wesley Pub. Co (1967)
 *)
 module Shoenfield = struct
   include Common

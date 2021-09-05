@@ -58,7 +58,7 @@ let shoenfield_ch2_5fh _ =
   let proof =
     let ctx = empty_proof in
     let* ctx, s1 = Axiom.identity ctx "x" in
-    let* ctx, s2 = Meta.neg_neg ctx s1 in
+    let* ctx, s2 = Meta.neg_neg_intro ctx s1 in
     proves ctx s2
   in
   let want = Theorems.Shoenfield.ch2_5f in

@@ -42,7 +42,7 @@
 \item{$\bullet$} A {\it structure} $\cal A$ for a first-order language $L$ consist of:
 \itemitem{i)} A nonempty set $|{\cal A}|$, the {\it universe} and its {\it individuals}.
 \itemitem{ii)} For each $n$-ary function symbol $\f$ of $L$, an $n$-ary function 
-$\f_{\cal A} : |{\cal A}| \to |{\cal A}|$. (In particular, for each constant 
+$\f_{\cal A} : |{\cal A}|^n \to |{\cal A}|$. (In particular, for each constant 
 $\e$ of $L$, $\e_{\cal A}$ is an individual of $\cal A$.)
 \itemitem{iii)} For each $n$-ary predicate symbol $\p$ of $L$ other than $=$, an 
 $n$-ary predicate $\p_{\cal A}$ in $|{\cal A}|$.
@@ -50,7 +50,7 @@ $n$-ary predicate $\p_{\cal A}$ in $|{\cal A}|$.
 Also, ${\cal A}(\a)$ designates an individual and ${\cal A}(\A)$ designates a truth value.
 \smallskip
 
-\item{$\bullet$} A formula $\A$ is {\it valid} in ${\cal A}$ if ${\cal A}(\A') = \top$ for 
+\item{$\bullet$} A formula $\A$ is {\it valid} in a structure ${\cal A}$ if ${\cal A}(\A') = \top$ for 
 every ${\cal A}$-instance $\A'$ of $\A$. In particular, a closed formula $\A$ is valid in
 ${\cal A}$ iff ${\cal A}(\A) = \top$.
 \smallskip
@@ -73,6 +73,8 @@ if $\A$ is valid in every structure for $L$ in which all of the formulas in $\Ga
 \smallskip
 
 \item{$\bullet$} A {\it model} of a theory $T$, is a structure for $L(T)$ in which all the nonlogical axioms of $T$ are valid.
+
+\item{$\bullet$} A formula $\A$ is {\it valid} in a theory $T$ if it is valid in every model of $T$.
 
 % ==============================================================================
 \beginsection LOGICAL AXIOMS
@@ -99,7 +101,7 @@ if $\A$ is valid in every structure for $L$ in which all of the formulas in $\Ga
 % ==============================================================================
 \beginsection RESULTS
 
-{\leftskip .5in
+\noindent {\bf \S2.4}
 
 \proclaim Lemma 1.
 If $\u_1, \dots, \u_n, \u_1', \dots, \u_n'$ are designators
@@ -120,6 +122,8 @@ Let $\bf u$ be a symbol of index $n$, and let $\v_1, \dots, \v_n$ be
 designators. Then any occurrence of a designator $\bf v$ in $\u\v_1 \dots \v_n$
 is either all of $\u\v_1 \dots \v_n$ or a part of one of the $\v_i$.
 
+\noindent {\bf \S2.5}
+
 \proclaim Lemma.
 Let $\cal A$ be a structure for $L$; $\bf a$ a variable-free term in $L({\cal A})$;
 $\bf i$ the name of ${\cal A}(\a)$. If $\bf b$ is a term of $L({\cal A})$ in
@@ -129,8 +133,6 @@ free, then ${\cal A}({\bf A_x}[\a]) = {\cal A}({\bf A_x}[{\bf i}])$
 
 \proclaim Validity Theorem.
 If $T$ is a theory, then every theorem of $T$ is valid in $T$.
-
-\par}
 
 % ==============================================================================
 \beginsection EXERCISES

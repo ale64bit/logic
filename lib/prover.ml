@@ -86,7 +86,8 @@ module Shoenfield : Prover = struct
     | Neg (Neg b) :: a' ->
         let* ctx, s1 = prove ctx (disj_of_list (b :: a')) in
         let* ctx, s2 =
-          if a' = [] then Meta.neg_neg ctx s1 else Meta.disj_neg_neg ctx s1
+          if a' = [] then Meta.neg_neg_intro ctx s1
+          else Meta.disj_neg_neg ctx s1
         in
         assert (s2 = a);
         proves ctx s2

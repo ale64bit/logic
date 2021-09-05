@@ -174,21 +174,25 @@ let rec string_of_formula ?(top = true) = function
       Printf.sprintf "%s %s" (Printf.sprintf "∃%s" x)
         (string_of_formula ~top:false f)
 
-let rec tex_of_formula ?(top = true) = function
-  | Atom ("=", [ lhs; rhs ]) ->
-      Printf.sprintf "(%s = %s)" (string_of_term lhs) (string_of_term rhs)
-  | Atom (p, ts) ->
-      Printf.sprintf "%s(%s)" p
-        (String.concat ", " (List.map string_of_term ts))
-  | Neg a -> Printf.sprintf "\\neg %s" (tex_of_formula ~top:false a)
-  | Or (a, b) ->
-      let s =
-        Printf.sprintf "%s \\lor %s"
-          (tex_of_formula ~top:false a)
-          (tex_of_formula ~top:false b)
-      in
-      if top then s else Printf.sprintf "(%s)" s
-  | Exists (x, f) ->
-      Printf.sprintf "%s %s"
-        (Printf.sprintf "\\exists %s" x)
-        (tex_of_formula ~top:false f)
+let rec tex_of_formula ?(top = true) ?(fmap = fun _ -> None) a =
+  match fmap a with
+  | Some s -> s
+  | None -> (
+      match a with
+      | Atom ("=", [ lhs; rhs ]) ->
+          Printf.sprintf "(%s = %s)" (string_of_term lhs) (string_of_term rhs)
+      | Atom (p, ts) ->
+          Printf.sprintf "%s(%s)" p
+            (String.concat ", " (List.map string_of_term ts))
+      | Neg a -> Printf.sprintf "\\neg %s" (tex_of_formula ~top:false ~fmap a)
+      | Or (a, b) ->
+          let s =
+            Printf.sprintf "%s \\lor %s"
+              (tex_of_formula ~top:false ~fmap a)
+              (tex_of_formula ~top:false ~fmap b)
+          in
+          if top then s else Printf.sprintf "(%s)" s
+      | Exists (x, f) ->
+          Printf.sprintf "%s %s"
+            (Printf.sprintf "\\exists %s" x)
+            (tex_of_formula ~top:false ~fmap f))

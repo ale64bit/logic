@@ -77,5 +77,6 @@ val formula_of_tptp : Tptp.formula -> formula
 val string_of_formula : ?top:bool -> formula -> string
 (* Converts a formula to a human-readable string *)
 
-val tex_of_formula : ?top:bool -> formula -> string
+val tex_of_formula :
+  ?top:bool -> ?fmap:(formula -> string option) -> formula -> string
 (* Converts a formula to a TeX string *)

@@ -67,7 +67,7 @@ end
 module Meta : sig
   open Calculus
 
-  val neg_neg : proof -> formula -> conclusion
+  val neg_neg_intro : proof -> formula -> conclusion
   (* A ⊢ ¬¬A *)
 
   val commute : proof -> formula -> conclusion
@@ -87,10 +87,17 @@ module Meta : sig
 
   val general_expansion : proof -> formula list -> formula list -> conclusion
   (* If ⊢ Ai1 ∨ ... ∨ Aim and {Ai1, ... , Aim} is a subset of {A1, ... , An}, then ⊢ A1 ∨ ... ∨ An *)
+
+  val rev_impl : proof -> formula -> conclusion
+  (* A → B ⊢ ¬B → ¬A *)
+
+  val a_introduction : proof -> var -> formula -> conclusion
+  (* A → B ⊢ A → ∀xB, if x is not free in A *)
 end
 
 val print_proof : out_channel -> Calculus.proof -> unit
 (* Prints a proof in human-readable format to an output channel *)
 
-val print_proof_tex : out_channel -> Calculus.proof -> unit
+val print_proof_tex :
+  ?fmap:(formula -> string option) -> out_channel -> Calculus.proof -> unit
 (* Prints a proof in TeX format to an output channel *)
