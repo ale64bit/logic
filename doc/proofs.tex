@@ -175,6 +175,33 @@
 \hrule
 \medskip
 % ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - \S 3.2 - Generalization Rule}
+\item{(1)} $\A$ \hfill [premise]
+\item{(2)} $\neg \neg \neg \exists \x \neg \A \lor \A$ \hfill [rule: expansion: (1)]
+\item{(3)} $\neg \neg \neg \neg \exists \x \neg \A \lor \neg \neg \neg \exists \x \neg \A$ \hfill [axiom: propositional]
+\item{(4)} $\A \lor \neg \neg \neg \exists \x \neg \A$ \hfill [rule: cut: (2) (3)]
+\item{(5)} $\neg \neg \A \lor \neg \A$ \hfill [axiom: propositional]
+\item{(6)} $\neg \neg \neg \A \lor \neg \neg \A$ \hfill [axiom: propositional]
+\item{(7)} $\neg \A \lor \neg \neg \A$ \hfill [rule: cut: (5) (6)]
+\item{(8)} $\neg \neg \neg \exists \x \neg \A \lor \neg \neg \A$ \hfill [rule: cut: (4) (7)]
+\item{(9)} $\neg \neg \A \lor \neg \neg \neg \exists \x \neg \A$ \hfill [rule: cut: (8) (3)]
+\item{(10)} $\neg \exists \x \neg \A \lor \neg \neg \neg \exists \x \neg \A$ \hfill [rule: e-introduction: (9)]
+\item{(11)} $\neg \neg \exists \x \neg \A \lor \neg \exists \x \neg \A$ \hfill [axiom: propositional]
+\item{(12)} $\neg \neg \neg \exists \x \neg \A \lor \neg \exists \x \neg \A$ \hfill [rule: cut: (10) (11)]
+\item{(13)} $\neg \neg \neg \exists \x \neg \A \lor \neg \neg \exists \x \neg \A$ \hfill [axiom: propositional]
+\item{(14)} $\neg \neg \exists \x \neg \A \lor \neg \neg \neg \exists \x \neg \A$ \hfill [rule: cut: (13) (3)]
+\item{(15)} $\neg \neg \neg \exists \x \neg \A \lor \neg \neg \neg \exists \x \neg \A$ \hfill [rule: cut: (10) (14)]
+\item{(16)} $\neg \neg \neg \exists \x \neg \A$ \hfill [rule: contraction: (15)]
+\item{(17)} $\neg \neg \neg \neg \neg \exists \x \neg \A \lor \neg \neg \neg \neg \exists \x \neg \A$ \hfill [axiom: propositional]
+\item{(18)} $\neg \neg \neg \exists \x \neg \A \lor \neg \neg \neg \neg \exists \x \neg \A$ \hfill [rule: cut: (3) (17)]
+\item{(19)} $\neg \exists \x \neg \A \lor \neg \neg \neg \neg \exists \x \neg \A$ \hfill [rule: cut: (11) (18)]
+\item{(20)} $\neg \neg \neg \neg \exists \x \neg \A \lor \neg \exists \x \neg \A$ \hfill [rule: cut: (19) (11)]
+\item{(21)} $\neg \exists \x \neg \A \lor \neg \exists \x \neg \A$ \hfill [rule: cut: (12) (20)]
+\item{(22)} $\neg \exists \x \neg \A$ \hfill [rule: contraction: (21)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
 
 \vfill
 \break

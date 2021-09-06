@@ -40,5 +40,17 @@ and $\vdash\A_1, \dots, \vdash \A_n$, then $\vdash \B$.
 
 \proclaim Generalization Rule. If $\vdash \A$, then $\vdash \forall\x\A$.
 
+\proclaim Substitution Rule. If $\vdash \A$ and $\A'$ is an instance of $\A$, then $\vdash \A'$.
+
+\proclaim Substitution Theorem. 
+$$\eqalign{&\vdash \A_{\x_1, \dots, \x_n}[\a_1, \dots, \a_n] \to \exists \x_1 \dots \exists \x_n \A\cr
+&\vdash \forall \x_1 \dots \forall \x_n \A \to \A_{\x_1, \dots, \x_n}[\a_1, \dots, \a_n]}$$
+
+\proclaim Distribution Rule. If $\vdash \A \to \B$, then $\vdash \exists\x\A \to \exists\x\B$ and $\vdash \forall\x\A \to \forall\x\B$.
+
+\proclaim Closure Theorem. If $\A'$ is the closure of $\A$, then $\vdash \A'$ iff $\vdash \A$.
+
+\proclaim Corollary. If $\A'$ is the closure of $\A$, then $\A'$ is valid in a structure $\cal A$ iff $\A$ is valid in $\cal A$.
+
 \vfill
 \break

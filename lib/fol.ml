@@ -125,7 +125,8 @@ let is_closed a =
 
 let closure a =
   let free, _ = variables a in
-  List.fold_left (Fun.flip Defined.forall) a free
+  let sorted = List.sort String.compare free in
+  List.fold_left (Fun.flip Defined.forall) a (List.rev sorted)
 
 let rec term_of_tptp = function
   | Tptp.Var x -> Var x

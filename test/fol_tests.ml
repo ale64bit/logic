@@ -34,10 +34,21 @@ let variables _ =
 
 let closure _ =
   let x = Var "x" in
+  let y = Var "y" in
   let x_eq_x = Atom ("=", [ x; x ]) in
-  let a = Or (x_eq_x, x_eq_x) in
-  let b = closure a in
-  assert_equal ~printer:string_of_formula b (Defined.forall "x" a)
+  let y_eq_x = Atom ("=", [ y; x ]) in
+  let tests =
+    [
+      (Or (x_eq_x, x_eq_x), Defined.forall "x" (Or (x_eq_x, x_eq_x)));
+      ( Or (y_eq_x, y_eq_x),
+        Defined.forall "x" (Defined.forall "y" (Or (y_eq_x, y_eq_x))) );
+    ]
+  in
+  List.iter
+    (fun (a, want) ->
+      let got = closure a in
+      assert_equal ~printer:string_of_formula want got)
+    tests
 
 let string_of_formula _ =
   let x = Var "x" in

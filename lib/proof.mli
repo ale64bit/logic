@@ -67,14 +67,17 @@ end
 module Meta : sig
   open Calculus
 
-  val neg_neg_intro : proof -> formula -> conclusion
-  (* A ⊢ ¬¬A *)
-
   val commute : proof -> formula -> conclusion
   (* A ∨ B ⊢ B ∨ A *)
 
   val modus_ponens : proof -> formula -> formula -> conclusion
   (* {A, A → B} ⊢ B *)
+
+  val neg_neg_intro : proof -> formula -> conclusion
+  (* A ⊢ ¬¬A *)
+
+  val neg_neg_elim : proof -> formula -> conclusion
+  (* ¬¬A ⊢ A *)
 
   val disj_neg_neg : proof -> formula -> conclusion
   (* A ∨ B ⊢ ¬¬A ∨ B *)
@@ -93,6 +96,9 @@ module Meta : sig
 
   val a_introduction : proof -> var -> formula -> conclusion
   (* A → B ⊢ A → ∀xB, if x is not free in A *)
+
+  val generalization : proof -> var -> formula -> conclusion
+  (* A ⊢ ∀xA *)
 end
 
 val print_proof : out_channel -> Calculus.proof -> unit

@@ -69,7 +69,7 @@ val is_closed : formula -> bool
 (* Checks whether a formula is closed, i.e. contains no free variable occurrences *)
 
 val closure : formula -> formula
-(* Computes the closure of a formula by universally quantifying each free variable *)
+(* Computes the closure of a formula by universally quantifying each free variable in alphabetical order *)
 
 val formula_of_tptp : Tptp.formula -> formula
 (* Converts a formula in TPTP format into the internal format *)

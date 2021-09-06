@@ -115,17 +115,6 @@ end
 module Meta = struct
   open Calculus
 
-  let neg_neg_intro ctx a =
-    let* ctx, s2 = Rule.expansion ctx (Neg (Neg a)) a in
-    let* ctx, s3 = Axiom.propositional ctx (Neg (Neg a)) in
-    let* ctx, s4 = Rule.cut ctx s2 s3 in
-    let* ctx, s5 = Axiom.propositional ctx (Neg a) in
-    let* ctx, s6 = Rule.cut ctx s5 s3 in
-    let* ctx, s7 = Rule.cut ctx s4 s6 in
-    let* ctx, s8 = Rule.contraction ctx s7 in
-    assert (s8 = Neg (Neg a));
-    proves ctx s8
-
   let commute ctx = function
     | Or (a', b') as a ->
         let* ctx, s1 = Axiom.propositional ctx a' in
@@ -147,6 +136,32 @@ module Meta = struct
         Error
           (Printf.sprintf "invalid modus ponens: %s and %s"
              (string_of_formula a) (string_of_formula a_to_b))
+
+  let neg_neg_intro ctx a =
+    let* ctx, s2 = Rule.expansion ctx (Neg (Neg a)) a in
+    let* ctx, s3 = Axiom.propositional ctx (Neg (Neg a)) in
+    let* ctx, s4 = Rule.cut ctx s2 s3 in
+    let* ctx, s5 = Axiom.propositional ctx (Neg a) in
+    let* ctx, s6 = Rule.cut ctx s5 s3 in
+    let* ctx, s7 = Rule.cut ctx s4 s6 in
+    let* ctx, s8 = Rule.contraction ctx s7 in
+    assert (s8 = Neg (Neg a));
+    proves ctx s8
+
+  let neg_neg_elim ctx = function
+    | Neg (Neg a') as a ->
+        let* ctx, s1 = Axiom.propositional ctx a in
+        let* ctx, s2 = Axiom.propositional ctx a' in
+        let* ctx, s3 = commute ctx s1 in
+        let* ctx, s4 = Rule.cut ctx s2 s3 in
+        let* ctx, s5 = commute ctx s4 in
+        let* ctx, s6 = modus_ponens ctx a s5 in
+        assert (s6 = a');
+        proves ctx s6
+    | a ->
+        Error
+          (Printf.sprintf "invalid double-negation elimination: %s"
+             (string_of_formula a))
 
   let disj_neg_neg ctx = function
     | Or (a', b') as a ->
@@ -311,6 +326,15 @@ module Meta = struct
         Error
           (Printf.sprintf "invalid a-introduction: %s %s" x
              (string_of_formula a))
+
+  let generalization ctx x a =
+    let* ctx, s1 = Rule.expansion ctx (Neg (Neg (Defined.forall x a))) a in
+    let* ctx, s2 = a_introduction ctx x s1 in
+    let* ctx, s3 = rev_impl ctx s2 in
+    let* ctx, s4 = Rule.contraction ctx s3 in
+    let* ctx, s5 = neg_neg_elim ctx s4 in
+    assert (s5 = Defined.forall x a);
+    proves ctx s5
 end
 
 let print_proof out p =
