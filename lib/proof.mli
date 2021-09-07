@@ -99,6 +99,9 @@ module Meta : sig
 
   val generalization : proof -> var -> formula -> conclusion
   (* A ⊢ ∀xA *)
+
+  val substitution : proof -> formula -> formula -> conclusion
+  (* A ⊢ A' where A' is an instance of A *)
 end
 
 val print_proof : out_channel -> Calculus.proof -> unit

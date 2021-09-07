@@ -1,4 +1,5 @@
 open Fol
+module StringSet = Set.Make (String)
 
 module FormulaMap = Map.Make (struct
   type t = formula
@@ -335,6 +336,55 @@ module Meta = struct
     let* ctx, s5 = neg_neg_elim ctx s4 in
     assert (s5 = Defined.forall x a);
     proves ctx s5
+
+  let rec substitution ctx a a' =
+    match is_instance a' a with
+    | [], true ->
+        assert (a = a');
+        proves ctx a'
+    | [ (x, t) ], true ->
+        let* ctx, s1 = generalization ctx x a in
+        let* ctx, s2 = Axiom.substitution ctx (Neg a) x t in
+        let* ctx, s3 = rev_impl ctx s2 in
+        let* ctx, s4 = modus_ponens ctx s1 s3 in
+        let* ctx, s5 = neg_neg_elim ctx s4 in
+        assert (s5 = a');
+        proves ctx s5
+    | m, true ->
+        let free_a, bound_a = variables a in
+        let free_a', bound_a' = variables a' in
+        let all = StringSet.of_list (free_a @ bound_a @ free_a' @ bound_a') in
+        let rec gen_fresh_vars i acc =
+          if List.length acc = List.length m then List.rev acc
+          else
+            let yi = Printf.sprintf "y%d'" i in
+            gen_fresh_vars (i + 1)
+              (if StringSet.mem yi all then acc else yi :: acc)
+        in
+        let xs, ts = List.split m in
+        (* The intermediate variables [ys] are needed since the terms can
+           contain some of the free variables *)
+        let ys = gen_fresh_vars 1 [] in
+        let* ctx, s1 =
+          fold_with_rule ctx
+            (fun ctx ai (xi, yi) ->
+              let* ctx, s1' = substitution ctx ai (substitute xi (Var yi) ai) in
+              proves ctx s1')
+            a (List.combine xs ys)
+        in
+        let* ctx, s2 =
+          fold_with_rule ctx
+            (fun ctx ai (yi, ti) ->
+              let* ctx, s1' = substitution ctx ai (substitute yi ti ai) in
+              proves ctx s1')
+            s1 (List.combine ys ts)
+        in
+        assert (s2 = a');
+        proves ctx s2
+    | _ ->
+        Error
+          (Printf.sprintf "invalid substitution: %s is not an instance of %s"
+             (string_of_formula a') (string_of_formula a))
 end
 
 let print_proof out p =

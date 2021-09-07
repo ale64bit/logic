@@ -128,6 +128,48 @@ let closure a =
   let sorted = List.sort String.compare free in
   List.fold_left (Fun.flip Defined.forall) a (List.rev sorted)
 
+let is_instance a' a =
+  let is_var_instance m a' x =
+    match List.assoc_opt x m with
+    | Some a -> (m, a' = a)
+    | None -> ((x, a') :: m, true)
+  in
+  let rec is_term_instance m a' a =
+    match (a', a) with
+    | _, Var x -> is_var_instance m a' x
+    | Const e', Const e -> (m, e' = e)
+    | Fun (f', ts'), Fun (f, ts) when List.length ts' = List.length ts ->
+        List.fold_left
+          (fun (m, acc) (t', t) ->
+            let m, res = is_term_instance m t' t in
+            (m, acc && res))
+          (m, f' = f)
+          (List.combine ts' ts)
+    | _ -> (m, false)
+  in
+  let rec is_formula_instance m a' a =
+    match (a', a) with
+    | Atom (p', ts'), Atom (p, ts) when List.length ts' = List.length ts ->
+        List.fold_left
+          (fun (m, acc) (t', t) ->
+            let m, res = is_term_instance m t' t in
+            (m, acc && res))
+          (m, p' = p)
+          (List.combine ts' ts)
+    | Neg b', Neg b -> is_formula_instance m b' b
+    | Or (b', c'), Or (b, c) ->
+        let m, resb = is_formula_instance m b' b in
+        let m, resc = is_formula_instance m c' c in
+        (m, resb && resc)
+    | Exists (x', b'), Exists (x, b) when x' = x -> is_formula_instance m b' b
+    | _ -> (m, false)
+  in
+  let m, res = is_formula_instance [] a' a in
+  if res then
+    let nid = List.filter (fun (x, t) -> not (t = Var x)) m in
+    (List.sort (fun (x', _) (x, _) -> Stdlib.compare x' x) nid, res)
+  else ([], false)
+
 let rec term_of_tptp = function
   | Tptp.Var x -> Var x
   | Tptp.Const e -> Const e

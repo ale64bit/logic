@@ -71,8 +71,14 @@ val is_closed : formula -> bool
 val closure : formula -> formula
 (* Computes the closure of a formula by universally quantifying each free variable in alphabetical order *)
 
+val is_instance : formula -> formula -> (var * term) list * bool
+(* [is_instance a' a] tests whether formula a' is an instance of formula a *)
+
 val formula_of_tptp : Tptp.formula -> formula
 (* Converts a formula in TPTP format into the internal format *)
+
+val string_of_term : term -> string
+(* Converts a term to a human-readable string *)
 
 val string_of_formula : ?top:bool -> formula -> string
 (* Converts a formula to a human-readable string *)

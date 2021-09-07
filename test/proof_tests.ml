@@ -197,6 +197,27 @@ let general_expansion _ =
       TestUtil.check_conclusion proof want)
     tests
 
+let substitution_rule _ =
+  let open Theorems.Common in
+  let e i = Const (Printf.sprintf "e%d" i) in
+  let tests =
+    [
+      (x_eq_x, Atom ("=", [ e 1; e 1 ]));
+      (x_eq_y, Atom ("=", [ e 1; e 1 ]));
+      (x_eq_y, Atom ("=", [ e 2; e 1 ]));
+    ]
+  in
+  List.iter
+    (fun (a, a') ->
+      let proof =
+        let ctx = empty_proof in
+        let* ctx, _ = premise ctx a in
+        let* ctx, s2 = Meta.substitution ctx a a' in
+        proves ctx s2
+      in
+      TestUtil.check_conclusion proof a')
+    tests
+
 let suite =
   "ProofTests"
   >::: [
@@ -213,6 +234,7 @@ let suite =
          "taut_theorem_case_b" >:: taut_theorem_case_b;
          "taut_theorem_case_c" >:: taut_theorem_case_c;
          "general_expansion" >:: general_expansion;
+         "substitution_rule" >:: substitution_rule;
        ]
 
 let () = run_test_tt_main suite

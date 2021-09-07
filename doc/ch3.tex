@@ -52,5 +52,16 @@ $$\eqalign{&\vdash \A_{\x_1, \dots, \x_n}[\a_1, \dots, \a_n] \to \exists \x_1 \d
 
 \proclaim Corollary. If $\A'$ is the closure of $\A$, then $\A'$ is valid in a structure $\cal A$ iff $\A$ is valid in $\cal A$.
 
+\noindent {\bf \S3.3}
+
+\proclaim Deduction Theorem. Let $\A$ be a closed formula in $T$. For every formula $\B$ of $T$, $\vdash_T \A \to \B$ iff $\B$ is a theorem of $T[\A]$.
+
+\proclaim Corollary. Let $\A_1, \dots, \A_n$ be closed formulas in $T$. For every formula $\B$ in $T$, $\vdash_{T} \A_1 \to \cdots \to \A_n \to \B$ 
+iff $\B$ is a theorem of $T[\A_1, \dots, \A_n]$.
+
+\proclaim Theorem on Constants. Let $T'$ be obtained from $T$ by adding new constants (but no new nonlogical axioms).
+For every formula $\A$ of $T$ and every sequence $\e_1, \dots, \e_n$ of distinct new constants, 
+$\vdash_T \A$ iff $\vdash_{T'} \A[\e_1, \dots, \e_n]$.
+
 \vfill
 \break

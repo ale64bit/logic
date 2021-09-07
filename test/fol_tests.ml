@@ -50,6 +50,36 @@ let closure _ =
       assert_equal ~printer:string_of_formula want got)
     tests
 
+let is_instance _ =
+  let x = Var "x" in
+  let y = Var "y" in
+  let e = Const "e" in
+  let x_eq_x = Atom ("=", [ x; x ]) in
+  let x_eq_y = Atom ("=", [ x; y ]) in
+  let e_eq_e = Atom ("=", [ e; e ]) in
+  let fxy = Fun ("f", [ x; y ]) in
+  let tests =
+    [
+      (e_eq_e, x_eq_x, ([ ("x", e) ], true));
+      (Atom ("=", [ x; e ]), x_eq_x, ([], false));
+      (Atom ("=", [ e; x ]), x_eq_x, ([], false));
+      (e_eq_e, x_eq_y, ([ ("x", e); ("y", e) ], true));
+      (Atom ("=", [ fxy; y ]), x_eq_y, ([ ("x", fxy) ], true));
+      (Atom ("=", [ x; fxy ]), x_eq_y, ([ ("y", fxy) ], true));
+    ]
+  in
+  let printer (m, res) =
+    Printf.sprintf "([%s], %B)"
+      (String.concat ", "
+         (List.map
+            (fun (x, t) -> Printf.sprintf "%s -> %s" x (string_of_term t))
+            m))
+      res
+  in
+  List.iter
+    (fun (a', a, want) -> assert_equal ~printer want (is_instance a' a))
+    tests
+
 let string_of_formula _ =
   let x = Var "x" in
   let px = Atom ("p", [ x ]) in
@@ -86,6 +116,7 @@ let suite =
          "closure" >:: closure;
          "disj_list" >:: disj_list;
          "string_of_formula" >:: string_of_formula;
+         "is_instance" >:: is_instance;
        ]
 
 let () = run_test_tt_main suite
