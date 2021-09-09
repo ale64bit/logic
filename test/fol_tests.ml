@@ -21,10 +21,10 @@ let disj_list _ =
       assert_equal ~printer:string_of_formula_list (list_of_disj a) xs)
     tests
 
-let is_quantifier_free _ =
+let is_open _ =
   let x = Var "x" in
   let a = Atom ("=", [ x; x ]) in
-  assert_equal (is_quantifier_free a) true
+  assert_equal (is_open a) true
 
 let variables _ =
   let x = Var "x" in
@@ -81,6 +81,28 @@ let is_instance _ =
     (fun (a', a, want) -> assert_equal ~printer want (is_instance a' a))
     tests
 
+let substitute _ =
+  let x = Var "x" in
+  let y = Var "y" in
+  let z = Var "z" in
+  let tests =
+    [
+      ( Exists ("y", Atom ("=", [ x; Fun ("*", [ Const "2"; y ]) ])),
+        "x",
+        Fun ("+", [ z; Const "1" ]),
+        Exists
+          ( "y",
+            Atom
+              ("=", [ Fun ("+", [ z; Const "1" ]); Fun ("*", [ Const "2"; y ]) ])
+          ) );
+    ]
+  in
+  List.iter
+    (fun (a, x, t, want) ->
+      let got = substitute a x t in
+      assert_equal ~printer:string_of_formula want got)
+    tests
+
 let string_of_formula _ =
   let x = Var "x" in
   let px = Atom ("p", [ x ]) in
@@ -112,12 +134,13 @@ let string_of_formula _ =
 let suite =
   "FolTests"
   >::: [
-         "is_quantifier_free" >:: is_quantifier_free;
+         "is_open" >:: is_open;
          "variables" >:: variables;
          "closure" >:: closure;
          "disj_list" >:: disj_list;
          "string_of_formula" >:: string_of_formula;
          "is_instance" >:: is_instance;
+         "substitute" >:: substitute;
        ]
 
 let () = run_test_tt_main suite

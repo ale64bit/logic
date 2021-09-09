@@ -35,7 +35,7 @@ module Calculus = struct
 
     let substitution ctx a x t =
       add ctx
-        (Defined.impl (substitute x t a) (Exists (x, a)))
+        (Defined.impl (substitute a x t) (Exists (x, a)))
         "axiom: substitution"
 
     let identity ctx x =
@@ -368,14 +368,14 @@ module Meta = struct
         let* ctx, s1 =
           fold_with_rule ctx
             (fun ctx ai (xi, yi) ->
-              let* ctx, s1' = substitution ctx ai (substitute xi (Var yi) ai) in
+              let* ctx, s1' = substitution ctx ai (substitute ai xi (Var yi)) in
               proves ctx s1')
             a (List.combine xs ys)
         in
         let* ctx, s2 =
           fold_with_rule ctx
             (fun ctx ai (yi, ti) ->
-              let* ctx, s1' = substitution ctx ai (substitute yi ti ai) in
+              let* ctx, s1' = substitution ctx ai (substitute ai yi ti) in
               proves ctx s1')
             s1 (List.combine ys ts)
         in

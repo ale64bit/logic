@@ -47,7 +47,7 @@ val disj_of_list : formula list -> formula
 val list_of_disj : formula -> formula list
 (* Converts a disjunction formula (A1 ∨ ... ∨ An) to a list of formulas [A1; ...; An] *)
 
-val substitute : var -> term -> formula -> formula
+val substitute : formula -> var -> term -> formula
 (* Substitutes a variable free occurrences by a term in the given formula *)
 
 val is_elementary : formula -> bool
@@ -56,8 +56,8 @@ val is_elementary : formula -> bool
 val is_free : var -> formula -> bool
 (* Checks whether a variable is free in the given formula *)
 
-val is_quantifier_free : formula -> bool
-(* Checks whether a formula is quantifier free *)
+val is_open : formula -> bool
+(* Checks whether a formula is quantifier-free *)
 
 val variables : formula -> var list * var list
 (*

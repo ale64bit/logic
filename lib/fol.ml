@@ -52,44 +52,6 @@ let list_of_disj a =
   in
   List.rev (aux [] a)
 
-let substitute x t a =
-  let rec subs_term bound = function
-    | Var x' when x' = x && not (StringSet.mem x bound) -> t
-    | Var x' -> Var x'
-    | Const e -> Const e
-    | Fun (f, ts) -> Fun (f, List.map (subs_term bound) ts)
-  in
-  let rec aux bound = function
-    | Atom (p, ts) -> Atom (p, List.map (subs_term bound) ts)
-    | Neg a -> Neg (aux bound a)
-    | Or (a, b) -> Or (aux bound a, aux bound b)
-    | Exists (x', a) -> aux (StringSet.add x' bound) a
-  in
-  aux StringSet.empty a
-
-let is_elementary = function Atom _ | Exists _ -> true | _ -> false
-
-let is_free x a =
-  let rec is_free_in_term bound = function
-    | Var x' when x' = x && not (StringSet.mem x bound) -> true
-    | Var _ -> false
-    | Const _ -> false
-    | Fun (_, ts) -> List.exists (is_free_in_term bound) ts
-  in
-  let rec aux bound = function
-    | Atom (_, ts) -> List.exists (is_free_in_term bound) ts
-    | Neg a -> aux bound a
-    | Or (a, b) -> aux bound a || aux bound b
-    | Exists (x', a) -> aux (StringSet.add x' bound) a
-  in
-  aux StringSet.empty a
-
-let rec is_quantifier_free = function
-  | Atom _ -> true
-  | Neg a -> is_quantifier_free a
-  | Or (a, b) -> is_quantifier_free a && is_quantifier_free b
-  | Exists _ -> false
-
 let variables a =
   let open StringSet in
   let rec aux_term bound = function
@@ -118,6 +80,50 @@ let variables a =
   in
   let free, bound = aux empty a in
   (List.of_seq (to_seq free), List.of_seq (to_seq bound))
+
+let substitute a x t =
+  let free, _ = variables (Atom ("", [ t ])) in
+  let substitutible bound =
+    List.for_all (fun y -> not (StringSet.mem y bound)) free
+  in
+  let rec aux_term bound = function
+    | Var x' when x' = x && not (StringSet.mem x bound) ->
+        assert (substitutible bound);
+        t
+    | Var x' -> Var x'
+    | Const e -> Const e
+    | Fun (f, ts) -> Fun (f, List.map (aux_term bound) ts)
+  in
+  let rec aux bound = function
+    | Atom (p, ts) -> Atom (p, List.map (aux_term bound) ts)
+    | Neg a -> Neg (aux bound a)
+    | Or (a, b) -> Or (aux bound a, aux bound b)
+    | Exists (x', a) -> Exists (x', aux (StringSet.add x' bound) a)
+  in
+  aux StringSet.empty a
+
+let is_elementary = function Atom _ | Exists _ -> true | _ -> false
+
+let is_free x a =
+  let rec is_free_in_term bound = function
+    | Var x' when x' = x && not (StringSet.mem x bound) -> true
+    | Var _ -> false
+    | Const _ -> false
+    | Fun (_, ts) -> List.exists (is_free_in_term bound) ts
+  in
+  let rec aux bound = function
+    | Atom (_, ts) -> List.exists (is_free_in_term bound) ts
+    | Neg a -> aux bound a
+    | Or (a, b) -> aux bound a || aux bound b
+    | Exists (x', a) -> aux (StringSet.add x' bound) a
+  in
+  aux StringSet.empty a
+
+let rec is_open = function
+  | Atom _ -> true
+  | Neg a -> is_open a
+  | Or (a, b) -> is_open a && is_open b
+  | Exists _ -> false
 
 let is_closed a =
   let free, _ = variables a in
