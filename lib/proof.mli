@@ -44,7 +44,7 @@ module Calculus : sig
     (* (x1 = y1) → ... → (xn = yn) → p(x1, ..., xn) → p(y1, ..., yn) *)
   end
 
-  (* Rules of the system *)
+  (* Rules of inference *)
   module Rule : sig
     val expansion : proof -> formula -> formula -> conclusion
     (* Infer B ∨ A from A *)
@@ -73,13 +73,13 @@ module Meta : sig
   val modus_ponens : proof -> formula -> formula -> conclusion
   (* {A, A → B} ⊢ B *)
 
-  val neg_neg_intro : proof -> formula -> conclusion
+  val dneg_intro : proof -> formula -> conclusion
   (* A ⊢ ¬¬A *)
 
-  val neg_neg_elim : proof -> formula -> conclusion
+  val dneg_elim : proof -> formula -> conclusion
   (* ¬¬A ⊢ A *)
 
-  val disj_neg_neg : proof -> formula -> conclusion
+  val disj_dneg : proof -> formula -> conclusion
   (* A ∨ B ⊢ ¬¬A ∨ B *)
 
   val disj_contraction : proof -> formula -> conclusion
@@ -102,6 +102,12 @@ module Meta : sig
 
   val substitution : proof -> formula -> formula -> conclusion
   (* A ⊢ A' where A' is an instance of A *)
+
+  val detachment_transitivity : proof -> formula -> formula -> conclusion
+  (* {A → B, B → C} ⊢ A → C *)
+
+  val e_distribution : proof -> var -> formula -> conclusion
+  (* A → B ⊢ ∃xA → ∃xB *)
 end
 
 val print_proof : out_channel -> Calculus.proof -> unit

@@ -138,7 +138,7 @@ module Meta = struct
           (Printf.sprintf "invalid modus ponens: %s and %s"
              (string_of_formula a) (string_of_formula a_to_b))
 
-  let neg_neg_intro ctx a =
+  let dneg_intro ctx a =
     let* ctx, s2 = Rule.expansion ctx (Neg (Neg a)) a in
     let* ctx, s3 = Axiom.propositional ctx (Neg (Neg a)) in
     let* ctx, s4 = Rule.cut ctx s2 s3 in
@@ -149,7 +149,7 @@ module Meta = struct
     assert (s8 = Neg (Neg a));
     proves ctx s8
 
-  let neg_neg_elim ctx = function
+  let dneg_elim ctx = function
     | Neg (Neg a') as a ->
         let* ctx, s1 = Axiom.propositional ctx a in
         let* ctx, s2 = Axiom.propositional ctx a' in
@@ -164,7 +164,7 @@ module Meta = struct
           (Printf.sprintf "invalid double-negation elimination: %s"
              (string_of_formula a))
 
-  let disj_neg_neg ctx = function
+  let disj_dneg ctx = function
     | Or (a', b') as a ->
         let* ctx, s1 = Axiom.propositional ctx (Neg a') in
         let* ctx, s2 = commute ctx s1 in
@@ -307,7 +307,7 @@ module Meta = struct
   let rev_impl ctx = function
     | Or (Neg a', b') as a ->
         let* ctx, s1 = commute ctx a in
-        let* ctx, s2 = disj_neg_neg ctx s1 in
+        let* ctx, s2 = disj_dneg ctx s1 in
         assert (s2 = Defined.impl (Neg b') (Neg a'));
         proves ctx s2
     | a ->
@@ -333,7 +333,7 @@ module Meta = struct
     let* ctx, s2 = a_introduction ctx x s1 in
     let* ctx, s3 = rev_impl ctx s2 in
     let* ctx, s4 = Rule.contraction ctx s3 in
-    let* ctx, s5 = neg_neg_elim ctx s4 in
+    let* ctx, s5 = dneg_elim ctx s4 in
     assert (s5 = Defined.forall x a);
     proves ctx s5
 
@@ -347,7 +347,7 @@ module Meta = struct
         let* ctx, s2 = Axiom.substitution ctx (Neg a) x t in
         let* ctx, s3 = rev_impl ctx s2 in
         let* ctx, s4 = modus_ponens ctx s1 s3 in
-        let* ctx, s5 = neg_neg_elim ctx s4 in
+        let* ctx, s5 = dneg_elim ctx s4 in
         assert (s5 = a');
         proves ctx s5
     | m, true ->
@@ -385,6 +385,29 @@ module Meta = struct
         Error
           (Printf.sprintf "invalid substitution: %s is not an instance of %s"
              (string_of_formula a') (string_of_formula a))
+
+  let detachment_transitivity ctx a b =
+    match (a, b) with
+    | Or (Neg a', b'), Or (Neg b'', c') when b' = b'' ->
+        let* ctx, s1 = commute ctx a in
+        let* ctx, s2 = Rule.cut ctx s1 b in
+        assert (s2 = Defined.impl a' c');
+        proves ctx s2
+    | _ ->
+        Error
+          (Printf.sprintf "invalid detachment transitivity: %s and %s"
+             (string_of_formula a) (string_of_formula b))
+
+  let e_distribution ctx x = function
+    | Or (Neg a', b') as a ->
+        let* ctx, s1 = Axiom.substitution ctx b' x (Var x) in
+        let* ctx, s2 = detachment_transitivity ctx a s1 in
+        let* ctx, s3 = Rule.e_introduction ctx x s2 in
+        assert (s3 = Defined.impl (Exists (x, a')) (Exists (x, b')));
+        proves ctx s3
+    | a ->
+        Error
+          (Printf.sprintf "invalid e-distribution: %s" (string_of_formula a))
 end
 
 let print_proof out p =

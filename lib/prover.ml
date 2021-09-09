@@ -86,8 +86,7 @@ module Shoenfield : Prover = struct
     | Neg (Neg b) :: a' ->
         let* ctx, s1 = prove ctx (disj_of_list (b :: a')) in
         let* ctx, s2 =
-          if a' = [] then Meta.neg_neg_intro ctx s1
-          else Meta.disj_neg_neg ctx s1
+          if a' = [] then Meta.dneg_intro ctx s1 else Meta.disj_dneg ctx s1
         in
         assert (s2 = a);
         proves ctx s2
@@ -98,10 +97,10 @@ module Shoenfield : Prover = struct
           let* ctx, s3 = Axiom.propositional ctx (Or (b, c)) in
           let* ctx, s4 = Rule.associative ctx s3 in
           let* ctx, s5 = Meta.commute ctx s4 in
-          let* ctx, s6 = Meta.disj_neg_neg ctx s5 in
+          let* ctx, s6 = Meta.disj_dneg ctx s5 in
           let* ctx, s7 = Meta.modus_ponens ctx s2 s6 in
           let* ctx, s8 = Meta.commute ctx s7 in
-          let* ctx, s9 = Meta.disj_neg_neg ctx s8 in
+          let* ctx, s9 = Meta.disj_dneg ctx s8 in
           let* ctx, s10 = Meta.modus_ponens ctx s1 s9 in
           assert (s10 = a);
           proves ctx s10)

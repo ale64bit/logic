@@ -329,7 +329,7 @@ f(\neg \A) &= \bot;\cr
 f(\A \lor \B) &= f(\B);\cr
 f(\exists \x\A) &= \top.\cr}$$
 
-Let's prove that if $\A$ is provable without propositional axioms then $f(\A) = \top$, by induction on the proof length.
+Let's prove that if $\A$ is provable without propositional axioms then $f(\A) = \top$, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a substitution axiom: we have 
 $f(\A) = f(\neg \A'_\x[\a] \lor \exists \x\A') = f(\exists \x\A') = \top$;
@@ -360,7 +360,7 @@ f(\neg \A) &= \neg f(\A);\cr
 f(\A \lor \B) &= f(\A) \lor f(\B);\cr
 f(\exists \x\A) &= \bot.\cr}$$
 
-Let's prove that if $\A$ is provable without substitution axioms then $f(\A) = \top$, by induction on the proof length.
+Let's prove that if $\A$ is provable without substitution axioms then $f(\A) = \top$, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \lor f(\A') = \top$;
 \itemitem{$\bullet$} an identity axiom: since it's an atomic formula, $f(\A) = f(\x = \x) = \top$;
@@ -393,7 +393,7 @@ f(\neg \A) &= \neg f(\A);\cr
 f(\A \lor \B) &= f(\A) \lor f(\B);\cr
 f(\exists \x\A) &= f(\A).\cr}$$
 
-Let's prove that if $\A$ is provable without identity axioms then $f(\A) = \top$, by induction on the proof length.
+Let's prove that if $\A$ is provable without identity axioms then $f(\A) = \top$, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \lor f(\A') = \top$;
 \itemitem{$\bullet$} a substitution axiom: we have 
@@ -439,7 +439,7 @@ f(\A \lor \B) &= f(\A) \lor f(\B);\cr
 f(\exists \x\A) &= \top \quad \hbox{iff $f(\A_\x[\e_i]) = \top$ for some $i$}.\cr}$$
 
 Let's prove that if $\A$ is provable without equality axioms then $f(\A') = \top$ for every formula obtained from $\A$ by 
-replacing each variable by some $\e_i$ at all its free occurrences, by induction on the proof length.
+replacing each variable by some $\e_i$ at all its free occurrences, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \lor f(\A') = \top$ 
 for every closed formula $\A''$ obtained from $\A'$ by replacing each variable by some $\e_i$ at all its free occurrences;
@@ -479,7 +479,7 @@ f(\neg \A) &= \neg f(\A);\cr
 f(\A \lor \B) &= f(\A) \leftrightarrow \neg f(\B);\cr
 f(\exists \x\A) &= f(\A).\cr}$$
 
-Let's prove that if $\A$ is provable without the expansion rule then $f(\A) = \top$, by induction on the proof length.
+Let's prove that if $\A$ is provable without the expansion rule then $f(\A) = \top$, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \leftrightarrow \neg f(\A') = \top$;
 \itemitem{$\bullet$} a substitution axiom: we have 
@@ -524,7 +524,7 @@ f(\neg \A) &= \bot;\cr
 f(\A \lor \B) &= \top;\cr
 f(\exists \x\A) &= \bot.\cr}$$
 
-Let's prove that if $\A$ is provable without the contraction rule then $f(\A) = \top$, by induction on the proof length.
+Let's prove that if $\A$ is provable without the contraction rule then $f(\A) = \top$, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \top$;
 \itemitem{$\bullet$} a substitution axiom: we have 
@@ -553,7 +553,7 @@ f(\neg \A) &= 1 - f(\A);\cr
 f(\A \lor \B) &= f(\A) \cdot f(\B) \cdot (1 - f(\A) - f(\B));\cr
 f(\exists \x\A) &= f(\A).\cr}$$
 
-Let's prove that if $\A$ is provable without the associative rule then $f(\A) = 0$, by induction on the proof length.
+Let's prove that if $\A$ is provable without the associative rule then $f(\A) = 0$, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = 
 (1 - f(\A')) \cdot f(\A') \cdot (1 - (1 - f(\A')) - f(\A')) =
@@ -610,7 +610,7 @@ f(\neg \A) &= \cases{\top, &if $f(\A) = \bot$ or $\A$ is atomic;\cr
 f(\A \lor \B) &= f(\A) \lor f(\B);\cr
 f(\exists \x\A) &= f(\A).\cr}$$
 
-Let's prove that if $\A$ is provable without the cut rule then $f(\A) = \top$, by induction on the proof length.
+Let's prove that if $\A$ is provable without the cut rule then $f(\A) = \top$, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = f(\neg \A') \lor f(\A') = \top$
 (since if $f(\A') = \bot$, then $f(\neg \A') = \top$ from the definition of $f$);
@@ -658,7 +658,7 @@ f(\neg \A) &= \neg f(\A);\cr
 f(\A \lor \B) &= f(\A) \lor f(\B);\cr
 f(\exists \x\A) &= \top.\cr}$$
 
-Let's prove that if $\A$ is provable without the $\exists$-introduction rule then $f(\A) = \top$, by induction on the proof length.
+Let's prove that if $\A$ is provable without the $\exists$-introduction rule then $f(\A) = \top$, by induction on theorems.
 In a proof of $\A$, if $\A$ was obtained from:
 \itemitem{$\bullet$} a propositional axiom: we have $f(\A) = f(\neg \A' \lor \A') = \neg f(\A') \lor f(\A') = \top$;
 \itemitem{$\bullet$} a substitution axiom: we have 

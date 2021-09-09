@@ -202,6 +202,17 @@
 \hrule
 \medskip
 % ------------------------------------------------------------------------------
+\noindent {\bf Chapter 3 - \S 3.2 - Distribution Rule}
+\item{(1)} $\neg \A \lor \B$ \hfill [premise]
+\item{(2)} $\neg \B \lor \exists \x \B$ \hfill [axiom: substitution]
+\item{(3)} $\neg \neg \A \lor \neg \A$ \hfill [axiom: propositional]
+\item{(4)} $\B \lor \neg \A$ \hfill [rule: cut: (1) (3)]
+\item{(5)} $\neg \A \lor \exists \x \B$ \hfill [rule: cut: (4) (2)]
+\item{(6)} $\neg \exists \x \A \lor \exists \x \B$ \hfill [rule: e-introduction: (5)]
+\medskip
+\hrule
+\medskip
+% ------------------------------------------------------------------------------
 
 \vfill
 \break

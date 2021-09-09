@@ -60,6 +60,7 @@ let is_instance _ =
   let fxy = Fun ("f", [ x; y ]) in
   let tests =
     [
+      (x_eq_x, x_eq_x, ([], true));
       (e_eq_e, x_eq_x, ([ ("x", e) ], true));
       (Atom ("=", [ x; e ]), x_eq_x, ([], false));
       (Atom ("=", [ e; x ]), x_eq_x, ([], false));

@@ -58,7 +58,7 @@ let shoenfield_ch2_5fh _ =
   let proof =
     let ctx = empty_proof in
     let* ctx, s1 = Axiom.identity ctx "x" in
-    let* ctx, s2 = Meta.neg_neg_intro ctx s1 in
+    let* ctx, s2 = Meta.dneg_intro ctx s1 in
     proves ctx s2
   in
   let want = Theorems.Shoenfield.ch2_5f in
@@ -126,7 +126,7 @@ let taut_theorem_case_b _ =
   let proof =
     let ctx = empty_proof in
     let* ctx, s1 = premise ctx (Or (px, qx)) in
-    let* ctx, s2 = Meta.disj_neg_neg ctx s1 in
+    let* ctx, s2 = Meta.disj_dneg ctx s1 in
     proves ctx s2
   in
   let want = Or (Neg (Neg px), qx) in
@@ -218,6 +218,17 @@ let substitution_rule _ =
       TestUtil.check_conclusion proof a')
     tests
 
+let e_distribution _ =
+  let open Theorems.Common in
+  let proof =
+    let ctx = empty_proof in
+    let* ctx, s1 = premise ctx (Defined.impl px qx) in
+    let* ctx, s2 = Meta.e_distribution ctx "x" s1 in
+    proves ctx s2
+  in
+  let want = Defined.impl (Exists ("x", px)) (Exists ("x", qx)) in
+  TestUtil.check_conclusion proof want
+
 let suite =
   "ProofTests"
   >::: [
@@ -235,6 +246,7 @@ let suite =
          "taut_theorem_case_c" >:: taut_theorem_case_c;
          "general_expansion" >:: general_expansion;
          "substitution_rule" >:: substitution_rule;
+         "e_distribution" >:: e_distribution;
        ]
 
 let () = run_test_tt_main suite
