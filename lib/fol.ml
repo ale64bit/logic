@@ -102,6 +102,22 @@ let substitute a x t =
   in
   aux StringSet.empty a
 
+let variant a x y =
+  let rec aux_term bound = function
+    | Var x' when x' = x && StringSet.mem x bound -> Var y
+    | Var x' -> Var x'
+    | Const e -> Const e
+    | Fun (f, ts) -> Fun (f, List.map (aux_term bound) ts)
+  in
+  let rec aux bound = function
+    | Atom (p, ts) -> Atom (p, List.map (aux_term bound) ts)
+    | Neg a -> Neg (aux bound a)
+    | Or (a, b) -> Or (aux bound a, aux bound b)
+    | Exists (x', a) ->
+        Exists ((if x' = x then y else x'), aux (StringSet.add x' bound) a)
+  in
+  aux StringSet.empty a
+
 let is_elementary = function Atom _ | Exists _ -> true | _ -> false
 
 let is_free x a =
@@ -175,6 +191,85 @@ let is_instance a' a =
     let nid = List.filter (fun (x, t) -> not (t = Var x)) m in
     (List.sort (fun (x', _) (x, _) -> Stdlib.compare x' x) nid, res)
   else ([], false)
+
+(*
+    Disambiguate variable names in the given formula by applying the
+    provided function (usually, [substitute] or [variant] depending
+    on whether free or bound variables, respectively, are the goal).
+    Fresh variables are introduced by adding primes (') to existing 
+    variable names.
+ *)
+let disambiguate a xs forbidden0 sub_fn =
+  let rec fresh_name x forbidden cnt =
+    let psuffix = String.init cnt (fun _ -> '\'') in
+    let x' = Printf.sprintf "%s%s" x psuffix in
+    if StringSet.mem x' forbidden then fresh_name x forbidden (cnt + 1) else x'
+  in
+  let a', _ =
+    List.fold_left
+      (fun (a, forbidden) x ->
+        if StringSet.mem x forbidden then
+          let x' = fresh_name x forbidden 1 in
+          (sub_fn a x x', forbidden |> StringSet.add x')
+        else (a, forbidden))
+      (a, StringSet.of_list forbidden0)
+      xs
+  in
+  a'
+
+(*
+let disambiguate_free a forbidden =
+  let free, _ = variables a in
+  let sub_fn a x x' = substitute a x (Var x') in
+  disambiguate a free forbidden sub_fn
+*)
+
+let disambiguate_bound a forbidden =
+  let _, bound = variables a in
+  disambiguate a bound forbidden variant
+
+let rec prenex =
+  (* Operation (a) is applied by [disambiguate] *)
+  (* Operation (b): replace ¬∃xB by ∀x¬B or ¬∀xB by ∃x¬B. *)
+  let rec op_b = function
+    | Neg (Exists (x, b)) -> Defined.forall x (Neg (op_b b))
+    | Neg (Neg (Exists (x, b))) -> Exists (x, Neg (op_b b))
+    | b -> b
+  in
+  (*
+      Operations (c) and (d):
+        (c) Replace QxB ∨ C by Qx(B ∨ C), if x is not free in C.
+        (d) Replace B ∨ QxC by Qx(B ∨ C), if x is not free in B.
+  *)
+  let rec op_cd = function
+    | Or (Exists (x, b), c) -> Exists (x, op_cd (Or (b, c)))
+    | Or (Neg (Exists (x, Neg b)), c) ->
+        Neg (Exists (x, Neg (op_cd (Or (b, c)))))
+    | Or (b, Exists (x, c)) -> Exists (x, op_cd (Or (b, c)))
+    | Or (b, Neg (Exists (x, Neg c))) ->
+        Neg (Exists (x, Neg (op_cd (Or (b, c)))))
+    | a -> a
+  in
+  function
+  | Atom _ as a -> a
+  | Exists (x, b) ->
+      let b' = disambiguate_bound (prenex b) [ x ] in
+      Exists (x, b')
+  | Neg (Exists (x, Neg b)) ->
+      let b' = disambiguate_bound (prenex b) [ x ] in
+      Neg (Exists (x, Neg b'))
+  | Neg b ->
+      let b' = prenex b in
+      op_b (Neg b')
+  | Or (b, c) ->
+      let b', c' = (prenex b, prenex c) in
+      let free_b, _ = variables b' in
+      let free_c, bound_c = variables c' in
+      let free = free_b @ free_c in
+      let b' = disambiguate_bound b' (free @ bound_c) in
+      let _, bound_b = variables b' in
+      let c' = disambiguate_bound c' (free @ bound_b) in
+      op_cd (Or (b', c'))
 
 let rec term_of_tptp = function
   | Tptp.Var x -> Var x

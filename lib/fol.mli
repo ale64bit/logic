@@ -50,6 +50,9 @@ val list_of_disj : formula -> formula list
 val substitute : formula -> var -> term -> formula
 (* Substitutes a variable free occurrences by a term in the given formula *)
 
+val variant : formula -> var -> var -> formula
+(* Computes a variant of the given formula by substituting all bound occurrences of a variable by another. *)
+
 val is_elementary : formula -> bool
 (* Checks whether a formula is elementary, i.e. whether it is an atomic formula or an instantiation *)
 
@@ -73,6 +76,9 @@ val closure : formula -> formula
 
 val is_instance : formula -> formula -> (var * term) list * bool
 (* [is_instance a' a] tests whether formula a' is an instance of formula a *)
+
+val prenex : formula -> formula
+(* Converts a formula into an equivalent formula in prenex form. *)
 
 val formula_of_tptp : Tptp.formula -> formula
 (* Converts a formula in TPTP format into the internal format *)

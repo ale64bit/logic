@@ -103,6 +103,37 @@ let substitute _ =
       assert_equal ~printer:string_of_formula want got)
     tests
 
+let prenex _ =
+  let x = Var "x" in
+  let y = Var "y" in
+  let x' = Var "x'" in
+  let y' = Var "y'" in
+  let x_eq_y = Atom ("=", [ x; y ]) in
+  let x_eq_0 = Atom ("=", [ x; Const "0" ]) in
+  let tests =
+    [
+      ( Defined.impl
+          (Exists ("x", x_eq_y))
+          (Exists
+             ( "x",
+               Or
+                 ( Atom ("=", [ x; Const "0" ]),
+                   Neg (Exists ("y", Atom ("<", [ y; Const "0" ]))) ) )),
+        Defined.forall "x'"
+          (Exists
+             ( "x",
+               Defined.forall "y'"
+                 (Defined.impl
+                    (Atom ("=", [ x'; y ]))
+                    (Or (x_eq_0, Neg (Atom ("<", [ y'; Const "0" ]))))) )) );
+    ]
+  in
+  List.iter
+    (fun (a, want) ->
+      let got = prenex a in
+      assert_equal ~printer:string_of_formula want got)
+    tests
+
 let string_of_formula _ =
   let x = Var "x" in
   let px = Atom ("p", [ x ]) in
@@ -141,6 +172,7 @@ let suite =
          "string_of_formula" >:: string_of_formula;
          "is_instance" >:: is_instance;
          "substitute" >:: substitute;
+         "prenex" >:: prenex;
        ]
 
 let () = run_test_tt_main suite
