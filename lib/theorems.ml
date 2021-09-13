@@ -17,6 +17,8 @@ module Common = struct
 
   let sx = Atom ("s", [ x ])
 
+  let py = Atom ("p", [ y ])
+
   let x_eq_x = Atom ("=", [ x; x ])
 
   let x_eq_y = Atom ("=", [ x; y ])

@@ -103,6 +103,28 @@ let substitute _ =
       assert_equal ~printer:string_of_formula want got)
     tests
 
+let variant _ =
+  let x = Var "x" in
+  let y = Var "y" in
+  let z = Var "z" in
+  let x_eq_z = Atom ("=", [ x; z ]) in
+  let y_eq_z = Atom ("=", [ y; z ]) in
+  let tests =
+    [
+      (Exists ("x", x_eq_z), "x", "y", Exists ("y", y_eq_z));
+      (Exists ("x", x_eq_z), "y", "z", Exists ("x", x_eq_z));
+      ( Or (x_eq_z, Exists ("x", x_eq_z)),
+        "x",
+        "y",
+        Or (x_eq_z, Exists ("y", y_eq_z)) );
+    ]
+  in
+  List.iter
+    (fun (a, x, y, want) ->
+      let got = variant a x y in
+      assert_equal ~printer:string_of_formula want got)
+    tests
+
 let prenex _ =
   let x = Var "x" in
   let y = Var "y" in
@@ -112,6 +134,9 @@ let prenex _ =
   let x_eq_0 = Atom ("=", [ x; Const "0" ]) in
   let tests =
     [
+      (x_eq_y, x_eq_y);
+      (Exists ("x", x_eq_y), Exists ("x", x_eq_y));
+      (Defined.forall "x" x_eq_y, Defined.forall "x" x_eq_y);
       ( Defined.impl
           (Exists ("x", x_eq_y))
           (Exists
@@ -172,6 +197,7 @@ let suite =
          "string_of_formula" >:: string_of_formula;
          "is_instance" >:: is_instance;
          "substitute" >:: substitute;
+         "variant" >:: variant;
          "prenex" >:: prenex;
        ]
 

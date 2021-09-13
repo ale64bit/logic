@@ -37,4 +37,9 @@
 \def\z{{\bf z}}
 \def\w{{\bf w}}
 
+% from Knuth's TAOCP macros.
+\newif\ifitempar \itempartrue
+\def\ans #1. {\textindent{\bf#1.}}
+\def\ansitem(#1){\ifitempar\par
+   \else\itempartrue\fi(#1)\enspace\ignorespaces}
 

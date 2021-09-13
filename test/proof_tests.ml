@@ -229,6 +229,20 @@ let e_distribution _ =
   let want = Defined.impl (Exists ("x", px)) (Exists ("x", qx)) in
   TestUtil.check_conclusion proof want
 
+let shoenfield_ch3_5_exists _ =
+  let open Theorems.Common in
+  let proof =
+    let ctx = empty_proof in
+    let* ctx, s1 = premise ctx py in
+    let* ctx, s2 = Axiom.substitution ctx s1 "x" x in
+    let* ctx, s3 = Axiom.propositional ctx py in
+    let* ctx, s4 = Rule.e_introduction ctx "x" s3 in
+    let* ctx, s5 = Meta.conj ctx s2 s4 in
+    proves ctx s5
+  in
+  let want = Defined.eq py (Exists ("x", py)) in
+  TestUtil.check_conclusion proof want
+
 let suite =
   "ProofTests"
   >::: [
@@ -247,6 +261,7 @@ let suite =
          "general_expansion" >:: general_expansion;
          "substitution_rule" >:: substitution_rule;
          "e_distribution" >:: e_distribution;
+         "shoenfield_ch3_5_exists" >:: shoenfield_ch3_5_exists;
        ]
 
 let () = run_test_tt_main suite

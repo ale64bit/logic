@@ -109,3 +109,67 @@ $$
 
 \vfill
 \break
+
+% ==============================================================================
+\beginsection EXERCISES
+
+% ------------------------------------------------------------------------------
+\ans 1. Let's prove it by induction on theorems (as in \S3.1).
+If $\A$ is a theorem provable without use of substitution axioms, 
+identity axioms, equality axioms, nonlogical axioms or the $\exists$-introduction 
+rule, then it is a tautological consequence of some theorems $\B_1, \dots, \B_n$.
+If $n=0$, then $\A$ is a tautology, since it's a tautological consequence of the
+empty sequence of formulas. Otherwise, by the induction hypothesis, if 
+$\B_1, \dots, \B_n$ can be proven without the use of substitution axioms, identity 
+axioms, equality axioms, nonlogical axioms or the $\exists$-introduction rule, 
+they are also tautologies. This means that $V(\B_i) = \top$ for all $i$ and truth
+valuations $V$, which implies that $V(\A) = \top$ for all truth valuations and thus
+$\A$ is also a tautology.
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 3. 
+
+\ansitem (a)
+Let $\x_1, \dots, \x_n$ the free variables of $\forall\x(\A \to \B)$ and $\exists\x\A \to \exists\x\B$; 
+let $T'$ be a theory obtained from $T$ by adding $n$ new constants $\e_1, \dots, \e_n$; 
+let $\C$ be $\forall\x(\A \to \B)$ and let $\D$ be $\exists\x\A \to \exists\x\B$.
+Note that
+$$
+\vdash_T \C \to \D \quad\hbox{iff}\quad \vdash_{T'} \C[\e_1, \dots, \e_n] \to \D[\e_1, \dots, \e_n]
+$$
+by the Theorem on Constants, and
+$$
+\vdash_{T'} \C[\e_1, \dots, \e_n] \to \D[\e_1, \dots, \e_n] \quad\hbox{iff}\quad \vdash_{T'[\C[\e_1, \dots, \e_n]]} \D[\e_1, \dots, \e_n] 
+$$
+by the Deduction Theorem. Hence, in $T'[\C[\e_1, \dots, \e_n]]$, we have
+\item{} $\vdash \C[\e_1, \dots, \e_n]$ \hfill [the added nonlogical axiom]
+\item{} $\vdash \forall\x(\A[\e_1, \dots, \e_n] \to \B[\e_1, \dots, \e_n])$ \hfill [by the definition of $\C$]
+\item{} $\vdash \forall\x(\A[\e_1, \dots, \e_n] \to \B[\e_1, \dots, \e_n]) \to (\A[\e_1, \dots, \e_n] \to \B[\e_1, \dots, \e_n])$ \hfill [Substitution Theorem]
+\item{} $\vdash \A[\e_1, \dots, \e_n] \to \B[\e_1, \dots, \e_n]$ \hfill [Detachment Rule]
+\item{} $\vdash \exists\x\A[\e_1, \dots, \e_n] \to \exists\x\B[\e_1, \dots, \e_n]$ \hfill [Distribution Rule]
+\item{} $\vdash \D[\e_1, \dots, \e_n]$ \hfill [by the definition of $\D$]
+\smallskip 
+
+\ansitem (b) As in (a), but using the universal-quantifier form of the Distribution Rule.
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 5. The existential form
+\item{(1)} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem or Substitution Axiom]
+\item{(2)} $\vdash \A \to \A$ \hfill [Propositional Axiom and definition of $\to$]
+\item{(3)} $\vdash \exists\x\A \to \A$ \hfill [$\exists$-Introduction Rule]
+\item{(4)} $\vdash \exists\x\A \leftrightarrow \A$ \hfill [from (1) and (3) and the definition of $\leftrightarrow$]
+
+\noindent and the universal form
+\item{(1)} $\vdash \forall\x\A \to \A$ \hfill [Substitution Theorem]
+\item{(2)} $\vdash \A \to \A$ \hfill [Propositional Axiom and definition of $\to$]
+\item{(3)} $\vdash \A \to \forall\x\A$ \hfill [$\forall$-Introduction Rule]
+\item{(4)} $\vdash \forall\x\A \leftrightarrow \A$ \hfill [from (1) and (3) and the definition of $\leftrightarrow$]
+
+\medskip
+
+% ------------------------------------------------------------------------------
+
+\vfill
+\break

@@ -138,6 +138,16 @@ module Meta = struct
           (Printf.sprintf "invalid modus ponens: %s and %s"
              (string_of_formula a) (string_of_formula a_to_b))
 
+  let conj ctx a b =
+    let* ctx, s1 = Axiom.propositional ctx (Or (Neg a, Neg b)) in
+    let* ctx, s2 = Rule.associative ctx s1 in
+    let* ctx, s3 = commute ctx s2 in
+    let* ctx, s4 = modus_ponens ctx b s3 in
+    let* ctx, s5 = commute ctx s4 in
+    let* ctx, s6 = modus_ponens ctx a s5 in
+    assert (s6 = Defined.conj a b);
+    proves ctx s6
+
   let dneg_intro ctx a =
     let* ctx, s2 = Rule.expansion ctx (Neg (Neg a)) a in
     let* ctx, s3 = Axiom.propositional ctx (Neg (Neg a)) in

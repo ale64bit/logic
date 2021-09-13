@@ -73,6 +73,9 @@ module Meta : sig
   val modus_ponens : proof -> formula -> formula -> conclusion
   (* {A, A → B} ⊢ B *)
 
+  val conj : proof -> formula -> formula -> conclusion
+  (* {A, B} ⊢ A ∧ B *)
+
   val dneg_intro : proof -> formula -> conclusion
   (* A ⊢ ¬¬A *)
 
