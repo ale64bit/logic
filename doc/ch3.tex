@@ -170,6 +170,44 @@ by the Deduction Theorem. Hence, in $T'[\C[\e_1, \dots, \e_n]]$, we have
 \medskip
 
 % ------------------------------------------------------------------------------
+\ans 6. 
+
+\ansitem (a) 
+\item{(1)} $\vdash \A \to \exists\x\exists\y\A$ \hfill [Substitution Theorem]
+\item{(2)} $\vdash \exists\x\A \to \exists\x\exists\y\A$ \hfill [$\exists$-Introduction Rule]
+\item{(3)} $\vdash \exists\y\exists\x\A \to \exists\x\exists\y\A$ \hfill [$\exists$-Introduction Rule]
+
+The reverse implication is obtained in a similar fashion. Note that it is also possible to obtain 
+$\exists\y\exists\x\A$ as a variant of $\exists\x\exists\y\A$: first obtain $\exists\x\exists\x'\A'$
+where $\A'=\A_y[\x']$ and $\x'$ is a new variable not appearing in $\A$; then obtain $\exists\y\exists\x'\A'_\x[\y]$ 
+and finally $\exists\y\exists\x\A$ by substituting $\x'$ to $\x$. This would imply the result by the
+Variant Theorem.
+
+\ansitem (b)
+\item{(1)} $\vdash \forall\x\forall\y\A \to \A$ \hfill [Substitution Theorem]
+\item{(2)} $\vdash \forall\x\forall\y\A \to \forall\x\A$ \hfill [$\forall$-Introduction Rule]
+\item{(3)} $\vdash \forall\x\forall\y\A \to \forall\y\forall\x\A$ \hfill [$\forall$-Introduction Rule]
+
+The reverse implication is obtained in a similar fashion.
+
+\ansitem (c)
+\item{(1)} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem]
+\item{(2)} $\vdash \forall\y\A \to \forall\y\exists\x\A$ \hfill [Distribution Rule]
+\item{(3)} $\vdash \exists\x\forall\y\A \to \forall\y\exists\x\A$ \hfill [$\exists$-Introduction Rule]
+
+Note that it might seem that using the dual results in the above proof, the opposite implication could be
+obtained (i.e. $\vdash \forall\y\exists\x\A \to \exists\x\forall\y\A$). However this is not the case, as
+they result in an alternative proof of the same result as above:
+
+\item{(1)} $\vdash \forall\y\A \to \A$ \hfill [Substitution Theorem]
+\item{(2)} $\vdash \exists\x\forall\y\A \to \exists\x\A$ \hfill [Distribution Rule]
+\item{(3)} $\vdash \exists\x\forall\y\A \to \forall\y\exists\x\A$ \hfill [$\forall$-Introduction Rule]
+
+\ansitem (d) Consider the formula
+$$\forall x \exists y (Sx = y) \to \exists y \forall x (Sx = y).$$
+The left side can be interpreted as {\it ``every number has a successor"}, while the
+right side can be interpreted as {\it ``there is a number that is the successor of every number"}.
+
 
 \vfill
 \break

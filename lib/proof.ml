@@ -418,6 +418,19 @@ module Meta = struct
     | a ->
         Error
           (Printf.sprintf "invalid e-distribution: %s" (string_of_formula a))
+
+  let a_distribution ctx x = function
+    | Or (Neg a', b') as a ->
+        let* ctx, s1 = disj_dneg ctx a in
+        let* ctx, s2 = Axiom.substitution ctx (Neg a') x (Var x) in
+        let* ctx, s3 = rev_impl ctx s2 in
+        let* ctx, s4 = detachment_transitivity ctx s3 s1 in
+        let* ctx, s5 = a_introduction ctx x s4 in
+        assert (s5 = Defined.impl (Defined.forall x a') (Defined.forall x b'));
+        proves ctx s5
+    | a ->
+        Error
+          (Printf.sprintf "invalid a-distribution: %s" (string_of_formula a))
 end
 
 let print_proof out p =

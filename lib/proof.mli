@@ -111,6 +111,9 @@ module Meta : sig
 
   val e_distribution : proof -> var -> formula -> conclusion
   (* A → B ⊢ ∃xA → ∃xB *)
+
+  val a_distribution : proof -> var -> formula -> conclusion
+  (* A → B ⊢ ∀xA → ∀xB *)
 end
 
 val print_proof : out_channel -> Calculus.proof -> unit

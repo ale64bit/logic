@@ -229,6 +229,17 @@ let e_distribution _ =
   let want = Defined.impl (Exists ("x", px)) (Exists ("x", qx)) in
   TestUtil.check_conclusion proof want
 
+let a_distribution _ =
+  let open Theorems.Common in
+  let proof =
+    let ctx = empty_proof in
+    let* ctx, s1 = premise ctx (Defined.impl px qx) in
+    let* ctx, s2 = Meta.a_distribution ctx "x" s1 in
+    proves ctx s2
+  in
+  let want = Defined.impl (Defined.forall "x" px) (Defined.forall "x" qx) in
+  TestUtil.check_conclusion proof want
+
 let shoenfield_ch3_5_exists _ =
   let open Theorems.Common in
   let proof =
@@ -241,6 +252,46 @@ let shoenfield_ch3_5_exists _ =
     proves ctx s5
   in
   let want = Defined.eq py (Exists ("x", py)) in
+  TestUtil.check_conclusion proof want
+
+let shoenfield_ch3_6a _ =
+  let open Theorems.Common in
+  let proof =
+    let ctx = empty_proof in
+    let* ctx, s1 = Axiom.substitution ctx pxy "x" x in
+    let* ctx, s2 = Axiom.substitution ctx (Exists ("x", pxy)) "y" y in
+    let* ctx, s3 = Meta.detachment_transitivity ctx s1 s2 in
+    let* ctx, s4 = Rule.e_introduction ctx "y" s3 in
+    let* ctx, s5 = Rule.e_introduction ctx "x" s4 in
+    let* ctx, s1' = Axiom.substitution ctx pxy "y" y in
+    let* ctx, s2' = Axiom.substitution ctx (Exists ("y", pxy)) "x" x in
+    let* ctx, s3' = Meta.detachment_transitivity ctx s1' s2' in
+    let* ctx, s4' = Rule.e_introduction ctx "x" s3' in
+    let* ctx, s5' = Rule.e_introduction ctx "y" s4' in
+    let* ctx, s6 = Meta.conj ctx s5 s5' in
+    proves ctx s6
+  in
+  let want =
+    Defined.eq
+      (Exists ("x", Exists ("y", pxy)))
+      (Exists ("y", Exists ("x", pxy)))
+  in
+  TestUtil.check_conclusion proof want
+
+let shoenfield_ch3_6c _ =
+  let open Theorems.Common in
+  let proof =
+    let ctx = empty_proof in
+    let* ctx, s1 = Axiom.substitution ctx pxy "x" x in
+    let* ctx, s2 = Meta.a_distribution ctx "y" s1 in
+    let* ctx, s3 = Rule.e_introduction ctx "x" s2 in
+    proves ctx s3
+  in
+  let want =
+    Defined.impl
+      (Exists ("x", Defined.forall "y" pxy))
+      (Defined.forall "y" (Exists ("x", pxy)))
+  in
   TestUtil.check_conclusion proof want
 
 let suite =
@@ -261,7 +312,10 @@ let suite =
          "general_expansion" >:: general_expansion;
          "substitution_rule" >:: substitution_rule;
          "e_distribution" >:: e_distribution;
+         "a_distribution" >:: a_distribution;
          "shoenfield_ch3_5_exists" >:: shoenfield_ch3_5_exists;
+         "shoenfield_ch3_6a" >:: shoenfield_ch3_6a;
+         "shoenfield_ch3_6c" >:: shoenfield_ch3_6c;
        ]
 
 let () = run_test_tt_main suite
