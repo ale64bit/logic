@@ -41,6 +41,9 @@ module Defined : sig
   end
 end
 
+type valuation = formula -> bool
+(* A truth valuation *)
+
 val disj_of_list : formula list -> formula
 (* Converts a list of formulas [A1; ...; An] to a disjunction formula (A1 ∨ ... ∨ An) *)
 
@@ -79,6 +82,9 @@ val is_instance : formula -> formula -> (var * term) list * bool
 
 val prenex : formula -> formula
 (* Converts a formula into an equivalent formula in prenex form. *)
+
+val is_tautology : formula -> bool
+(* [is_tautology a] tests whether formula a is a tautology *)
 
 val formula_of_tptp : Tptp.formula -> formula
 (* Converts a formula in TPTP format into the internal format *)

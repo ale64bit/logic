@@ -159,6 +159,17 @@ let prenex _ =
       assert_equal ~printer:string_of_formula want got)
     tests
 
+let is_tautology _ =
+  let x = Var "x" in
+  let px = Atom ("p", [ x ]) in
+  let x_eq_x = Atom ("=", [ x; x ]) in
+  let tests = [ (Or (px, Neg px), true); (x_eq_x, false) ] in
+  List.iter
+    (fun (a, want) ->
+      let got = is_tautology a in
+      assert_equal ~printer:string_of_bool want got)
+    tests
+
 let string_of_formula _ =
   let x = Var "x" in
   let px = Atom ("p", [ x ]) in
@@ -194,11 +205,12 @@ let suite =
          "variables" >:: variables;
          "closure" >:: closure;
          "disj_list" >:: disj_list;
-         "string_of_formula" >:: string_of_formula;
          "is_instance" >:: is_instance;
          "substitute" >:: substitute;
          "variant" >:: variant;
          "prenex" >:: prenex;
+         "is_tautology" >:: is_tautology;
+         "string_of_formula" >:: string_of_formula;
        ]
 
 let () = run_test_tt_main suite

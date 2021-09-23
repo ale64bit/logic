@@ -128,6 +128,60 @@ $\A$ is also a tautology.
 \medskip
 
 % ------------------------------------------------------------------------------
+\ans 2. First note, that if a formula $\A$ is a tautology, then it's a tautological 
+consequence of any set of formulas $\Gamma$ since $V(\A) = \top$ for every truth 
+valuation $V$. We use induction on theorems (as in \S3.1):
+\item{$\bullet$} If $\A$ is an identity axiom $\x = \x$, then $\A^*$ is $\e = \e$ 
+which is a tautological consequence of $\e = \e$.
+\item{$\bullet$} If $\A$ is an equality axiom 
+$$\x_1 = \y_1 \to \cdots \to \x_n = \y_n \to \f\x_1 \dots \x_n = \f\y_1 \dots \y_n,$$
+then $\A^*$ is 
+$$\e = \e \to \cdots \to \e = \e \to \e = \e,$$
+which is a tautology.
+\item{$\bullet$} If $\A$ is an equality axiom 
+$$\x_1 = \y_1 \to \cdots \to \x_n = \y_n \to \p\x_1 \dots \x_n \to \p\y_1 \dots \y_n,$$
+then $\A^*$ is 
+$$\e = \e \to \cdots \to \e = \e \to \p\e \dots \e \to \p\e \dots \e,$$
+which is a tautology.
+\item{$\bullet$} If $\A$ is a substitution axiom $\B_\x[\a] \to \exists\x\B$, then 
+$\A^*$ is $(\B_\x[\a])^* \to \B^*$. First, let's show that $(\B_\x[\a])^*$ and $\B^*$ 
+are the same, by induction on the length of $\B$:
+\itemitem{$\circ$} If $\B$ is an atomic formula $\p\a_1 \dots \a_n$, then any occurrence 
+of $\x$ in $\B$ is completely inside one of the $\a_i$. Hence, both $(\B_\x[\a])^*$ and 
+$\B^*$ are $\p\e \dots \e$.
+\itemitem{$\circ$} If $\B$ is $\neg \C$, then $(\B_\x[\a])^*$ is $\neg (\C_\x[\a])^*$,
+$\B^*$ is $\neg \C^*$, and $(\C_\x[\a])^*$ and $\C^*$ are the same by the induction 
+hypothesis.
+\itemitem{$\circ$} If $\B$ is $\C \lor \D$, then $(\B_\x[\a])^*$ is $(\C_\x[\a])^* \lor (\D_\x[\a])^*$
+and $\B^*$ is $\C^* \lor \D^*$. Finally, $(\C_\x[\a])^*$ and $\C^*$ are the same, and
+$(\D_\x[\a])^*$ and $\D^*$ are the same, by the induction hypothesis.
+\itemitem{$\circ$} Suppose $\B$ is $\exists\y\C$: if $\x$ and $\y$ are the same, then
+obviously $\B_\x[\a]$ and $\B$ are the same since $\B$ has no free occurrences of $\x$.
+Otherwise, $(\B_\x[\a])^*$ is $(\C_\x[\a])^*$, $\B^*$ is $\C^*$, and $(\C_\x[\a])^*$ and
+$\C^*$ are the same by the induction hypothesis.
+
+Hence, $\A^*$ is $\B^* \to \B^*$ which is a tautology.
+\item{$\bullet$} If $\A$ was obtained from $\B \to \C$ by the $\exists$-introduction rule,
+then $\A$ is $\exists\x\B \to \C$, $\A^*$ is $\B^* \to \C^*$, and $\B^* \to \C^*$ is 
+a tautological consequence of $\e = \e$ by the induction hypothesis.
+\item{$\bullet$} If $\A$ is a tautological consequence of formulas $\B_1, \dots, \B_n$, 
+then the $\B_1^*, \dots, \B_n^*$ are tautological consequences of $\e=\e$ by the
+induction hypothesis. Hence, $\A^*$ is a tautological consequence of 
+$\B_1^*, \dots, \B_n^*$ (see the {\it Remark} in \S3.1, page 30), so $\A^*$ is also
+a tautological consequence of $\e = \e$.
+
+Now, let's assume that there is a formula $\A$ such that $\vdash_{T} \A$ and $\vdash_{T} \neg \A$.
+Using the result just proved, the first condition implies that $\A^*$ is a tautological
+consequence of $\e=\e$ and the second condition implies that $\neg \A^*$ is also a 
+tautological consequence of $\e=\e$. Hence, for any truth valuation $V$ such that 
+$V(\e=\e) = \top$, we must have $V(\A^*) = \top$ and $V(\neg \A^*) = \neg V(\A^*) = \top$.
+This is a contradiction. Thus, there is no such formula.
+
+This result is interesting, since it basically says that we can not prove two theorems 
+that contradict each other in $T$.
+\medskip
+
+% ------------------------------------------------------------------------------
 \ans 3. 
 
 \ansitem (a)
@@ -155,17 +209,79 @@ by the Deduction Theorem. Hence, in $T'[\C[\e_1, \dots, \e_n]]$, we have
 \medskip
 
 % ------------------------------------------------------------------------------
+\ans 4.
+\ansitem (a) For the forward implication we have
+\itemitem{(1)} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem]
+\itemitem{(2)} $\vdash \B \to \exists\x\B$ \hfill [Substitution Theorem]
+\itemitem{(3)} $\vdash \A \lor \B \to \exists\x\A \lor \exists\x\B$ \hfill [from (1) and (2) by the Tautology Theorem]
+\itemitem{(4)} $\vdash \exists\x(\A \lor \B) \to \exists\x\A \lor \exists\x\B$ \hfill [from (3) by the $\exists$-Introduction Rule]
+
+and for the reverse implication we have
+\itemitem{(1)} $\vdash \A \to \A \lor \B$ \hfill [Tautology Theorem]
+\itemitem{(2)} $\vdash \B \to \A \lor \B$ \hfill [Tautology Theorem]
+\itemitem{(3)} $\vdash \exists\x\A \to \exists\x(\A \lor \B)$ \hfill [from (1) by the Distribution Rule]
+\itemitem{(4)} $\vdash \exists\x\B \to \exists\x(\A \lor \B)$ \hfill [from (2) by the Distribution Rule]
+\itemitem{(5)} $\vdash \exists\x\A \lor \exists\x\B \to \exists\x(\A \lor \B)$ \hfill [from (3) and (4) by the Tautology Theorem]
+\smallskip 
+
+\ansitem (b) For the forward implication we have
+\itemitem{(1)} $\vdash \A \land \B \to \A$ \hfill [Tautology Theorem]
+\itemitem{(2)} $\vdash \A \land \B \to \B$ \hfill [Tautology Theorem]
+\itemitem{(3)} $\vdash \forall\x(\A \land \B) \to \forall\x\A$ \hfill [from (1) by the Distribution Rule]
+\itemitem{(4)} $\vdash \forall\x(\A \land \B) \to \forall\x\B$ \hfill [from (2) by the Distribution Rule]
+\itemitem{(5)} $\vdash \forall\x(\A \land \B) \to \forall\x\A \land \forall\x\B$ \hfill [from (3) and (4) by the Tautology Theorem]
+
+and for the reverse implication we have
+\itemitem{(1)} $\vdash \forall\x\A \to \A$ \hfill [Substitution Theorem]
+\itemitem{(2)} $\vdash \forall\x\B \to \B$ \hfill [Substitution Theorem]
+\itemitem{(3)} $\vdash \forall\x\A \land \forall\x\B \to \A \land \B$ \hfill [from (1) and (2) by the Tautology Theorem]
+\itemitem{(4)} $\vdash \forall\x\A \land \forall\x\B \to \forall\x(\A \land \B)$ \hfill [from (3) by the $\forall$-Introduction Rule]
+\smallskip 
+
+\ansitem (c)
+\itemitem{(1)} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem]
+\itemitem{(2)} $\vdash \B \to \exists\x\B$ \hfill [Substitution Theorem]
+\itemitem{(3)} $\vdash \A \land \B \to \exists\x\A \land \exists\x\B$ \hfill [from (1) and (2) by the Tautology Theorem]
+\itemitem{(4)} $\vdash \exists\x(\A \land \B) \to \exists\x\A \land \exists\x\B$ \hfill [from (3) by the $\exists$-Introduction Rule]
+\smallskip 
+
+\ansitem (d)
+\itemitem{(1)} $\vdash \forall\x\A \to \A$ \hfill [Substitution Theorem]
+\itemitem{(2)} $\vdash \forall\x\B \to \B$ \hfill [Substitution Theorem]
+\itemitem{(3)} $\vdash \forall\x\A \lor \forall\x\B \to \A \lor \B$ \hfill [from (1) and (2) by the Tautology Theorem]
+\itemitem{(4)} $\vdash \forall\x\A \lor \forall\x\B \to \forall\x(\A \lor \B)$ \hfill [from (3) by the $\forall$-Introduction Rule]
+\smallskip 
+
+\ansitem (e) Consider the formula
+$$
+\forall x (x=0 \lor 0 < x) \to \forall x (x=0) \lor \forall x (0 < x).
+$$
+The left side says {\it ``every number is either zero or greater than zero"} while 
+the right side says {\it ``every number is zero or every number is greater than zero"}.
+
+Then, consider the formula
+$$
+\exists x (x=0) \land \exists x (0 < x) \to \exists x (x=0 \land 0 < x).
+$$
+The left side says {\it ``there is a number which is equal to zero and there is 
+a number that is greater than zero"} while the right side says {\it ``there is a number
+which is both equal to zero and greater than zero"}.
+
+
+\medskip
+
+% ------------------------------------------------------------------------------
 \ans 5. The existential form
-\item{(1)} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem or Substitution Axiom]
-\item{(2)} $\vdash \A \to \A$ \hfill [Propositional Axiom and definition of $\to$]
-\item{(3)} $\vdash \exists\x\A \to \A$ \hfill [$\exists$-Introduction Rule]
-\item{(4)} $\vdash \exists\x\A \leftrightarrow \A$ \hfill [from (1) and (3) and the definition of $\leftrightarrow$]
+\itemitem{(1)} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem or Substitution Axiom]
+\itemitem{(2)} $\vdash \A \to \A$ \hfill [Propositional Axiom and definition of $\to$]
+\itemitem{(3)} $\vdash \exists\x\A \to \A$ \hfill [from (2) by the $\exists$-Introduction Rule]
+\itemitem{(4)} $\vdash \exists\x\A \leftrightarrow \A$ \hfill [from (1) and (3) and the definition of $\leftrightarrow$]
 
 \noindent and the universal form
-\item{(1)} $\vdash \forall\x\A \to \A$ \hfill [Substitution Theorem]
-\item{(2)} $\vdash \A \to \A$ \hfill [Propositional Axiom and definition of $\to$]
-\item{(3)} $\vdash \A \to \forall\x\A$ \hfill [$\forall$-Introduction Rule]
-\item{(4)} $\vdash \forall\x\A \leftrightarrow \A$ \hfill [from (1) and (3) and the definition of $\leftrightarrow$]
+\itemitem{(1)} $\vdash \forall\x\A \to \A$ \hfill [Substitution Theorem]
+\itemitem{(2)} $\vdash \A \to \A$ \hfill [Propositional Axiom and definition of $\to$]
+\itemitem{(3)} $\vdash \A \to \forall\x\A$ \hfill [from (2) by the $\forall$-Introduction Rule]
+\itemitem{(4)} $\vdash \forall\x\A \leftrightarrow \A$ \hfill [from (1) and (3) and the definition of $\leftrightarrow$]
 
 \medskip
 
@@ -173,9 +289,9 @@ by the Deduction Theorem. Hence, in $T'[\C[\e_1, \dots, \e_n]]$, we have
 \ans 6. 
 
 \ansitem (a) 
-\item{(1)} $\vdash \A \to \exists\x\exists\y\A$ \hfill [Substitution Theorem]
-\item{(2)} $\vdash \exists\x\A \to \exists\x\exists\y\A$ \hfill [$\exists$-Introduction Rule]
-\item{(3)} $\vdash \exists\y\exists\x\A \to \exists\x\exists\y\A$ \hfill [$\exists$-Introduction Rule]
+\itemitem{} $\vdash \A \to \exists\x\exists\y\A$ \hfill [Substitution Theorem]
+\itemitem{} $\vdash \exists\x\A \to \exists\x\exists\y\A$ \hfill [$\exists$-Introduction Rule]
+\itemitem{} $\vdash \exists\y\exists\x\A \to \exists\x\exists\y\A$ \hfill [$\exists$-Introduction Rule]
 
 The reverse implication is obtained in a similar fashion. Note that it is also possible to obtain 
 $\exists\y\exists\x\A$ as a variant of $\exists\x\exists\y\A$: first obtain $\exists\x\exists\x'\A'$
@@ -184,24 +300,24 @@ and finally $\exists\y\exists\x\A$ by substituting $\x'$ to $\x$. This would imp
 Variant Theorem.
 
 \ansitem (b)
-\item{(1)} $\vdash \forall\x\forall\y\A \to \A$ \hfill [Substitution Theorem]
-\item{(2)} $\vdash \forall\x\forall\y\A \to \forall\x\A$ \hfill [$\forall$-Introduction Rule]
-\item{(3)} $\vdash \forall\x\forall\y\A \to \forall\y\forall\x\A$ \hfill [$\forall$-Introduction Rule]
+\itemitem{} $\vdash \forall\x\forall\y\A \to \A$ \hfill [Substitution Theorem]
+\itemitem{} $\vdash \forall\x\forall\y\A \to \forall\x\A$ \hfill [$\forall$-Introduction Rule]
+\itemitem{} $\vdash \forall\x\forall\y\A \to \forall\y\forall\x\A$ \hfill [$\forall$-Introduction Rule]
 
 The reverse implication is obtained in a similar fashion.
 
 \ansitem (c)
-\item{(1)} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem]
-\item{(2)} $\vdash \forall\y\A \to \forall\y\exists\x\A$ \hfill [Distribution Rule]
-\item{(3)} $\vdash \exists\x\forall\y\A \to \forall\y\exists\x\A$ \hfill [$\exists$-Introduction Rule]
+\itemitem{} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem]
+\itemitem{} $\vdash \forall\y\A \to \forall\y\exists\x\A$ \hfill [Distribution Rule]
+\itemitem{} $\vdash \exists\x\forall\y\A \to \forall\y\exists\x\A$ \hfill [$\exists$-Introduction Rule]
 
 Note that it might seem that using the dual results in the above proof, the opposite implication could be
 obtained (i.e. $\vdash \forall\y\exists\x\A \to \exists\x\forall\y\A$). However this is not the case, as
 they result in an alternative proof of the same result as above:
 
-\item{(1)} $\vdash \forall\y\A \to \A$ \hfill [Substitution Theorem]
-\item{(2)} $\vdash \exists\x\forall\y\A \to \exists\x\A$ \hfill [Distribution Rule]
-\item{(3)} $\vdash \exists\x\forall\y\A \to \forall\y\exists\x\A$ \hfill [$\forall$-Introduction Rule]
+\itemitem{} $\vdash \forall\y\A \to \A$ \hfill [Substitution Theorem]
+\itemitem{} $\vdash \exists\x\forall\y\A \to \exists\x\A$ \hfill [Distribution Rule]
+\itemitem{} $\vdash \exists\x\forall\y\A \to \forall\y\exists\x\A$ \hfill [$\forall$-Introduction Rule]
 
 \ansitem (d) Consider the formula
 $$\forall x \exists y (Sx = y) \to \exists y \forall x (Sx = y).$$

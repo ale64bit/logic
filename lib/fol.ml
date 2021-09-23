@@ -40,6 +40,20 @@ end
 
 module StringSet = Set.Make (String)
 
+module FormulaSet = Set.Make (struct
+  type t = formula
+
+  let compare = Stdlib.compare
+end)
+
+module FormulaMap = Map.Make (struct
+  type t = formula
+
+  let compare = Stdlib.compare
+end)
+
+type valuation = formula -> bool
+
 let rec disj_of_list = function
   | [] -> failwith "impossible: empty list"
   | [ a ] -> a
@@ -270,6 +284,36 @@ let rec prenex =
       let _, bound_b = variables b' in
       let c' = disambiguate_bound c' (free @ bound_b) in
       op_cd (Or (b', c'))
+
+(*
+    This simply tries all truth valuations over the set of elementary
+    formulas of the given formula, so it's very inefficient for 
+    formulas with lots of distinct elementary formulas. However, it's
+    useful for smaller formulas and for testing/verification purposes.
+*)
+let is_tautology a =
+  let rec collect_elementary acc = function
+    | Atom _ as a' -> acc |> FormulaSet.add a'
+    | Exists _ as a' -> acc |> FormulaSet.add a'
+    | Neg a' -> collect_elementary acc a'
+    | Or (a', b') -> collect_elementary (collect_elementary acc a') b'
+  in
+  (* Collect elementary formulas *)
+  let elem = collect_elementary FormulaSet.empty a in
+  (* Try every valuation over the set of elementary formulas *)
+  let rec aux mapping = function
+    | [] ->
+        let rec v = function
+          | Neg a' -> not (v a')
+          | Or (a', b') -> v a' || v b'
+          | a' -> FormulaMap.find a' mapping
+        in
+        v a
+    | e :: es ->
+        aux (mapping |> FormulaMap.add e true) es
+        && aux (mapping |> FormulaMap.add e false) es
+  in
+  aux FormulaMap.empty (List.of_seq (FormulaSet.to_seq elem))
 
 let rec term_of_tptp = function
   | Tptp.Var x -> Var x
