@@ -362,6 +362,49 @@ let rec string_of_formula ?(top = true) = function
       Printf.sprintf "%s %s" (Printf.sprintf "∃%s" x)
         (string_of_formula ~top:false f)
 
+let rec extended_string_of_formula ?(top = true) = function
+  | Atom ("=", [ lhs; rhs ]) ->
+      Printf.sprintf "(%s = %s)" (string_of_term lhs) (string_of_term rhs)
+  | Atom (p, ts) ->
+      Printf.sprintf "%s(%s)" p
+        (String.concat ", " (List.map string_of_term ts))
+  | Or (Neg a, b) ->
+      let s =
+        Printf.sprintf "%s → %s"
+          (extended_string_of_formula ~top:false a)
+          (extended_string_of_formula ~top:false b)
+      in
+      if top then s else Printf.sprintf "(%s)" s
+  | Neg (Or (Neg (Or (Neg a, b)), Neg (Or (Neg b', a')))) when a = a' && b = b'
+    ->
+      let s =
+        Printf.sprintf "%s ⟷ %s"
+          (extended_string_of_formula ~top:false a)
+          (extended_string_of_formula ~top:false b)
+      in
+      if top then s else Printf.sprintf "(%s)" s
+  | Neg (Or (Neg a, Neg b)) ->
+      let s =
+        Printf.sprintf "%s ∧ %s"
+          (extended_string_of_formula ~top:false a)
+          (extended_string_of_formula ~top:false b)
+      in
+      if top then s else Printf.sprintf "(%s)" s
+  | Neg (Exists (x, Neg a)) ->
+      Printf.sprintf "%s %s" (Printf.sprintf "∀%s" x)
+        (extended_string_of_formula ~top:false a)
+  | Neg a -> Printf.sprintf "¬%s" (extended_string_of_formula ~top:false a)
+  | Or (a, b) ->
+      let s =
+        Printf.sprintf "%s ∨ %s"
+          (extended_string_of_formula ~top:false a)
+          (extended_string_of_formula ~top:false b)
+      in
+      if top then s else Printf.sprintf "(%s)" s
+  | Exists (x, a) ->
+      Printf.sprintf "%s %s" (Printf.sprintf "∃%s" x)
+        (extended_string_of_formula ~top:false a)
+
 let rec tex_of_formula ?(top = true) ?(fmap = fun _ -> None) a =
   match fmap a with
   | Some s -> s

@@ -198,6 +198,24 @@ let string_of_formula _ =
       assert_equal ~printer:Fun.id want got)
     tests
 
+let extended_string_of_formula _ =
+  let x = Var "x" in
+  let px = Atom ("p", [ x ]) in
+  let qx = Atom ("q", [ x ]) in
+  let tests =
+    [
+      (Defined.impl px qx, "p(x) → q(x)");
+      (Defined.eq px qx, "p(x) ⟷ q(x)");
+      (Defined.conj px qx, "p(x) ∧ q(x)");
+      (Defined.forall "x" px, "∀x p(x)");
+    ]
+  in
+  List.iter
+    (fun (a, want) ->
+      let got = extended_string_of_formula a in
+      assert_equal ~printer:Fun.id want got)
+    tests
+
 let suite =
   "FolTests"
   >::: [
@@ -211,6 +229,7 @@ let suite =
          "prenex" >:: prenex;
          "is_tautology" >:: is_tautology;
          "string_of_formula" >:: string_of_formula;
+         "extended_string_of_formula" >:: extended_string_of_formula;
        ]
 
 let () = run_test_tt_main suite

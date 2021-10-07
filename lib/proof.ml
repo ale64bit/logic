@@ -8,7 +8,7 @@ module FormulaMap = Map.Make (struct
 end)
 
 module Calculus = struct
-  type proof_line = { index : int; reason : string }
+  type proof_line = { index : int; refs : int list; reason : string }
 
   type proof = proof_line FormulaMap.t
 
@@ -18,28 +18,34 @@ module Calculus = struct
 
   type conclusion = (proof * formula, string) result
 
-  let add ctx a reason =
+  let add ctx a premises reason =
     if FormulaMap.mem a ctx then Ok (ctx, a)
     else
-      let l = { index = 1 + FormulaMap.cardinal ctx; reason } in
+      let l =
+        {
+          index = 1 + FormulaMap.cardinal ctx;
+          refs = List.map (fun a -> (FormulaMap.find a ctx).index) premises;
+          reason;
+        }
+      in
       Ok (ctx |> FormulaMap.add a l, a)
 
-  let premise ctx a = add ctx a "premise"
+  let premise ctx a = add ctx a [] "premise"
 
   let ( let* ) r f = match r with Error _ as err -> err | Ok (p, a) -> f (p, a)
 
-  let proves ctx a = add ctx a "goal"
+  let proves ctx a = add ctx a [] "goal"
 
   module Axiom = struct
-    let propositional ctx a = add ctx (Or (Neg a, a)) "axiom: propositional"
+    let propositional ctx a = add ctx (Or (Neg a, a)) [] "axiom: propositional"
 
     let substitution ctx a x t =
       add ctx
         (Defined.impl (substitute a x t) (Exists (x, a)))
-        "axiom: substitution"
+        [] "axiom: substitution"
 
     let identity ctx x =
-      add ctx (Atom ("=", [ Var x; Var x ])) "axiom: identity"
+      add ctx (Atom ("=", [ Var x; Var x ])) [] "axiom: identity"
 
     let fequality ctx xys f =
       let xs, ys = List.split xys in
@@ -50,7 +56,7 @@ module Calculus = struct
            (fun acc (x, y) -> Defined.impl (Atom ("=", [ Var x; Var y ])) acc)
            (Atom ("=", [ fx; fy ]))
            (List.rev xys))
-        "axiom: equality"
+        [] "axiom: equality"
 
     let pequality ctx xys p =
       let xs, ys = List.split xys in
@@ -60,40 +66,29 @@ module Calculus = struct
         (List.fold_left
            (fun acc (x, y) -> Defined.impl (Atom ("=", [ Var x; Var y ])) acc)
            (Defined.impl px py) (List.rev xys))
-        "axiom: equality"
+        [] "axiom: equality"
   end
 
   module Rule = struct
-    let expansion ctx b a =
-      let { index; _ } = FormulaMap.find a ctx in
-      let reason = Printf.sprintf "rule: expansion: (%d)" index in
-      add ctx (Or (b, a)) reason
+    let expansion ctx b a = add ctx (Or (b, a)) [ a ] "rule: expansion"
 
     let contraction ctx a =
       match a with
-      | Or (a', a'') when a' = a'' ->
-          let { index; _ } = FormulaMap.find a ctx in
-          let reason = Printf.sprintf "rule: contraction: (%d)" index in
-          add ctx a' reason
+      | Or (a', a'') when a' = a'' -> add ctx a' [ a ] "rule: contraction"
       | _ ->
           Error (Printf.sprintf "invalid contraction: %s" (string_of_formula a))
 
     let associative ctx a =
       match a with
       | Or (a', Or (b', c')) ->
-          let { index; _ } = FormulaMap.find a ctx in
-          let reason = Printf.sprintf "rule: associative: (%d)" index in
-          add ctx (Or (Or (a', b'), c')) reason
+          add ctx (Or (Or (a', b'), c')) [ a ] "rule: associative"
       | _ ->
           Error (Printf.sprintf "invalid association: %s" (string_of_formula a))
 
     let cut ctx b c =
       match (b, c) with
       | Or (a, b'), Or (Neg a', c') when a = a' ->
-          let { index = indexb; _ } = FormulaMap.find b ctx in
-          let { index = indexc; _ } = FormulaMap.find c ctx in
-          let reason = Printf.sprintf "rule: cut: (%d) (%d)" indexb indexc in
-          add ctx (Or (b', c')) reason
+          add ctx (Or (b', c')) [ b; c ] "rule: cut"
       | _ ->
           let () = assert false in
           Error
@@ -103,12 +98,12 @@ module Calculus = struct
     let e_introduction ctx x a =
       match a with
       | Or (Neg a', b') when not (is_free x b') ->
-          let { index; _ } = FormulaMap.find a ctx in
-          let reason = Printf.sprintf "rule: e-introduction: (%d)" index in
-          add ctx (Defined.impl (Exists (x, a')) b') reason
+          add ctx
+            (Defined.impl (Exists (x, a')) b')
+            [ a ] "rule: ∃-introduction"
       | _ ->
           Error
-            (Printf.sprintf "invalid e-introduction: %s and %s" x
+            (Printf.sprintf "invalid ∃-introduction: %s and %s" x
                (string_of_formula a))
   end
 end
@@ -335,7 +330,7 @@ module Meta = struct
         proves ctx s3
     | _ ->
         Error
-          (Printf.sprintf "invalid a-introduction: %s %s" x
+          (Printf.sprintf "invalid ∀-introduction: %s %s" x
              (string_of_formula a))
 
   let generalization ctx x a =
@@ -417,7 +412,7 @@ module Meta = struct
         proves ctx s3
     | a ->
         Error
-          (Printf.sprintf "invalid e-distribution: %s" (string_of_formula a))
+          (Printf.sprintf "invalid ∃-distribution: %s" (string_of_formula a))
 
   let a_distribution ctx x = function
     | Or (Neg a', b') as a ->
@@ -430,7 +425,7 @@ module Meta = struct
         proves ctx s5
     | a ->
         Error
-          (Printf.sprintf "invalid a-distribution: %s" (string_of_formula a))
+          (Printf.sprintf "invalid ∀-distribution: %s" (string_of_formula a))
 end
 
 let print_proof out p =
@@ -449,10 +444,18 @@ let print_proof out p =
       0 sorted
   in
   List.iter
-    (fun (a, { index; reason }) ->
+    (fun (a, { index; refs; reason }) ->
       let s = string_of_formula a in
       let dw = String.length s - Utf8.length s in
-      Printf.fprintf out "(%.*d) %-*s [%s]\n" dig index (maxw + 8 + dw) s reason)
+      let rs =
+        if refs = [] then ""
+        else
+          Printf.sprintf ": %s"
+            (String.concat " " (List.map (Printf.sprintf "(%d)") refs))
+      in
+      Printf.fprintf out "(%.*d) %-*s [%s%s]\n" dig index
+        (maxw + 8 + dw)
+        s reason rs)
     sorted
 
 let print_proof_tex ?(fmap = fun _ -> None) out p =
@@ -463,7 +466,13 @@ let print_proof_tex ?(fmap = fun _ -> None) out p =
       (FormulaMap.bindings p)
   in
   List.iter
-    (fun (a, { index; reason }) ->
-      Printf.fprintf out "\\item{(%d)} $%s$ \\hfill [%s]\n" index
-        (tex_of_formula ~fmap a) reason)
+    (fun (a, { index; refs; reason }) ->
+      let rs =
+        if refs = [] then ""
+        else
+          Printf.sprintf ": %s"
+            (String.concat " " (List.map (Printf.sprintf "(%d)") refs))
+      in
+      Printf.fprintf out "\\item{(%d)} $%s$ \\hfill [%s%s]\n" index
+        (tex_of_formula ~fmap a) reason rs)
     sorted

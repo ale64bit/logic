@@ -298,6 +298,7 @@ $\exists\y\exists\x\A$ as a variant of $\exists\x\exists\y\A$: first obtain $\ex
 where $\A'=\A_y[\x']$ and $\x'$ is a new variable not appearing in $\A$; then obtain $\exists\y\exists\x'\A'_\x[\y]$ 
 and finally $\exists\y\exists\x\A$ by substituting $\x'$ to $\x$. This would imply the result by the
 Variant Theorem.
+\smallskip
 
 \ansitem (b)
 \itemitem{} $\vdash \forall\x\forall\y\A \to \A$ \hfill [Substitution Theorem]
@@ -305,6 +306,7 @@ Variant Theorem.
 \itemitem{} $\vdash \forall\x\forall\y\A \to \forall\y\forall\x\A$ \hfill [$\forall$-Introduction Rule]
 
 The reverse implication is obtained in a similar fashion.
+\smallskip
 
 \ansitem (c)
 \itemitem{} $\vdash \A \to \exists\x\A$ \hfill [Substitution Theorem]
@@ -318,12 +320,83 @@ they result in an alternative proof of the same result as above:
 \itemitem{} $\vdash \forall\y\A \to \A$ \hfill [Substitution Theorem]
 \itemitem{} $\vdash \exists\x\forall\y\A \to \exists\x\A$ \hfill [Distribution Rule]
 \itemitem{} $\vdash \exists\x\forall\y\A \to \forall\y\exists\x\A$ \hfill [$\forall$-Introduction Rule]
+\smallskip
 
 \ansitem (d) Consider the formula
 $$\forall x \exists y (Sx = y) \to \exists y \forall x (Sx = y).$$
 The left side can be interpreted as {\it ``every number has a successor"}, while the
 right side can be interpreted as {\it ``there is a number that is the successor of every number"}.
 
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 7. 
+
+\ansitem (a) Let $\y_1, \dots, \y_m$ include the variables free in $\forall\x_1 \dots \forall\x_n (\B \leftrightarrow \B')$ 
+and let $T'$ be obtained from $T$ by adding new constants $\e_1, \dots, \e_m$. Then 
+$$
+\vdash_T \forall\x_1 \dots \forall\x_n (\B \leftrightarrow \B') \to (\A \leftrightarrow \A')
+$$
+if and only if 
+$$
+\vdash_{T'} \forall\x_1 \dots \forall\x_n (\B[\e_1, \dots, \e_m] \leftrightarrow \B'[\e_1, \dots, \e_m]) \to (\A[\e_1, \dots, \e_m] \leftrightarrow \A'[\e_1, \dots, \e_m])
+$$
+by the Theorem on Constants. And furthermore
+$$
+\vdash_{T'} \forall\x_1 \dots \forall\x_n (\B[\e_1, \dots, \e_m] \leftrightarrow \B'[\e_1, \dots, \e_m]) \to (\A[\e_1, \dots, \e_m] \leftrightarrow \A'[\e_1, \dots, \e_m])
+$$
+if and only if
+$$
+\vdash_{T'[\forall\x_1 \dots \forall\x_n (\B[\e_1, \dots, \e_m] \leftrightarrow \B'[\e_1, \dots, \e_m])]} \A[\e_1, \dots, \e_m] \leftrightarrow \A'[\e_1, \dots, \e_m]
+$$
+by the Deduction Theorem. We can obtain the latter result as follows
+
+\itemitem{} $\vdash \forall\x_1 \dots \forall\x_n (\B[\e_1, \dots, \e_m] \leftrightarrow \B'[\e_1, \dots, \e_m])$ \hfill [the added axiom]
+\itemitem{} $\vdash \B[\e_1, \dots, \e_m] \leftrightarrow \B'[\e_1, \dots, \e_m]$ \hfill [Closure Theorem]
+\itemitem{} $\vdash \A[\e_1, \dots, \e_m] \leftrightarrow \A'[\e_1, \dots, \e_m]$ \hfill [Equivalence Theorem]
+
+Note that the universal quantifiers on $\x_1, \dots, \x_n$ are really necessary. For if a variable
+appears free in $\B$ or $\B'$ and bound in $\A$ or $\A'$, the original occurrences of $\B$ in $\A$
+are not necessarily the occurrences of $\B[\e_1, \dots, \e_m]$ in $\A[\e_1, \dots, \e_m]$ and $\A'$ 
+would not be obtained from $\A$ as described. This would mean the Equivalence Theorem is not applicable.
+
+\smallskip
+
+\ansitem (b) Consider the formula
+$$
+(y<Sx \leftrightarrow x=2 \cdot y) \to (\exists y(y<Sx) \leftrightarrow \exists y (x=2 \cdot y))
+$$
+and an instance with $x=3, y=4$. Then
+$$\eqalign{\SA(4 < 4) &= \bot\cr
+\SA(3=2 \cdot 4) &= \bot\cr
+\SA(\exists y (y < 4)) &= \top\cr
+\SA(\exists y (3=2 \cdot y)) &= \bot\cr
+}$$
+and hence the formula is not valid in \N.
+
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 11. 
+
+\ansitem (a) Let $\A$ be a formula and let $\B_1, \dots, \B_n$ be the elementary
+formulas having an occurrence in $\A$. Let $V_1, \dots, V_m$ all the truth valuations
+such that $V_j(\A) = \top$. Let also 
+$$
+\C^j_i = \cases{\B_i, &if $V_j(\B_i) = \top$\cr
+\neg \B_i, &otherwise\cr}
+$$
+for $1 \le i \le n$ and $1 \le j \le m$. We can now define $\A'$ as
+$$
+(\C^1_1 \land \dots \land \C^1_n) \lor ... \lor (\C^m_1 \land \dots \land \C^m_n).
+$$
+
+To verify that $\A \leftrightarrow \A'$ is a tautology, consider a truth valuation $V$. 
+If $V(\A) = \top$, then $V = V_j$ for some $j$, by the definition of $A'$. Moreover,
+$V(\C^j_1 \land \dots \land \C^j_n) = V(\C^j_1) \land \dots \land V(\C^j_n) = \top$ and hence $V(\A') = \top$ follows.
+If, on the other hand, $V(\A) = \bot$, then $V \ne V_j$ and $V(\C^j_1 \land \dots \land \C^j_n) = \bot$ for all $j$.
+
+\medskip
 
 \vfill
 \break

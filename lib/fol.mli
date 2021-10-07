@@ -95,6 +95,9 @@ val string_of_term : term -> string
 val string_of_formula : ?top:bool -> formula -> string
 (* Converts a formula to a human-readable string *)
 
+val extended_string_of_formula : ?top:bool -> formula -> string
+(* Converts a formula to a human-readable string with additional defined symbols *)
+
 val tex_of_formula :
   ?top:bool -> ?fmap:(formula -> string option) -> formula -> string
 (* Converts a formula to a TeX string *)
