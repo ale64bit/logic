@@ -1,7 +1,6 @@
 open Fol
 
-(* Predicate calculus for first-order logic as described in Shoenfield's "Mathematical Logic" *)
-module Calculus : sig
+module Base : sig
   type proof_line
 
   type proof
@@ -25,6 +24,11 @@ module Calculus : sig
 
   val proves : proof -> formula -> conclusion
   (* Readability function to conclude proofs *)
+end
+
+(* Predicate calculus for first-order logic as described in Shoenfield's "Mathematical Logic" *)
+module Calculus : sig
+  open Base
 
   (* Logical axioms of the system *)
   module Axiom : sig
@@ -61,11 +65,21 @@ module Calculus : sig
     val e_introduction : proof -> var -> formula -> conclusion
     (* Infer ∃xA → B from A → B if x is not free in B *)
   end
+
+  val random_theorem :
+    ?max_steps:int ->
+    ?variables:var list ->
+    ?predicates:(pred * int) list ->
+    ?functions:(func * int) list ->
+    ?constants:const list ->
+    ?non_logical_axioms:(unit -> formula) list ->
+    Random.State.t ->
+    formula
 end
 
 (* Some metatheorems handy in proving other results *)
 module Meta : sig
-  open Calculus
+  open Base
 
   val commute : proof -> formula -> conclusion
   (* A ∨ B ⊢ B ∨ A *)
@@ -116,9 +130,9 @@ module Meta : sig
   (* A → B ⊢ ∀xA → ∀xB *)
 end
 
-val print_proof : out_channel -> Calculus.proof -> unit
+val print_proof : out_channel -> Base.proof -> unit
 (* Prints a proof in human-readable format to an output channel *)
 
 val print_proof_tex :
-  ?fmap:(formula -> string option) -> out_channel -> Calculus.proof -> unit
+  ?fmap:(formula -> string option) -> out_channel -> Base.proof -> unit
 (* Prints a proof in TeX format to an output channel *)

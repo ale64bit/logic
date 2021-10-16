@@ -34,7 +34,7 @@ let shoenfield _ =
   in
   List.iter
     (fun want ->
-      let ctx = Proof.Calculus.empty_proof in
+      let ctx = Proof.Base.empty_proof in
       let proof = Prover.Shoenfield.prove ctx want in
       TestUtil.check_conclusion proof want)
     tests

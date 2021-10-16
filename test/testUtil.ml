@@ -10,5 +10,5 @@ let check_conclusion c want =
       let () = assert_equal ~printer:string_of_formula ~msg want got in
       Printf.printf "proved %s in %d steps\n"
         (extended_string_of_formula want)
-        (Calculus.proof_length proof)
+        (Base.proof_length proof)
   | Error err -> assert_failure (Printf.sprintf "%s: invalid proof: %s" msg err)

@@ -50,8 +50,14 @@ val disj_of_list : formula list -> formula
 val list_of_disj : formula -> formula list
 (* Converts a disjunction formula (A1 ∨ ... ∨ An) to a list of formulas [A1; ...; An] *)
 
+val impl_of_list : formula list -> formula
+(* Converts a list of formulas [A1; ...; An] to an implication formula (A1 → ... → An) *)
+
 val substitute : formula -> var -> term -> formula
 (* Substitutes a variable free occurrences by a term in the given formula *)
+
+val substitute_opt : formula -> var -> term -> formula option
+(* Like [substitute] but returns None if the term is not substitutible *)
 
 val variant : formula -> var -> var -> formula
 (* Computes a variant of the given formula by substituting all bound occurrences of a variable by another. *)
@@ -65,7 +71,7 @@ val is_free : var -> formula -> bool
 val is_open : formula -> bool
 (* Checks whether a formula is quantifier-free *)
 
-val variables : formula -> var list * var list
+val variable_occurrences : formula -> var list * var list
 (*
     Computes the list of free and bound variable occurrences in a formula.
     Each variable appears at most once in each list.
@@ -86,6 +92,9 @@ val prenex : formula -> formula
 val is_tautology : formula -> bool
 (* [is_tautology a] tests whether formula a is a tautology *)
 
+val is_tautological_consequence : formula list -> formula -> bool
+(* [is_tautological_consequence bs a] tests whether formula a is a tautological consequence of a list of formulas bs *)
+
 val formula_of_tptp : Tptp.formula -> formula
 (* Converts a formula in TPTP format into the internal format *)
 
@@ -101,3 +110,24 @@ val extended_string_of_formula : ?top:bool -> formula -> string
 val tex_of_formula :
   ?top:bool -> ?fmap:(formula -> string option) -> formula -> string
 (* Converts a formula to a TeX string *)
+
+val random_term :
+  ?max_depth:int ->
+  ?variables:var list ->
+  ?functions:(func * int) list ->
+  ?constants:const list ->
+  Random.State.t ->
+  term
+
+val random_formula :
+  ?max_depth:int ->
+  ?variables:var list ->
+  ?predicates:(pred * int) list ->
+  ?functions:(func * int) list ->
+  ?constants:const list ->
+  Random.State.t ->
+  formula
+
+module FormulaSet : Set.S with type elt = formula
+
+module FormulaMap : Map.S with type key = formula

@@ -1,5 +1,6 @@
 open Fol
 open Proof
+open Proof.Base
 open Proof.Calculus
 
 module type Prover = sig

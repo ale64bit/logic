@@ -395,6 +395,34 @@ To verify that $\A \leftrightarrow \A'$ is a tautology, consider a truth valuati
 If $V(\A) = \top$, then $V = V_j$ for some $j$, by the definition of $A'$. Moreover,
 $V(\C^j_1 \land \dots \land \C^j_n) = V(\C^j_1) \land \dots \land V(\C^j_n) = \top$ and hence $V(\A') = \top$ follows.
 If, on the other hand, $V(\A) = \bot$, then $V \ne V_j$ and $V(\C^j_1 \land \dots \land \C^j_n) = \bot$ for all $j$.
+\smallskip
+
+\ansitem (b) Let's start from a formula $\B$ in disjunctive form such that $\neg \A \leftrightarrow \B$ is a tautology.
+We proceed as in (a): let $\B_1, \dots, \B_n$ be the elementary formulas having an occurrence
+in $\A$, let $V_1, \dots, V_m$ all the truth valuations such that $V_j(\neg \A) = \top$ and let
+$$
+\C^j_i = \cases{\B_i, &if $V_j(\B_i) = \top$\cr
+\neg \B_i, &otherwise\cr}
+$$
+for $1 \le i \le n$ and $1 \le j \le m$. We can now define $\B$ as
+$$
+(\C^1_1 \land \dots \land \C^1_n) \lor ... \lor (\C^m_1 \land \dots \land \C^m_n)
+$$
+and we have that $\neg \A \leftrightarrow \B$ is a tautology. Now, by the Tautology Theorem,
+we have that if $\neg \A \leftrightarrow \B$ is a tautology, then so are $\neg \neg \A \leftrightarrow \neg \B$
+and $\A \leftrightarrow \neg \B$. By expanding $\neg \B$ and applying the fact that $\vdash \neg (\A \lor \B) \leftrightarrow (\neg \A \land \neg \B)$ 
+and $\vdash \neg (\A \land \B) \leftrightarrow (\neg \A \lor \neg \B)$ (the De Morgan laws):
+$$\eqalign{\neg ((\C^1_1 \land \dots \land \C^1_n) \lor ... \lor (\C^m_1 \land \dots \land \C^m_n))\cr
+\neg (\C^1_1 \land \dots \land \C^1_n) \land ... \land \neg (\C^m_1 \land \dots \land \C^m_n)\cr
+(\neg \C^1_1 \lor \dots \lor \neg \C^1_n) \land ... \land (\neg \C^m_1 \lor \dots \lor \neg \C^m_n).\cr
+}$$
+
+Finally, we can replace each $\neg \C^j_i$ with a new $\D^j_i$ defined as
+$$
+\D^j_i = \cases{\B_i, &if $\C^j_i = \neg \B_i$\cr
+\neg \B_i, &otherwise\cr}
+$$
+by the Tautology Theorem.
 
 \medskip
 

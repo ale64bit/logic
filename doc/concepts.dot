@@ -1,0 +1,85 @@
+digraph {
+  theory[label="first-order theory"];
+
+  subgraph symbols {
+    node [style=filled,fillcolor=darkslategray3];
+    rankdir="LR";
+    style=filled; 
+    color=lightgrey;
+    label="symbols";
+
+    symbol;
+    variable;
+    function;
+    predicate;
+    constant;
+    connective[label="¬ ∨ ∃"];
+    defined_symbol[label="→ ∧ ∀ ⟷"];
+    equality[label="="];
+
+    symbol -> variable;
+    symbol -> function;
+    symbol -> predicate;
+    symbol -> connective;
+    connective -> defined_symbol;
+    predicate -> equality;
+    function -> constant;
+  } 
+
+  subgraph syntax {
+    node [style=filled,fillcolor=gold2];
+    style=filled; 
+    color=lightgrey;
+    label="syntax";
+
+    first_order_lang[label="first-order language"];
+    term;
+    formula;
+    designator;
+    axiom;
+    rule;
+    theorem;
+    formal_system[label="formal system"];
+
+    term -> formula;
+    formula -> axiom;
+    formula -> rule;
+    term -> designator;
+    formula -> designator;
+    first_order_lang -> formal_system;
+    axiom -> formal_system;
+    rule -> formal_system;
+    formal_system -> theorem;
+  }
+
+  subgraph semantics {
+    node [style=filled,fillcolor=coral1];
+    style=filled; 
+    color=lightgrey;
+    label="semantics";
+
+    structure;
+    model;
+    validity;
+
+    structure -> model;
+    structure -> validity;
+  }
+
+  variable -> first_order_lang;
+  function -> first_order_lang;
+  predicate -> first_order_lang;
+  connective -> first_order_lang;
+  equality -> first_order_lang;
+  variable -> term;
+  function -> term;
+  variable -> formula;
+  predicate -> formula;
+  connective -> formula;
+
+  first_order_lang -> structure;
+  formal_system -> theory;
+  theory -> model;
+  theory -> validity;
+
+}

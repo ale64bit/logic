@@ -2,6 +2,7 @@ open Lib
 open Lib.Fol
 open OUnit2
 open Proof
+open Proof.Base
 open Proof.Calculus
 
 let shoenfield_ch2_5a _ =

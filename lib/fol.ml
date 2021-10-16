@@ -1,3 +1,5 @@
+open Util
+
 type var = string
 
 type pred = string
@@ -15,6 +17,18 @@ type formula =
   | Neg of formula
   | Or of formula * formula
   | Exists of var * formula
+
+module FormulaSet = Set.Make (struct
+  type t = formula
+
+  let compare = Stdlib.compare
+end)
+
+module FormulaMap = Map.Make (struct
+  type t = formula
+
+  let compare = Stdlib.compare
+end)
 
 module Defined = struct
   let conj a b = Neg (Or (Neg a, Neg b))
@@ -38,20 +52,6 @@ module Defined = struct
   end
 end
 
-module StringSet = Set.Make (String)
-
-module FormulaSet = Set.Make (struct
-  type t = formula
-
-  let compare = Stdlib.compare
-end)
-
-module FormulaMap = Map.Make (struct
-  type t = formula
-
-  let compare = Stdlib.compare
-end)
-
 type valuation = formula -> bool
 
 let rec disj_of_list = function
@@ -66,7 +66,12 @@ let list_of_disj a =
   in
   List.rev (aux [] a)
 
-let variables a =
+let rec impl_of_list = function
+  | [] -> failwith "impossible: empty list"
+  | [ a ] -> a
+  | a :: xs -> Defined.impl a (impl_of_list xs)
+
+let variable_occurrences a =
   let open StringSet in
   let rec aux_term bound = function
     | Var x -> if mem x bound then (empty, singleton x) else (singleton x, empty)
@@ -96,7 +101,7 @@ let variables a =
   (List.of_seq (to_seq free), List.of_seq (to_seq bound))
 
 let substitute a x t =
-  let free, _ = variables (Atom ("", [ t ])) in
+  let free, _ = variable_occurrences (Atom ("", [ t ])) in
   let substitutible bound =
     List.for_all (fun y -> not (StringSet.mem y bound)) free
   in
@@ -113,6 +118,52 @@ let substitute a x t =
     | Neg a -> Neg (aux bound a)
     | Or (a, b) -> Or (aux bound a, aux bound b)
     | Exists (x', a) -> Exists (x', aux (StringSet.add x' bound) a)
+  in
+  aux StringSet.empty a
+
+let substitute_opt a x t =
+  let ( let* ) = Option.bind in
+  let free, _ = variable_occurrences (Atom ("", [ t ])) in
+  let substitutible bound =
+    List.for_all (fun y -> not (StringSet.mem y bound)) free
+  in
+  let rec aux_term bound = function
+    | Var x' when x' = x && not (StringSet.mem x bound) ->
+        if not (substitutible bound) then None else Some t
+    | Var x' -> Some (Var x')
+    | Const e -> Some (Const e)
+    | Fun (f, ts) ->
+        let* ts' =
+          List.fold_left
+            (fun acc t ->
+              let* ts' = acc in
+              let* t' = aux_term bound t in
+              Some (t' :: ts'))
+            (Some []) ts
+        in
+        Some (Fun (f, List.rev ts'))
+  in
+  let rec aux bound = function
+    | Atom (p, ts) ->
+        let* ts' =
+          List.fold_left
+            (fun acc t ->
+              let* ts' = acc in
+              let* t' = aux_term bound t in
+              Some (t' :: ts'))
+            (Some []) ts
+        in
+        Some (Atom (p, List.rev ts'))
+    | Neg a ->
+        let* a' = aux bound a in
+        Some (Neg a')
+    | Or (a, b) ->
+        let* a' = aux bound a in
+        let* b' = aux bound b in
+        Some (Or (a', b'))
+    | Exists (x', a) ->
+        let* a' = aux (StringSet.add x' bound) a in
+        Some (Exists (x', a'))
   in
   aux StringSet.empty a
 
@@ -156,11 +207,11 @@ let rec is_open = function
   | Exists _ -> false
 
 let is_closed a =
-  let free, _ = variables a in
+  let free, _ = variable_occurrences a in
   free = []
 
 let closure a =
-  let free, _ = variables a in
+  let free, _ = variable_occurrences a in
   let sorted = List.sort String.compare free in
   List.fold_left (Fun.flip Defined.forall) a (List.rev sorted)
 
@@ -233,13 +284,13 @@ let disambiguate a xs forbidden0 sub_fn =
 
 (*
 let disambiguate_free a forbidden =
-  let free, _ = variables a in
+  let free, _ = variable_occurrences a in
   let sub_fn a x x' = substitute a x (Var x') in
   disambiguate a free forbidden sub_fn
 *)
 
 let disambiguate_bound a forbidden =
-  let _, bound = variables a in
+  let _, bound = variable_occurrences a in
   disambiguate a bound forbidden variant
 
 let rec prenex =
@@ -277,11 +328,11 @@ let rec prenex =
       op_b (Neg b')
   | Or (b, c) ->
       let b', c' = (prenex b, prenex c) in
-      let free_b, _ = variables b' in
-      let free_c, bound_c = variables c' in
+      let free_b, _ = variable_occurrences b' in
+      let free_c, bound_c = variable_occurrences c' in
       let free = free_b @ free_c in
       let b' = disambiguate_bound b' (free @ bound_c) in
-      let _, bound_b = variables b' in
+      let _, bound_b = variable_occurrences b' in
       let c' = disambiguate_bound c' (free @ bound_b) in
       op_cd (Or (b', c'))
 
@@ -314,6 +365,13 @@ let is_tautology a =
         && aux (mapping |> FormulaMap.add e false) es
   in
   aux FormulaMap.empty (List.of_seq (FormulaSet.to_seq elem))
+
+let is_tautological_consequence bs a =
+  let rec impl_of_list = function
+    | [] -> a
+    | b :: bs' -> Defined.impl b (impl_of_list bs')
+  in
+  is_tautology (impl_of_list bs)
 
 let rec term_of_tptp = function
   | Tptp.Var x -> Var x
@@ -427,3 +485,59 @@ let rec tex_of_formula ?(top = true) ?(fmap = fun _ -> None) a =
           Printf.sprintf "%s %s"
             (Printf.sprintf "\\exists %s" x)
             (tex_of_formula ~top:false ~fmap f))
+
+let random_term ?(max_depth = 8) ?(variables = [ "x"; "y"; "z" ])
+    ?(functions = []) ?(constants = []) rng =
+  let rand = Random.State.int rng in
+  let pick_one xs = List.nth xs (rand (List.length xs)) in
+  let rec gen_variable _ = Var (pick_one variables)
+  and gen_constant _ = Const (pick_one constants)
+  and gen_function depth =
+    let f, arity = pick_one functions in
+    Fun (f, List.init arity (fun _ -> gen_term (depth - 1)))
+  and gen_term depth =
+    let available =
+      if depth = 0 then
+        [
+          (gen_variable, List.length variables);
+          (gen_constant, List.length constants);
+        ]
+      else
+        [
+          (gen_variable, List.length variables);
+          (gen_constant, List.length constants);
+          (gen_function, List.length functions);
+        ]
+    in
+    let term_generators =
+      List.fold_left
+        (fun acc (gen, srcs) -> if srcs = 0 then acc else gen :: acc)
+        [] available
+    in
+    (pick_one term_generators) depth
+  in
+  gen_term max_depth
+
+let random_formula ?(max_depth = 8) ?(variables = [ "x"; "y"; "z" ])
+    ?(predicates = [ ("=", 2) ]) ?(functions = []) ?(constants = []) rng =
+  assert (List.length predicates > 0);
+  let rand = Random.State.int rng in
+  let pick_one xs = List.nth xs (rand (List.length xs)) in
+  let rec gen_atomic depth =
+    let p, arity = pick_one predicates in
+    Atom
+      ( p,
+        List.init arity (fun _ ->
+            random_term ~max_depth:depth ~variables ~functions ~constants rng)
+      )
+  and gen_neg depth = Neg (gen_formula (depth - 1))
+  and gen_disj depth = Or (gen_formula (depth - 1), gen_formula (depth - 1))
+  and gen_exists depth = Exists (pick_one variables, gen_formula (depth - 1))
+  and gen_formula depth =
+    let formula_generators =
+      if depth = 0 then [ gen_atomic ]
+      else [ gen_atomic; gen_neg; gen_disj; gen_exists ]
+    in
+    (pick_one formula_generators) depth
+  in
+  gen_formula max_depth

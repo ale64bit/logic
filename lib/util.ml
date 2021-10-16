@@ -1,3 +1,5 @@
+module StringSet = Set.Make (String)
+
 let rec is_sublist xs ys =
   match (xs, ys) with
   | x :: xs', y :: ys' ->

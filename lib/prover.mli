@@ -1,5 +1,5 @@
 open Fol
-open Proof.Calculus
+open Proof.Base
 
 (* Interface of theorem provers *)
 module type Prover = sig

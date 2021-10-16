@@ -26,11 +26,11 @@ let is_open _ =
   let a = Atom ("=", [ x; x ]) in
   assert_equal (is_open a) true
 
-let variables _ =
+let variable_occurrences _ =
   let x = Var "x" in
   let x_eq_x = Atom ("=", [ x; x ]) in
   let a = Or (x_eq_x, Exists ("x", x_eq_x)) in
-  assert_equal (variables a) ([ "x" ], [ "x" ])
+  assert_equal (variable_occurrences a) ([ "x" ], [ "x" ])
 
 let closure _ =
   let x = Var "x" in
@@ -220,7 +220,7 @@ let suite =
   "FolTests"
   >::: [
          "is_open" >:: is_open;
-         "variables" >:: variables;
+         "variable_occurrences" >:: variable_occurrences;
          "closure" >:: closure;
          "disj_list" >:: disj_list;
          "is_instance" >:: is_instance;

@@ -1,3 +1,5 @@
+module StringSet : Set.S with type elt = string
+
 val is_sublist : 'a list -> 'a list -> bool
 (** [is_sublist xs ys] tests whether list [xs] is a sublist of list [ys]. *)
 

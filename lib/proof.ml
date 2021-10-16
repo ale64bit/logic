@@ -1,13 +1,7 @@
 open Fol
-module StringSet = Set.Make (String)
+open Util
 
-module FormulaMap = Map.Make (struct
-  type t = formula
-
-  let compare = Stdlib.compare
-end)
-
-module Calculus = struct
+module Base = struct
   type proof_line = { index : int; refs : int list; reason : string }
 
   type proof = proof_line FormulaMap.t
@@ -35,6 +29,10 @@ module Calculus = struct
   let ( let* ) r f = match r with Error _ as err -> err | Ok (p, a) -> f (p, a)
 
   let proves ctx a = add ctx a [] "goal"
+end
+
+module Calculus = struct
+  include Base
 
   module Axiom = struct
     let propositional ctx a = add ctx (Or (Neg a, a)) [] "axiom: propositional"
@@ -106,7 +104,173 @@ module Calculus = struct
             (Printf.sprintf "invalid ∃-introduction: %s and %s" x
                (string_of_formula a))
   end
+
+  let random_theorem ?(max_steps = 100) ?(variables = [ "x"; "y"; "z" ])
+      ?(predicates = [ ("=", 2) ]) ?(functions = []) ?(constants = [])
+      ?(non_logical_axioms = []) rng =
+    let ( let* ) = Option.bind in
+    let rand = Random.State.int rng in
+    let pick_one xs = List.nth xs (rand (List.length xs)) in
+    let pick_one_opt = function [] -> None | xs -> Some (pick_one xs) in
+    let gen_term () = random_term ~variables ~functions ~constants rng in
+    let gen_formula () =
+      random_formula ~variables ~predicates ~functions ~constants rng
+    in
+    (* Axiom generators *)
+    let gen_axiom_propositional (_, _, _) =
+      let a = gen_formula () in
+      Some (Or (Neg a, a))
+    in
+    let gen_axiom_substitution (_, _, _) =
+      let a = gen_formula () in
+      let x = pick_one variables in
+      let t = gen_term () in
+      let* axt = substitute_opt a x t in
+      Some (Defined.impl axt (Exists (x, a)))
+    in
+    let gen_axiom_identity (_, _, _) =
+      let x = Var (pick_one variables) in
+      Some (Atom ("=", [ x; x ]))
+    in
+    let gen_axiom_equality (_, _, _) =
+      if functions = [] || Random.State.bool rng then
+        let p, n = pick_one predicates in
+        let xs = List.init n (fun _ -> Var (pick_one variables)) in
+        let ys = List.init n (fun _ -> Var (pick_one variables)) in
+        let xys = List.map2 (fun x y -> Atom ("=", [ x; y ])) xs ys in
+        let top = [ Defined.impl (Atom (p, xs)) (Atom (p, ys)) ] in
+        Some (impl_of_list (xys @ top))
+      else
+        let f, n = pick_one functions in
+        let xs = List.init n (fun _ -> Var (pick_one variables)) in
+        let ys = List.init n (fun _ -> Var (pick_one variables)) in
+        let xys = List.map2 (fun x y -> Atom ("=", [ x; y ])) xs ys in
+        let top = [ Atom ("=", [ Fun (f, xs); Fun (f, ys) ]) ] in
+        Some (impl_of_list (xys @ top))
+    in
+    let gen_axiom_nonlogical (_, _, _) =
+      let* gen = pick_one_opt non_logical_axioms in
+      Some (gen ())
+    in
+    (* Rule generators *)
+    let gen_rule_expansion (pos, neg, other) =
+      let all =
+        List.filter (Fun.negate FormulaSet.is_empty) [ pos; neg; other ]
+      in
+      if all = [] then None
+      else
+        let src = pick_one all in
+        let a = pick_one (FormulaSet.elements src) in
+        let b = gen_formula () in
+        Some (Or (b, a))
+    in
+    let gen_rule_contraction (pos, neg, _) =
+      let can_contract = function
+        | Or (a, a') when a = a' -> true
+        | _ -> false
+      in
+      let all =
+        FormulaSet.union
+          (FormulaSet.filter can_contract pos)
+          (FormulaSet.filter can_contract neg)
+      in
+      let* a = pick_one_opt (FormulaSet.elements all) in
+      match a with
+      | Or (b, c) ->
+          assert (b = c);
+          Some b
+      | _ -> failwith "impossible"
+    in
+    let gen_rule_associative (pos, neg, _) =
+      let can_associate = function Or (_, Or (_, _)) -> true | _ -> false in
+      let all =
+        FormulaSet.union
+          (FormulaSet.filter can_associate pos)
+          (FormulaSet.filter can_associate neg)
+      in
+      let* a = pick_one_opt (FormulaSet.elements all) in
+      match a with
+      | Or (b, Or (c, d)) -> Some (Or (Or (b, c), d))
+      | _ -> failwith "impossible"
+    in
+    let gen_rule_cut (pos, neg, _) =
+      let can_cut = function
+        | Or (a, _) ->
+            FormulaSet.exists
+              (function Or (Neg a', _) when a = a' -> true | _ -> false)
+              neg
+        | _ -> false
+      in
+      let all = FormulaSet.filter can_cut pos in
+      let* a = pick_one_opt (FormulaSet.elements all) in
+      let bs =
+        FormulaSet.filter
+          (fun b ->
+            match (a, b) with
+            | Or (a', _), Or (Neg a'', _) when a' = a'' -> true
+            | _ -> false)
+          neg
+      in
+      let* b = pick_one_opt (FormulaSet.elements bs) in
+      match (a, b) with
+      | Or (a', b'), Or (Neg a'', c') ->
+          assert (a' = a'');
+          Some (Or (b', c'))
+      | _ -> failwith "impossible"
+    in
+    let gen_rule_eintroduction (_, neg, _) =
+      let x = pick_one variables in
+      let can_eintroduce = function
+        | Or (Neg _, b) ->
+            let free, _ = variable_occurrences b in
+            not (List.mem x free)
+        | _ -> false
+      in
+      let all = FormulaSet.filter can_eintroduce neg in
+      let* a = pick_one_opt (FormulaSet.elements all) in
+      match a with
+      | Or (Neg a', b') -> Some (Defined.impl (Exists (x, a')) b')
+      | _ -> failwith "impossible"
+    in
+    (* All generators and their ID for debugging purposes *)
+    let generators =
+      [
+        gen_axiom_propositional;
+        gen_axiom_substitution;
+        gen_axiom_identity;
+        gen_axiom_equality;
+        gen_axiom_nonlogical;
+        gen_rule_expansion;
+        gen_rule_contraction;
+        gen_rule_associative;
+        gen_rule_cut;
+        gen_rule_eintroduction;
+      ]
+    in
+    let open FormulaSet in
+    let merge (pos, neg, other) = function
+      | Or (Neg _, _) as a -> (pos, neg |> add a, other)
+      | Or (_, _) as a -> (pos |> add a, neg, other)
+      | a -> (pos, neg, other |> add a)
+    in
+    let rec aux (pos, neg, other) step =
+      let gen = pick_one generators in
+      match gen (pos, neg, other) with
+      | Some a ->
+          if step = 1 then a
+          else
+            let prev_cardinal = cardinal pos + cardinal neg + cardinal other in
+            let pos', neg', other' = merge (pos, neg, other) a in
+            let new_cardinal =
+              cardinal pos' + cardinal neg' + cardinal other'
+            in
+            aux (pos', neg', other') (step - (new_cardinal - prev_cardinal))
+      | None -> aux (pos, neg, other) step
+    in
+    aux (empty, empty, empty) (1 + rand max_steps)
 end
+
+(* TODO: add calculus based on tautology theorem as in section 3.1 *)
 
 module Meta = struct
   open Calculus
@@ -356,8 +520,8 @@ module Meta = struct
         assert (s5 = a');
         proves ctx s5
     | m, true ->
-        let free_a, bound_a = variables a in
-        let free_a', bound_a' = variables a' in
+        let free_a, bound_a = variable_occurrences a in
+        let free_a', bound_a' = variable_occurrences a' in
         let all = StringSet.of_list (free_a @ bound_a @ free_a' @ bound_a') in
         let rec gen_fresh_vars i acc =
           if List.length acc = List.length m then List.rev acc
