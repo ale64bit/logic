@@ -270,7 +270,62 @@ module Calculus = struct
     aux (empty, empty, empty) (1 + rand max_steps)
 end
 
-(* TODO: add calculus based on tautology theorem as in section 3.1 *)
+module TautCalculus = struct
+  include Base
+
+  module Axiom = struct
+    let substitution ctx a x t =
+      add ctx
+        (Defined.impl (substitute a x t) (Exists (x, a)))
+        [] "axiom: substitution"
+
+    let identity ctx x =
+      add ctx (Atom ("=", [ Var x; Var x ])) [] "axiom: identity"
+
+    let fequality ctx xys f =
+      let xs, ys = List.split xys in
+      let fx = Fun (f, List.map (fun x -> Var x) xs) in
+      let fy = Fun (f, List.map (fun y -> Var y) ys) in
+      add ctx
+        (List.fold_left
+           (fun acc (x, y) -> Defined.impl (Atom ("=", [ Var x; Var y ])) acc)
+           (Atom ("=", [ fx; fy ]))
+           (List.rev xys))
+        [] "axiom: equality"
+
+    let pequality ctx xys p =
+      let xs, ys = List.split xys in
+      let px = Atom (p, List.map (fun x -> Var x) xs) in
+      let py = Atom (p, List.map (fun y -> Var y) ys) in
+      add ctx
+        (List.fold_left
+           (fun acc (x, y) -> Defined.impl (Atom ("=", [ Var x; Var y ])) acc)
+           (Defined.impl px py) (List.rev xys))
+        [] "axiom: equality"
+  end
+
+  module Rule = struct
+    let tautological_consequence ctx bs a =
+      if is_tautological_consequence bs a then
+        add ctx a bs "rule: tautology theorem"
+      else
+        Error
+          (Printf.sprintf "invalid tautological consequence: [%s] %s"
+             (String.concat ", " (List.map string_of_formula bs))
+             (string_of_formula a))
+
+    let e_introduction ctx x a =
+      match a with
+      | Or (Neg a', b') when not (is_free x b') ->
+          add ctx
+            (Defined.impl (Exists (x, a')) b')
+            [ a ] "rule: ∃-introduction"
+      | _ ->
+          Error
+            (Printf.sprintf "invalid ∃-introduction: %s and %s" x
+               (string_of_formula a))
+  end
+end
 
 module Meta = struct
   open Calculus

@@ -12,7 +12,7 @@ let shoenfield_ch2_5a _ =
     let* ctx, s1 = Axiom.propositional ctx (Neg (Atom ("=", [ x; x ]))) in
     proves ctx s1
   in
-  let want = Theorems.Shoenfield.ch2_5a in
+  let want = Theorems.Shoenfield1967.ch2_5a in
   TestUtil.check_conclusion proof want
 
 let shoenfield_ch2_5b _ =
@@ -22,7 +22,7 @@ let shoenfield_ch2_5b _ =
     let* ctx, s1 = Axiom.substitution ctx (Atom ("=", [ x; x ])) "x" x in
     proves ctx s1
   in
-  let want = Theorems.Shoenfield.ch2_5b in
+  let want = Theorems.Shoenfield1967.ch2_5b in
   TestUtil.check_conclusion proof want
 
 let shoenfield_ch2_5c _ =
@@ -31,7 +31,7 @@ let shoenfield_ch2_5c _ =
     let* ctx, s1 = Axiom.identity ctx "x" in
     proves ctx s1
   in
-  let want = Theorems.Shoenfield.ch2_5c in
+  let want = Theorems.Shoenfield1967.ch2_5c in
   TestUtil.check_conclusion proof want
 
 let shoenfield_ch2_5d _ =
@@ -40,7 +40,7 @@ let shoenfield_ch2_5d _ =
     let* ctx, s1 = Axiom.pequality ctx [ ("x", "y"); ("x", "z") ] "=" in
     proves ctx s1
   in
-  let want = Theorems.Shoenfield.ch2_5d in
+  let want = Theorems.Shoenfield1967.ch2_5d in
   TestUtil.check_conclusion proof want
 
 let shoenfield_ch2_5e _ =
@@ -52,7 +52,7 @@ let shoenfield_ch2_5e _ =
     let* ctx, s3 = Rule.expansion ctx x_eq_x s2 in
     proves ctx s3
   in
-  let want = Theorems.Shoenfield.ch2_5e in
+  let want = Theorems.Shoenfield1967.ch2_5e in
   TestUtil.check_conclusion proof want
 
 let shoenfield_ch2_5fh _ =
@@ -62,7 +62,7 @@ let shoenfield_ch2_5fh _ =
     let* ctx, s2 = Meta.dneg_intro ctx s1 in
     proves ctx s2
   in
-  let want = Theorems.Shoenfield.ch2_5f in
+  let want = Theorems.Shoenfield1967.ch2_5f in
   TestUtil.check_conclusion proof want
 
 let shoenfield_ch2_5g _ =
@@ -85,7 +85,7 @@ let shoenfield_ch2_5g _ =
     let* ctx, s13 = Rule.contraction ctx s12 in
     proves ctx s13
   in
-  let want = Theorems.Shoenfield.ch2_5g in
+  let want = Theorems.Shoenfield1967.ch2_5g in
   TestUtil.check_conclusion proof want
 
 let shoenfield_ch2_5i _ =
@@ -96,7 +96,7 @@ let shoenfield_ch2_5i _ =
     let* ctx, s2 = Rule.e_introduction ctx "y" s1 in
     proves ctx s2
   in
-  let want = Theorems.Shoenfield.ch2_5i in
+  let want = Theorems.Shoenfield1967.ch2_5i in
   TestUtil.check_conclusion proof want
 
 let commute _ =

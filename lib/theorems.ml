@@ -39,7 +39,7 @@ end
     J Autom Reasoning 2, 191–216 (1986).
     https://doi.org/10.1007/BF02432151
 *)
-module P75 = struct
+module Pelletier1986 = struct
   include Common
 
   (* Propositional Logic *)
@@ -71,7 +71,8 @@ module P75 = struct
   let p9 = ((px || qx) && (!px || qx) && (px || !qx)) => !(!px || !qx)
   (* 6pts *)
 
-  (* TODO(need premises): p10 *)
+  let p10 = qx => rx => (rx => (px && qx) => (px => (qx || rx) => (px <=> qx)))
+  (* 4pts *)
 
   let p11 = px <=> px
   (* 1pt *)
@@ -99,7 +100,7 @@ end
     Shoenfield, J.R. Mathematical Logic.
     Reading, Mass., Addison-Wesley Pub. Co (1967)
 *)
-module Shoenfield = struct
+module Shoenfield1967 = struct
   include Common
 
   (* Chapter 2 *)
@@ -130,4 +131,13 @@ module Shoenfield = struct
 
   let ch2_5i = Exists ("y", !x_eq_x) => !x_eq_x
   (* A theorem not provable without the e-introduction rule *)
+end
+
+(* De Morgan laws *)
+module DeMorgan = struct
+  include Common
+
+  let conj = !(px && qx) <=> (!px || !qx)
+
+  let disj = !(px || qx) <=> (!px && !qx)
 end

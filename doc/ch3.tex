@@ -95,7 +95,7 @@ $$
 
 \proclaim Equality Theorem. Let $\b'$ be obtained from $\b$ by replacing some occurrences of $\a_1, \dots, \a_n$
 not immediately following $\exists$ or $\forall$ by $\a_1', \dots, \a_n'$ respectively, and let $\A'$ be
-obtained from $\A$ by the same type of replacements. If $\vdash \a_1 = \a_1', \dots \vdash \a_n = \a_n'$ then
+obtained from $\A$ by the same type of replacements. If $\vdash \a_1 = \a_1', \dots, \vdash \a_n = \a_n'$ then
 $\vdash \b = \b'$ and $\vdash \A \leftrightarrow \A'$.
 
 \proclaim Corollary 1. $\vdash \a_1 = \a_1' \to \cdots \to \a_n = \a_n' \to \b[\a_1, \dots, \a_n] = \b[\a_1', \dots, \a_n']$.
@@ -377,6 +377,142 @@ and hence the formula is not valid in \N.
 \medskip
 
 % ------------------------------------------------------------------------------
+\ans 8.
+
+\ansitem (a) The proof parallels 7(a). Let $\y_1, \dots, \y_m$ include the variables 
+free in $\forall\x_1 \dots \forall\x_n (\a = \a')$ and let $T'$ be obtained from $T$ 
+by adding new constants $\e_1, \dots, \e_m$. Then 
+$$
+\vdash_T \forall\x_1 \dots \forall\x_n (\a = \a') \to (\A \leftrightarrow \A')
+$$
+if and only if 
+$$
+\vdash_{T'} \forall\x_1 \dots \forall\x_n (\a[\e_1, \dots, \e_m] = \a'[\e_1, \dots, \e_m]) \to (\A[\e_1, \dots, \e_m] \leftrightarrow \A'[\e_1, \dots, \e_m])
+$$
+by the Theorem on Constants. And furthermore
+$$
+\vdash_{T'} \forall\x_1 \dots \forall\x_n (\a[\e_1, \dots, \e_m] = \a'[\e_1, \dots, \e_m]) \to (\A[\e_1, \dots, \e_m] \leftrightarrow \A'[\e_1, \dots, \e_m])
+$$
+if and only if
+$$
+\vdash_{T'[\forall\x_1 \dots \forall\x_n (\a[\e_1, \dots, \e_m] = \a'[\e_1, \dots, \e_m])]} \A[\e_1, \dots, \e_m] \leftrightarrow \A'[\e_1, \dots, \e_m]
+$$
+by the Deduction Theorem. We can obtain the latter result as follows
+
+\itemitem{} $\vdash \forall\x_1 \dots \forall\x_n (\a[\e_1, \dots, \e_m] = \a'[\e_1, \dots, \e_m])$ \hfill [the added axiom]
+\itemitem{} $\vdash \a[\e_1, \dots, \e_m] = \a'[\e_1, \dots, \e_m]$ \hfill [Closure Theorem]
+\itemitem{} $\vdash \A[\e_1, \dots, \e_m] \leftrightarrow \A'[\e_1, \dots, \e_m]$ \hfill [Equality Theorem]
+
+Note that the universal quantifiers on $\x_1, \dots, \x_n$ are really necessary. For if a variable
+appears in $\a$ or $\a'$ and is bound in $\A$ or $\A'$, the original occurrences of $\a$ in $\A$
+are not necessarily the occurrences of $\a[\e_1, \dots, \e_m]$ in $\A[\e_1, \dots, \e_m]$ and $\A'$ 
+would not be obtained from $\A$ as described. This would mean the Equality Theorem is not applicable.
+
+\smallskip
+
+\ansitem (b) Consider the formula
+$$
+(Sx = 2 \cdot x) \to (\exists x (Sx=y)) \leftrightarrow \exists x (2 \cdot x = y)
+$$
+and an instance with $x=1, y=3$. Then
+$$\eqalign{\SA(2 = 2 \cdot 1) &= \top\cr
+\SA(\exists x (Sx = 3)) &= \top\cr
+\SA(\exists x (2 \cdot x = 3)) &= \bot\cr
+}$$
+and hence the formula is not valid in \N.
+
+\medskip
+
+% ------------------------------------------------------------------------------
+\ans 9. First, notice that any formula $\x = \y \to \A \to \A_\x[\y]$ for $\A$
+atomic, is a theorem of $T$: this follows from 8(a) and the Tautology Theorem
+by noticing that $\A$ has no bound variables and thus no universal quantifiers
+are needed. So $T$ has the same or more theorems than $T'$.
+
+To prove that this relation is tight (i.e. that $T$ and $T'$ have the same theorems), 
+let's show that any formula that is an equality axiom in $T$, is a theorem of $T'$.
+Note that all the results from this chapter (except the Symmetry Theorem, the Equality
+Theorem and its corollaries) can be proven without using the equality axioms and 
+hence are also applicable to $T'$.
+
+First, let's handle the equality axioms of the form
+$$
+\x_1=\y_1 \to \cdots \to \x_n=\y_n \to \p\x_1\dots\x_n \to \p\y_1\dots\y_n.
+$$
+Using the new axiom, we can obtain
+$$\eqalign{\vdash \x_1=\y_1 &\to \p\x_1\y_2\dots\y_n \to \p\y_1\dots\y_n\cr
+\vdash \x_2=\y_2 &\to \p\x_1\x_2\y_3\dots\y_n \to \p\x_1\y_2\dots\y_n\cr
+&\cdots\cr
+\vdash \x_n=\y_n &\to \p\x_1\dots\x_n \to \p\x_1\dots\x_{n-1}\y_n\cr
+}$$
+and then, by the Tautology Theorem
+$$\eqalign{\vdash \p\x_1\y_2\dots\y_n \to \x_1=\y_1 &\to \p\y_1\dots\y_n\cr
+\vdash \p\x_1\x_2\y_3\dots\y_n \to \x_2=\y_2 &\to \p\x_1\y_2\dots\y_n\cr
+&\cdots\cr
+\vdash \p\x_1\dots\x_n \to \x_n=\y_n &\to \p\x_1\dots\x_{n-1}\y_n.\cr
+}$$
+Also by the Tautology Theorem, if $\vdash \A \to \B \to \C$ and $\vdash \C \to \D$,
+then $\vdash \A \to \B \to \D$. Using this and starting from the first formula, we
+find successively
+$$\eqalign{\vdash \p\x_1\x_2\y_3\dots\y_n &\to \x_2=\y_2 \to \x_1=\y_1 \to \p\y_1\dots\y_n\cr
+\vdash \p\x_1\x_2\x_3\y_4\dots\y_n &\to \x_3=\y_3 \to \x_2=\y_2 \to \x_1=\y_1 \to \p\y_1\dots\y_n\cr
+&\cdots\cr
+\vdash \p\x_1\dots\x_n &\to \x_n=\y_n \to \cdots \to \x_1=\y_1 \to \p\y_1\dots\y_n\cr
+}$$
+and the equality axiom for predicates follows from the last formula and the Tautology Theorem.
+Note that the Symmetry Theorem can now be proven in $T'$.
+
+Now let's turn our attention to the equality axioms of the form
+$$
+\x_1=\y_1 \to \cdots \to \x_n=\y_n \to \f\x_1\dots\x_n = \f\y_1\dots\y_n.
+$$
+We need the following results
+\itemitem{(i)} If $\vdash \A \to \A'$ and $\vdash \B \to \B'$, then $\vdash \A \to \B \to (\A' \land \B')$
+\itemitem{(ii)} $\vdash (\a=\b \land \b=\c) \to \a=\c$
+
+\smallskip
+\noindent It is easy to verify that (i) follows from the Tautology Theorem. Let's prove (ii):
+\itemitem{(1)} $\vdash \y=\x \to \y=\z \to \x=\z$ \hfill [by the new axiom]
+\itemitem{(2)} $\vdash \b=\a \to \b=\c \to \a=\c$ \hfill [from (1) by the Substitution Rule]
+\itemitem{(3)} $\vdash \a=\b \to \b=\c \to \a=\c$ \hfill [from (2) by the Symmetry Theorem and the Equivalence Theorem]
+\itemitem{(4)} $\vdash \neg(\a=\b) \lor \neg(\b=\c) \lor (\a=\c)$ \hfill [from (3) and the definition of $\to$]
+\itemitem{(5)} $\vdash (\neg(\a=\b) \lor \neg(\b=\c)) \lor (\a=\c)$ \hfill [from (4) by the Associative Rule]
+\itemitem{(6)} $\vdash \neg\neg(\neg(\a=\b) \lor \neg(\b=\c)) \lor (\a=\c)$ \hfill [from (5) by the Tautology Theorem]
+\itemitem{(7)} $\vdash (\a=\b \land \b=\c) \to (\a=\c)$ \hfill [from (6) and the definition of $\land$ and $\to$]
+
+\smallskip
+\noindent It essentially says that equality is transitive.
+
+Now let's move on to the main part of the proof. First, we obtain the following 
+result for any $i$ in $1 \dots n$
+\itemitem{(1)} $\vdash \x_i=\y_i \to \f\z_1\dots\z_n = \f\x_1\dots\x_n \to \f\z_1\dots\z_n = \f\x_1\dots\x_{i-1}\y_i\x_{i+1}\dots\x_n$ \hfill [by the new axiom]
+\itemitem{(2)} $\vdash \x_i=\y_i \to \f\x_1\dots\x_n = \f\x_1\dots\x_n \to \f\x_1\dots\x_n = \f\x_1\dots\x_{i-1}\y_i\x_{i+1}\dots\x_n$ \hfill [from (1) by the Substitution Rule]
+\itemitem{(3)} $\vdash \f\x_1\dots\x_n = \f\x_1\dots\x_n \to \x_i=\y_i \to \f\x_1\dots\x_n = \f\x_1\dots\x_{i-1}\y_i\x_{i+1}\dots\x_n$ \hfill [from (2) by the Tautology Theorem]
+\itemitem{(4)} $\vdash \x=\x$ \hfill [Identity Axiom]
+\itemitem{(5)} $\vdash \f\x_1\dots\x_n = \f\x_1\dots\x_n$ \hfill [from (5) by the Substitution Rule]
+\itemitem{(6)} $\vdash \x_i=\y_i \to \f\x_1\dots\x_n = \f\x_1\dots\x_{i-1}\y_i\x_{i+1}\dots\x_n.$ \hfill [from (5) and (3) by the Detachment Rule]
+
+\noindent and expanding for all $i$ we can obtain
+$$\eqalign{\vdash \x_1=\y_1 &\to \f\x_1\y_2\dots\y_n = \f\y_1\dots\y_n\cr
+\vdash \x_2=\y_2 &\to \f\x_1\x_2\y_3\dots\y_n = \f\x_1\y_2\dots\y_n\cr
+&\cdots\cr
+\vdash \x_n=\y_n &\to \f\x_1\dots\x_n = \f\x_1\dots\x_{n-1}\y_n.\cr
+}$$
+
+Finally, and similar to previous proof (for predicate equality axioms), we use
+(i), (ii) and starting with the first formula we find successively
+$$\eqalign{\vdash \x_2=\y_2 \to \x_1=\y_1 &\to \f\x_1\x_2\y_3\dots\y_n = \f\y_1\dots\y_n\cr
+\vdash \x_3=\y_3 \to \x_2=\y_2 \to \x_1=\y_1 &\to \f\x_1\x_2\x_3\y_4\dots\y_n = \f\y_1\dots\y_n\cr
+&\cdots\cr
+\vdash \x_n=\y_n \to \cdots \to \x_1=\y_1 &\to \f\x_1\dots\x_n = \f\y_1\dots\y_n\cr
+}$$
+and the equality axiom for functions follows from the last formula and the Tautology Theorem.
+Hence, $T$ and $T'$ have the same theorems since the axioms in which they differ are
+provable in the other system, respectively.
+
+\medskip
+
+% ------------------------------------------------------------------------------
 \ans 11. 
 
 \ansitem (a) Let $\A$ be a formula and let $\B_1, \dots, \B_n$ be the elementary
@@ -425,6 +561,52 @@ $$
 by the Tautology Theorem.
 
 \medskip
+
+% ------------------------------------------------------------------------------
+\ans 12. Let's use induction on the length of $\A$ and also consider the defined
+symbols $\land$ and $\forall$ as part of the generalized inductive definition of
+formula:
+\item{$\bullet$} if $\A$ is of the form $\B \lor \C$:
+\itemitem{(1)} $\vdash \B^* \leftrightarrow \neg \B$ \hfill [induction hypothesis]
+\itemitem{(2)} $\vdash \C^* \leftrightarrow \neg \C$ \hfill [induction hypothesis]
+\itemitem{(3)} $\vdash \B^* \land \C^* \leftrightarrow \neg \B \land \neg \C$ \hfill [from (1) and (2) by the Tautology Theorem]
+\itemitem{(4)} $\vdash \neg \B \land \neg \C \leftrightarrow \neg (\B \lor \C)$ \hfill [from (3) by the Tautology Theorem (De Morgan laws)]
+\itemitem{(5)} $\vdash \B^* \land \C^* \leftrightarrow \neg (\B \lor \C)$ \hfill [from (3) and (4) by the Tautology Theorem]
+
+\item{$\bullet$} if $\A$ is of the form $\B \land \C$ (symmetrical to the previous case):
+\itemitem{(1)} $\vdash \B^* \leftrightarrow \neg \B$ \hfill [induction hypothesis]
+\itemitem{(2)} $\vdash \C^* \leftrightarrow \neg \C$ \hfill [induction hypothesis]
+\itemitem{(3)} $\vdash \B^* \lor \C^* \leftrightarrow \neg \B \lor \neg \C$ \hfill [from (1) and (2) by the Tautology Theorem]
+\itemitem{(4)} $\vdash \neg \B \lor \neg \C \leftrightarrow \neg (\B \land \C)$ \hfill [from (3) by the Tautology Theorem (De Morgan laws)]
+\itemitem{(5)} $\vdash \B^* \lor \C^* \leftrightarrow \neg (\B \land \C)$ \hfill [from (3) and (4) by the Tautology Theorem]
+
+\item{$\bullet$} if $\A$ is of the form $\exists\x\B$:
+\itemitem{(1)} $\vdash \B^* \leftrightarrow \neg \B$ \hfill [induction hypothesis]
+\itemitem{(2)} $\vdash \forall\x\B^* \leftrightarrow \forall\x \neg \B$ \hfill [from (1) by the Distribution Rule]
+\itemitem{(3)} $\vdash \forall\x\B^* \leftrightarrow \neg\exists\x \neg\neg \B$ \hfill [from (2) expanding the definition of $\forall$]
+\itemitem{(4)} $\vdash \forall\x\B^* \leftrightarrow \neg\exists\x \B$ \hfill [from (3) by the Equivalence Theorem and Tautology Theorem]
+
+\item{$\bullet$} if $\A$ is of the form $\forall\x\B$:
+\itemitem{(1)} $\vdash \B^* \leftrightarrow \neg \B$ \hfill [induction hypothesis]
+\itemitem{(2)} $\vdash \exists\x\B^* \leftrightarrow \exists\x \neg \B$ \hfill [from (1) by the Distribution Rule]
+\itemitem{(3)} $\vdash \exists\x\B^* \leftrightarrow \neg\neg \exists\x \neg \B$ \hfill [from (2) by the Tautology Theorem]
+\itemitem{(4)} $\vdash \exists\x\B^* \leftrightarrow \neg \forall\x \B$ \hfill [from (3) by the definition of $\forall$]
+
+\item{$\bullet$} if $\A$ is of the form $\neg\B$ and $\B$ is not atomic:
+\itemitem{(1)} $\vdash \B^* \leftrightarrow \neg \B$ \hfill [induction hypothesis]
+\itemitem{(2)} $\vdash \neg\B^* \leftrightarrow \neg\neg \B$ \hfill [from (1) by the Tautology Theorem]
+
+\item{$\bullet$} if $\A$ is of the form $\neg\B$ and $\B$ is atomic, then 
+$\A^*$ is $\A^\circ$ and $\A^\circ$ is $\B$ by definition:
+\itemitem{(1)} $\vdash \A^* \leftrightarrow \B$ \hfill [by definition]
+\itemitem{(2)} $\vdash \A^* \leftrightarrow \neg\neg\B$ \hfill [from (1) by the Tautology Theorem]
+\itemitem{(3)} $\vdash \A^* \leftrightarrow \neg\A$ \hfill [from (2) by the form of $\A$]
+
+\item{$\bullet$} finally, if $\A$ is atomic, then 
+$\A^*$ is $\A^\circ$ and $\A^\circ$ is $\neg\A$ by definition:
+\itemitem{(1)} $\vdash \A^* \leftrightarrow \neg\A$ \hfill [by definition]
+
+and this concludes the proof.
 
 \vfill
 \break

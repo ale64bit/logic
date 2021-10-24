@@ -314,7 +314,13 @@ by the induction hypothesis.
 \medskip
 
 % ------------------------------------------------------------------------------
-\ans 5. 
+\ans 5. The sections of this exercise show that each axiom and rule allows
+proving theorems that wouldn't be provable without it. The common strategy
+is finding a suitable mapping $f$ from formulas to truth values and a specific 
+theorem $\B$, such that if a theorem $\A$ is provable without the axiom or rule in 
+question, then $f(\A) = \top$, but $f(\B) = \bot$ and it is thus no provable
+without it. This means that none of the axioms or rules are redundant.
+\smallskip
 
 \ansitem (a)
 The hinted function is defined as:

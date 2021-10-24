@@ -26,7 +26,7 @@ module Base : sig
   (* Readability function to conclude proofs *)
 end
 
-(* Predicate calculus for first-order logic as described in Shoenfield's "Mathematical Logic" *)
+(* Predicate calculus for first-order logic as described in Shoenfield's "Mathematical Logic", Chapter 2 *)
 module Calculus : sig
   open Base
 
@@ -75,6 +75,39 @@ module Calculus : sig
     ?non_logical_axioms:(unit -> formula) list ->
     Random.State.t ->
     formula
+end
+
+(* Variant of predicate calculus for first-order logic as described in Shoenfield's "Mathematical Logic", Section 3.1 *)
+module TautCalculus : sig
+  open Base
+
+  (* Logical axioms of the system *)
+  module Axiom : sig
+    val substitution : proof -> formula -> var -> term -> conclusion
+    (* A[a] → ∃xA *)
+
+    val identity : proof -> var -> conclusion
+    (* x = x *)
+
+    val fequality : proof -> (var * var) list -> func -> conclusion
+    (* (x1 = y1) → ... → (xn = yn) → (f(x1, ... , xn) = f(y1, ..., yn)) *)
+
+    val pequality : proof -> (var * var) list -> pred -> conclusion
+    (* (x1 = y1) → ... → (xn = yn) → p(x1, ..., xn) → p(y1, ..., yn) *)
+  end
+
+  (* Rules of inference *)
+  module Rule : sig
+    val tautological_consequence :
+      proof -> formula list -> formula -> conclusion
+    (*
+        Infer A from B1, ... ,Bn if A is a tautological consequence of B1, ... , Bn
+        and ⊢ B1, ... , ⊢ Bn.
+    *)
+
+    val e_introduction : proof -> var -> formula -> conclusion
+    (* Infer ∃xA → B from A → B if x is not free in B *)
+  end
 end
 
 (* Some metatheorems handy in proving other results *)

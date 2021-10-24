@@ -4,32 +4,34 @@ open OUnit2
 let shoenfield _ =
   let tests =
     [
-      Theorems.P75.p1;
-      Theorems.P75.p2;
-      Theorems.P75.p3;
-      Theorems.P75.p4;
-      Theorems.P75.p5;
-      Theorems.P75.p6;
-      Theorems.P75.p7;
-      Theorems.P75.p8;
-      Theorems.P75.p9;
-      (* TODO(needs premises): Theorems.P75.p10; *)
-      Theorems.P75.p11;
-      Theorems.P75.p12;
-      Theorems.P75.p13;
-      Theorems.P75.p14;
-      Theorems.P75.p15;
-      Theorems.P75.p16;
-      Theorems.P75.p17;
-      Theorems.Shoenfield.ch2_5a;
-      (* TODO(has quantifiers): Theorems.Shoenfield.ch2_5b; *)
-      Theorems.Shoenfield.ch2_5c;
-      (* TODO(has quantifiers): Theorems.Shoenfield.ch2_5d; *)
-      Theorems.Shoenfield.ch2_5e;
-      Theorems.Shoenfield.ch2_5f;
-      Theorems.Shoenfield.ch2_5g;
-      Theorems.Shoenfield.ch2_5h;
-      (* TODO(has quantifiers): Theorems.Shoenfield.ch2_5i; *)
+      Theorems.Pelletier1986.p1;
+      Theorems.Pelletier1986.p2;
+      Theorems.Pelletier1986.p3;
+      Theorems.Pelletier1986.p4;
+      Theorems.Pelletier1986.p5;
+      Theorems.Pelletier1986.p6;
+      Theorems.Pelletier1986.p7;
+      Theorems.Pelletier1986.p8;
+      Theorems.Pelletier1986.p9;
+      Theorems.Pelletier1986.p10;
+      Theorems.Pelletier1986.p11;
+      Theorems.Pelletier1986.p12;
+      Theorems.Pelletier1986.p13;
+      Theorems.Pelletier1986.p14;
+      Theorems.Pelletier1986.p15;
+      Theorems.Pelletier1986.p16;
+      Theorems.Pelletier1986.p17;
+      Theorems.Shoenfield1967.ch2_5a;
+      (* TODO(has quantifiers): Theorems.Shoenfield1967.ch2_5b; *)
+      Theorems.Shoenfield1967.ch2_5c;
+      (* TODO(has quantifiers): Theorems.Shoenfield1967.ch2_5d; *)
+      Theorems.Shoenfield1967.ch2_5e;
+      Theorems.Shoenfield1967.ch2_5f;
+      Theorems.Shoenfield1967.ch2_5g;
+      Theorems.Shoenfield1967.ch2_5h;
+      (* TODO(has quantifiers): Theorems.Shoenfield1967.ch2_5i; *)
+      Theorems.DeMorgan.conj;
+      Theorems.DeMorgan.disj;
     ]
   in
   List.iter
