@@ -513,6 +513,42 @@ provable in the other system, respectively.
 \medskip
 
 % ------------------------------------------------------------------------------
+\ans 10. 
+
+\ansitem (a)
+\itemitem{(1)}  $\vdash \x=\a \to (\A \leftrightarrow \A_\x[\a])$ \hfill [by the Equality Theorem]
+\itemitem{(2)}  $\vdash \x=\a \to \A \to \A_\x[\a]$ \hfill [from (1) by the Tautology Theorem]
+\itemitem{(3)}  $\vdash \x=\a \to \A_\x[\a] \to \A$ \hfill [from (1) by the Tautology Theorem]
+\itemitem{(4)}  $\vdash \A_\x[\a] \to \x=\a \to \A$ \hfill [from (3) by the Tautology Theorem]
+\itemitem{(5)}  $\vdash \A_\x[\a] \to \forall\x(\x=\a \to \A)$ \hfill [from (4) by the $\forall$-Introduction Rule]
+\itemitem{(6)}  $\vdash \forall\x(\x=\a \to \A) \to (\a=\a \to \A_\x[\a])$ \hfill [by the Substitution Theorem]
+\itemitem{(7)}  $\vdash \x=\x$ \hfill [Identity Axiom]
+\itemitem{(8)}  $\vdash \a=\a$ \hfill [from (7) by the Substitution Rule]
+\itemitem{(9)}  $\vdash \forall\x(\x=\a \to \A) \to \A_\x[\a]$ \hfill [from (6) and (8) by the Tautology Theorem]
+\itemitem{(10)} $\vdash \A_\x[\a] \leftrightarrow \forall\x(\x=\a \to \A)$ \hfill [from (5) and (9) by the Tautology Theorem]
+
+\smallskip
+
+\ansitem (b) Consider the first formula when $\A$ is $x=1$ and $\a$ is $x+1$
+$$
+x+1=1 \leftrightarrow \exists x (x=x+1 \land x=1).
+$$
+The right-hand side of the implication is always false, but the left-hand side is true
+if we pick an instance when $x$ is $0$. Hence this formula is not valid in \N.
+
+Next consider the second formula for the same $\A$ and $\a$
+$$
+x+1=1 \leftrightarrow \forall x (x=x+1 \to x=1).
+$$
+In this case, the right-hand side is always true, but the left-hand can be falsified
+if we pick an instance when $x$ is $1$ (or any value not equal to 0). Hence this formula
+is also not valid in \N.
+
+\smallskip
+
+\medskip
+
+% ------------------------------------------------------------------------------
 \ans 11. 
 
 \ansitem (a) Let $\A$ be a formula and let $\B_1, \dots, \B_n$ be the elementary
