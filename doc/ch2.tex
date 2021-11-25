@@ -1,7 +1,11 @@
-\leftline{\xmplbx Chapter 2}
-\vglue .5\baselineskip 
+\outline{1} {Chapter 2 First-Order Theories}
+\centerline{\xmplbxi CHAPTER 2}
+\medskip
+\centerline{\xmplbx FIRST-ORDER THEORIES}
+\bigskip
 
 % ==============================================================================
+\outline{2} {Notation}
 \beginsection NOTATION
 
 {\leftskip 1in
@@ -11,11 +15,13 @@
 \item{\f, \g:} syntactical variables over function symbols.
 \item{\i, \j:} syntactical variables over names.
 \item{\p, \q:} syntactical variables over predicate symbols.
+\item{\r, \s, \t:} syntactical variables over special constants.
 \item{\u, \v:} syntactical variables over expressions.
 \item{\x, \y, \z, \w:} syntactical variables over (individual) variables.
 \par}
 
 % ==============================================================================
+\outline{2} {Definitions}
 \beginsection DEFINITIONS
 
 \item{$\bullet$} A {\it first-order language} has as symbols:
@@ -77,6 +83,7 @@ if $\A$ is valid in every structure for $L$ in which all of the formulas in $\Ga
 \item{$\bullet$} A formula $\A$ is {\it valid} in a theory $T$ if it is valid in every model of $T$.
 
 % ==============================================================================
+\outline{2} {Logical Axioms}
 \beginsection LOGICAL AXIOMS
 
 {\leftskip 1in
@@ -88,6 +95,7 @@ if $\A$ is valid in every structure for $L$ in which all of the formulas in $\Ga
 \par}
 
 % ==============================================================================
+\outline{2} {Rules of Inference}
 \beginsection RULES OF INFERENCE
 
 {\leftskip 1in
@@ -99,6 +107,7 @@ if $\A$ is valid in every structure for $L$ in which all of the formulas in $\Ga
 \par}
 
 % ==============================================================================
+\outline{2} {Results}
 \beginsection RESULTS
 
 \noindent {\bf \S2.4}
@@ -129,13 +138,14 @@ Let $\cal A$ be a structure for $L$; $\bf a$ a variable-free term in $L({\cal A}
 $\bf i$ the name of ${\cal A}(\a)$. If $\bf b$ is a term of $L({\cal A})$ in
 which no variable except $\bf x$ occurs, then ${\cal A}({\bf b_x}[\a]) = {\cal A}({\bf b_x}[{\bf i}])$.
 If $\A$ is a formula of $L({\cal A})$ in which no variable except $\bf x$ is 
-free, then ${\cal A}({\bf A_x}[\a]) = {\cal A}({\bf A_x}[{\bf i}])$
+free, then ${\cal A}({\bf A_x}[\a]) = {\cal A}({\bf A_x}[{\bf i}])$.
 
 \proclaim Validity Theorem.
 If $T$ is a theory, then every theorem of $T$ is valid in $T$.
 
 % ==============================================================================
-\beginsection EXERCISES
+\outline{2} {Problems}
+\beginsection PROBLEMS
 
 % ------------------------------------------------------------------------------
 \ans 1.
@@ -314,7 +324,7 @@ by the induction hypothesis.
 \medskip
 
 % ------------------------------------------------------------------------------
-\ans 5. The sections of this exercise show that each axiom and rule allows
+\ans 5. The sections of this problem show that each axiom and rule allows
 proving theorems that wouldn't be provable without it. The common strategy
 is finding a suitable mapping $f$ from formulas to truth values and a specific 
 theorem $\B$, such that if a theorem $\A$ is provable without the axiom or rule in 

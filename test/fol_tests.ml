@@ -170,6 +170,19 @@ let is_tautology _ =
       assert_equal ~printer:string_of_bool want got)
     tests
 
+let is_tautological_consequence _ =
+  let x = Var "x" in
+  let px = Atom ("p", [ x ]) in
+  let qx = Atom ("q", [ x ]) in
+  let tests =
+    [ (Defined.conj px (Neg px), qx, true); (Or (px, Neg px), qx, false) ]
+  in
+  List.iter
+    (fun (b, a, want) ->
+      let got = is_tautological_consequence [ b ] a in
+      assert_equal ~printer:string_of_bool want got)
+    tests
+
 let string_of_formula _ =
   let x = Var "x" in
   let px = Atom ("p", [ x ]) in
@@ -205,7 +218,7 @@ let extended_string_of_formula _ =
   let tests =
     [
       (Defined.impl px qx, "p(x) → q(x)");
-      (Defined.eq px qx, "p(x) ⟷ q(x)");
+      (Defined.eq px qx, "p(x) ↔ q(x)");
       (Defined.conj px qx, "p(x) ∧ q(x)");
       (Defined.forall "x" px, "∀x p(x)");
     ]
@@ -228,6 +241,7 @@ let suite =
          "variant" >:: variant;
          "prenex" >:: prenex;
          "is_tautology" >:: is_tautology;
+         "is_tautological_consequence" >:: is_tautological_consequence;
          "string_of_formula" >:: string_of_formula;
          "extended_string_of_formula" >:: extended_string_of_formula;
        ]

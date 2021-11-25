@@ -436,7 +436,7 @@ let rec extended_string_of_formula ?(top = true) = function
   | Neg (Or (Neg (Or (Neg a, b)), Neg (Or (Neg b', a')))) when a = a' && b = b'
     ->
       let s =
-        Printf.sprintf "%s ⟷ %s"
+        Printf.sprintf "%s ↔ %s"
           (extended_string_of_formula ~top:false a)
           (extended_string_of_formula ~top:false b)
       in

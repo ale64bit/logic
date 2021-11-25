@@ -10,4 +10,4 @@ end
     Implements a simple prover for propositional tautologies based on
     Shoenfield's "Mathematical Logic" exposition of the tautology theorem.
 *)
-module Shoenfield : Prover
+module ShoenfieldTaut : Prover

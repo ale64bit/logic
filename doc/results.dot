@@ -1,0 +1,150 @@
+digraph {
+  // =======================================================================================
+  // Nodes 
+  s2_4_lemma1[label="§2.4 Lemma 1"];
+  s2_4_formation_theorem[label="§2.4 Formation Theorem"];
+  s2_4_lemma2[label="§2.4 Lemma 2"];
+  s2_4_occurrence_theorem[label="§2.4 Occurrence Theorem"];
+
+  s2_5_lemma[label="§2.5 Lemma"];
+  s2_5_validity_theorem[label="§2.5 Validity Theorem"];
+
+  subgraph cluster_tautology_theorem {
+    s3_1_tautology_theorem[label="§3.1 Tautology Theorem"];
+    s3_1_tautology_theorem_corollary[label="§3.1 Corollary"];
+
+    s3_1_tautology_theorem_corollary -> s3_1_tautology_theorem;
+  }
+  s3_1_lemma1[label="§3.1 Lemma 1"];
+  subgraph cluster_detachment_rule {
+    s3_1_detachment_rule[label="§3.1 Detachment Rule"];
+    s3_1_detachment_rule_corollary[label="§3.1 Corollary"];
+
+    s3_1_detachment_rule -> s3_1_detachment_rule_corollary;
+  }
+  s3_1_lemma2[label="§3.1 Lemma 2"];
+
+  s3_2_a_introduction_rule[label="§3.2 ∀-Introduction Rule"];
+  s3_2_generalization_rule[label="§3.2 Generalization Rule"];
+  s3_2_substitution_rule[label="§3.2 Substitution Rule"];
+  s3_2_substitution_theorem[label="§3.2 Substitution Theorem"];
+  s3_2_distribution_rule[label="§3.2 Distribution Rule"];
+  subgraph cluster_closure_theorem {
+    s3_2_closure_theorem[label="§3.2 Closure Theorem"];
+    s3_2_closure_theorem_corollary[label="§3.2 Corollary"];
+
+    s3_2_closure_theorem -> s3_2_closure_theorem_corollary;
+  }
+
+  subgraph cluster_deduction_theorem {
+    s3_3_deduction_theorem[label="§3.3 Deduction Theorem"];
+    s3_3_dedution_theorem_corollary[label="§3.3 Corollary"];
+
+    s3_3_deduction_theorem -> s3_3_dedution_theorem_corollary;
+  }
+  s3_3_theorem_on_constants[label="§3.3 Theorem on Constants"];
+
+  s3_4_equivalence_theorem[label="§3.4 Equivalence Theorem"];
+  s3_4_variant_theorem[label="§3.4 Variant Theorem"];
+  s3_4_symmetry_theorem[label="§3.4 Symmetry Theorem"];
+  subgraph cluster_equality_theorem {
+    s3_4_equality_theorem[label="§3.4 Equality Theorem"];
+    s3_4_equality_theorem_corollary_1[label="§3.4 Corollary 1"];
+    s3_4_equality_theorem_corollary_2[label="§3.4 Corollary 2"];
+    s3_4_equality_theorem_corollary_3[label="§3.4 Corollary 3"];
+
+    s3_4_equality_theorem -> s3_4_equality_theorem_corollary_1;
+    s3_4_equality_theorem -> s3_4_equality_theorem_corollary_2;
+    s3_4_equality_theorem -> s3_4_equality_theorem_corollary_3;
+  }
+
+  s4_1_reduction_theorem[label="§4.1 Reduction Theorem"];
+  subgraph cluster_reduction_theorem_consistency {
+    s4_1_reduction_theorem_consistency[label="§4.1 Reduction Theorem for Consistency"];
+    s4_1_reduction_theorem_consistency_corollary[label="§4.1 Corollary"];
+
+    s4_1_reduction_theorem_consistency -> s4_1_reduction_theorem_consistency_corollary;
+  }
+
+  s4_2_completeness_theorem_1[label="§4.2 Completeness Theorem, First Form"];
+  s4_2_completeness_theorem_2[label="§4.2 Completeness Theorem, Second Form"];
+
+  // =======================================================================================
+  // Edges 
+  s2_4_lemma1 -> s2_4_formation_theorem;
+  s2_4_lemma1 -> s2_4_occurrence_theorem;
+  s2_4_lemma2 -> s2_4_occurrence_theorem;
+
+  s3_1_lemma1 -> s3_1_detachment_rule;
+  s3_1_lemma1 -> s3_1_lemma2;
+  s3_1_detachment_rule_corollary -> s3_1_tautology_theorem;
+
+  s3_1_lemma1 -> s3_1_tautology_theorem_corollary;
+  s3_1_lemma2 -> s3_1_tautology_theorem_corollary;
+
+  s3_1_tautology_theorem -> s3_2_a_introduction_rule;
+
+  s3_2_a_introduction_rule -> s3_2_generalization_rule;
+  s3_1_tautology_theorem -> s3_2_generalization_rule;
+
+  s3_1_tautology_theorem -> s3_2_substitution_rule;
+  s3_2_generalization_rule -> s3_2_substitution_rule;
+
+  s3_1_tautology_theorem -> s3_2_substitution_theorem;
+  s3_2_substitution_rule -> s3_2_substitution_theorem;
+
+  s3_1_tautology_theorem -> s3_2_distribution_rule;
+  s3_2_a_introduction_rule -> s3_2_distribution_rule;
+  s3_2_substitution_theorem -> s3_2_distribution_rule;
+
+  s3_1_detachment_rule -> s3_2_closure_theorem;
+  s3_2_generalization_rule -> s3_2_closure_theorem;
+  s3_2_substitution_theorem -> s3_2_closure_theorem;
+  s2_5_validity_theorem -> s3_2_closure_theorem_corollary;
+
+  s3_1_tautology_theorem -> s3_3_deduction_theorem;
+  s3_1_detachment_rule -> s3_3_deduction_theorem;
+
+  s3_2_substitution_rule -> s3_3_theorem_on_constants;
+
+  s2_4_occurrence_theorem -> s3_4_equivalence_theorem;
+  s3_1_tautology_theorem -> s3_4_equivalence_theorem;
+  s3_2_distribution_rule -> s3_4_equivalence_theorem;
+
+  s3_1_tautology_theorem -> s3_4_variant_theorem;
+  s3_2_substitution_theorem -> s3_4_variant_theorem;
+  s3_4_equivalence_theorem -> s3_4_variant_theorem;
+
+  s3_1_tautology_theorem -> s3_4_symmetry_theorem;
+  s3_2_substitution_rule -> s3_4_symmetry_theorem;
+
+  s3_1_tautology_theorem -> s3_4_equality_theorem;
+  s3_1_detachment_rule -> s3_4_equality_theorem;
+  s3_2_substitution_rule -> s3_4_equality_theorem;
+  s3_2_distribution_rule -> s3_4_equality_theorem;
+  s3_4_symmetry_theorem -> s3_4_equality_theorem;
+
+  s3_3_deduction_theorem -> s3_4_equality_theorem_corollary_1;
+  s3_3_deduction_theorem -> s3_4_equality_theorem_corollary_2;
+
+  s3_1_tautology_theorem -> s3_4_equality_theorem_corollary_3;
+  s3_2_substitution_rule -> s3_4_equality_theorem_corollary_3;
+
+  s3_1_detachment_rule -> s4_1_reduction_theorem;
+  s3_2_closure_theorem -> s4_1_reduction_theorem;
+  s3_3_deduction_theorem -> s4_1_reduction_theorem;
+
+  s3_1_tautology_theorem -> s4_1_reduction_theorem_consistency;
+  s4_1_reduction_theorem -> s4_1_reduction_theorem_consistency;
+
+  s3_1_tautology_theorem -> s4_1_reduction_theorem_consistency_corollary;
+  s3_2_closure_theorem -> s4_1_reduction_theorem_consistency_corollary;
+
+  s3_2_closure_theorem -> s4_2_completeness_theorem_1;
+  s4_1_reduction_theorem_consistency_corollary -> s4_2_completeness_theorem_1;
+  s4_2_completeness_theorem_2 -> s4_2_completeness_theorem_1;
+
+  s2_5_validity_theorem -> s4_2_completeness_theorem_2;
+
+  // sX_Y_NAME[label="§"];
+}

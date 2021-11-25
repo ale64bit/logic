@@ -1,0 +1,128 @@
+\outline{1} {Chapter 4 The Characterization Problem}
+\centerline{\xmplbxi CHAPTER 4}
+\medskip
+\centerline{\xmplbx THE CHARACTERIZATION PROBLEM}
+\bigskip
+
+% ==============================================================================
+\outline{2} {Definitions}
+\beginsection DEFINITIONS
+
+\item{$\bullet$} A first-order language $L'$ is an {\it extension} of the first-order
+language $L$ if every nonlogical symbol of $L$ is a nonlogical symbol of $L'$.
+
+\item{$\bullet$} A theory $T'$ is an {\it extension} of a theory $T$ if $L(T')$ is
+an extension of $L(T)$ and every theorem of $T$ is a theorem of $T'$.
+
+\item{$\bullet$} A {\it conservative} extension of $T$ is an extension $T'$ of $T$
+such that every formula of $T$ which is a theorem of $T'$ is also a theorem of $T$.
+
+\item{$\bullet$} The theories $T$ and $T'$ are {\it equivalent} if each is an
+extension of the other, i.e., if they have the same language and the same theorems.
+
+\item{$\bullet$} A theory $T$ is {\it inconsistent} if every formula of $T$ is a
+theorem of $T$; otherwise, $T$ is {\it consistent}.
+
+\item{$\bullet$} If $L'$ is an extension of $L$ and ${\cal A}'$ is a structure for
+$L'$, by omitting certain of the functions and predicates of ${\cal A}'$ a structure
+for $L$ is obtained. Then ${\cal A}$ is the {\it restriction} of ${\cal A}'$ to $L$,
+denoted by ${\cal A}' | L$. Also ${\cal A}'$ is an {\it expansion} of $\cal A$ to
+$L'$.
+
+\item{$\bullet$} If $T$ is a theory containing a constant, the canonical structure
+${\cal A}$ for $T$ is defined as:
+\itemitem{-} $|{\cal A}|$ is the set of all equivalence classes of $\sim$
+\itemitem{-} $\f_{\cal A}({\a_1}^\circ, \dots, {\a_n}^\circ) = (\f\a_1\dots\a_n)^\circ$
+\itemitem{-} $\p_{\cal A}({\a_1}^\circ, \dots, {\a_n}^\circ)$ iff $\vdash_T \p\a_1\dots\a_n$
+
+\item{$\bullet$} $T$ is a {\it Henkin theory} if for every closed instantiation
+$\exists\x\A$ of $T$, there is a constant $\e$ such that $\vdash_T \exists\x\A \to \A_\x[\e]$.
+
+\item{$\bullet$} A formula $\A$ of $T$ is {\it undecidable} in $T$ if neither $\A$
+nor $\neg\A$ is a theorem of $T$. Otherwise, $\A$ is {\it decidable} in $T$.
+
+\item{$\bullet$} A theory $T$ is {\it complete} if it is consistent and if every
+closed formula in $T$ is decidable in $T$.
+
+\item{$\bullet$} Given a first-order language $L$, the {\it special constants} of
+{\it level $n$} are defined by induction on $n$. Assuming all special constants of
+all levels less than $n$ have been defined and let $\exists\x\A$ be closed instantiation
+formed with these constants and the symbols of $L$. If $n > 0$, suppose also that
+$\exists\x\A$ contains at least one special constant of level $n-1$. Then the symbol
+$c_{\exists\x\A}$ is the special constant of level $n$ for $\exists\x\A$. The language
+obtained from $L$ by adding all special constants of all levels is $L_c$.
+
+\item{$\bullet$} If $\r$ is the special constant for $\exists\x\A$, then the formula
+$\exists\x\A \to \A_\x[\r]$ is the {\it special axiom} for $\r$. Let $T$ be a theory
+with language $L$. Then $T_c$ is the theory whose language is $L_c$ is whose
+nonlogical axioms are those of $T$ and the special axioms for the special constants
+of $L_c$.
+
+\item{$\bullet$} An extension $T'$ of $T$ is {\it simple} if $T$ and $T'$ have 
+the same language.
+
+\item{$\bullet$} Let $E$ be a set and $J$ a class of subsets of $E$. We say that $J$
+has {\it finite character} if for every subset $A$ of $E$, $A$ is in $J$ iff every
+finite subset of $A$ is in $J$. A set $A$ in $J$ is a {\it maximal element} of $J$
+if $A$ is not a subset of any other member of $J$.
+
+% ==============================================================================
+\outline{2} {Results}
+\beginsection RESULTS
+
+\noindent {\bf \S4.1}
+
+\anchor{Reduction Theorem}
+\proclaim Reduction Theorem. Let $\Gamma$ be a set of formulas in the theory $T$, and
+let $\A$ be a formula of $T$. Then $\A$ is a theorem of $T[\Gamma]$ iff there is a
+theorem of $T$ of the form $\B_1 \to \cdots \to \B_n \to \A$, where each $\B_i$ is
+the closure of a formula in $\Gamma$.
+
+\proclaim Reduction Theorem for Consistency. Let $\Gamma$ be a nonempty set of
+formulas in the theory $T$. Then $T[\Gamma]$ is inconsistent iff there is a theorem
+of $T$ which is a disjuction of negations of closures of distinct formulas in $\Gamma$.
+
+\proclaim Corollary. Let $\A'$ be the closure of $\A$. Then $\A$ is a theorem of $T$
+iff $T[\neg \A']$ is inconsistent.
+
+\noindent {\bf \S4.2}
+
+\anchor{Completeness Theorem}
+\proclaim Completeness Theorem, First Form. A formula $\A$ of a theory $T$ is a theorem
+of $T$ iff it is valid in $T$.
+
+\proclaim Completeness Theorem, Second Form. A theory $T$ is consistent iff it has a model.
+
+\proclaim Lemma 1. If $T'$ is an extension of $T$, and $\SA'$ is a model of $T'$,
+then the restriction of $\SA'$ to $L(T)$ is a model of $T$.
+
+\proclaim Lemma 2. Let $T$ be a complete Henkin theory; $\SA$ the canonical
+structure for $T$; $\A$ a closed formula of $T$. Then $\SA(\A) = \top$ iff
+$\vdash_T \A$.
+
+\proclaim Corollary. If $T$ is a complete Henkin theory, then the canonical
+structure for $T$ is a model of $T$.
+
+\proclaim Lemma 3. $T_c$ is a conservative extension of $T$.
+
+\proclaim Teichm\"uller-Tukey Lemma. If $J$ is a nonempty class of subsets of $E$ which is
+of finite character, then $J$ contains a maximal element.
+
+\anchor{Lindenbaum's Theorem}
+\proclaim Lindenbaum's Theorem. If $T$ is a consistent theory, then $T$ has a complete
+simple extension.
+
+\proclaim Lemma 4. Let $T$ be a theory, and let $U$ be a consistent simple extension of
+$T_c$. Then $U$ has a model $\SA$ such that each individual of $\SA$ is $\SA(\r)$ for
+infinitely many special constants $\r$.
+
+\proclaim Corollary. Let $T$ and $T'$ be theories with the same language. Then $T'$ is an
+extension of $T$ iff every model of $T'$ is a model of $T$. Hence $T$ and $T'$ are
+equivalent iff they have the same models.
+
+% ==============================================================================
+\outline{2} {Problems}
+\beginsection PROBLEMS
+
+\vfill
+\break

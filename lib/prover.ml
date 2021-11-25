@@ -7,7 +7,7 @@ module type Prover = sig
   val prove : proof -> formula -> conclusion
 end
 
-module Shoenfield : Prover = struct
+module ShoenfieldTaut : Prover = struct
   let find_compl pos neg =
     List.find_opt (fun a -> List.exists (fun b -> Neg a = b) neg) pos
 

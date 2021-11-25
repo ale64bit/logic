@@ -40,6 +40,9 @@ digraph {
     rule;
     theorem;
     formal_system[label="formal system"];
+    consistency[shape=box];
+    decidability[shape=box];
+    completeness[shape=box];
 
     term -> formula;
     formula -> axiom;
@@ -50,6 +53,9 @@ digraph {
     axiom -> formal_system;
     rule -> formal_system;
     formal_system -> theorem;
+    formula -> decidability;
+    decidability -> completeness;
+    consistency -> completeness;
   }
 
   subgraph semantics {
@@ -60,7 +66,7 @@ digraph {
 
     structure;
     model;
-    validity;
+    validity[shape=box];
 
     structure -> model;
     structure -> validity;
@@ -81,5 +87,7 @@ digraph {
   formal_system -> theory;
   theory -> model;
   theory -> validity;
+  theory -> consistency;
+  theory -> completeness;
 
 }
