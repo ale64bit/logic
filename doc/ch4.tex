@@ -72,50 +72,60 @@ if $A$ is not a subset of any other member of $J$.
 
 \noindent {\bf \S4.1}
 
-\anchor{Reduction Theorem}
+\anchor{4.1.reduction}
 \proclaim Reduction Theorem. Let $\Gamma$ be a set of formulas in the theory $T$, and
 let $\A$ be a formula of $T$. Then $\A$ is a theorem of $T[\Gamma]$ iff there is a
 theorem of $T$ of the form $\B_1 \to \cdots \to \B_n \to \A$, where each $\B_i$ is
 the closure of a formula in $\Gamma$.
 
+\anchor{4.1.reduction_consistency}
 \proclaim Reduction Theorem for Consistency. Let $\Gamma$ be a nonempty set of
 formulas in the theory $T$. Then $T[\Gamma]$ is inconsistent iff there is a theorem
 of $T$ which is a disjuction of negations of closures of distinct formulas in $\Gamma$.
 
+\anchor{4.1.reduction_consistency_cor}
 \proclaim Corollary. Let $\A'$ be the closure of $\A$. Then $\A$ is a theorem of $T$
 iff $T[\neg \A']$ is inconsistent.
 
 \noindent {\bf \S4.2}
 
-\anchor{Completeness Theorem}
+\anchor{4.2.completeness_form1}
 \proclaim Completeness Theorem, First Form. A formula $\A$ of a theory $T$ is a theorem
 of $T$ iff it is valid in $T$.
 
+\anchor{4.2.completeness_form2}
 \proclaim Completeness Theorem, Second Form. A theory $T$ is consistent iff it has a model.
 
+\anchor{4.2.lemma1}
 \proclaim Lemma 1. If $T'$ is an extension of $T$, and $\SA'$ is a model of $T'$,
 then the restriction of $\SA'$ to $L(T)$ is a model of $T$.
 
+\anchor{4.2.lemma2}
 \proclaim Lemma 2. Let $T$ be a complete Henkin theory; $\SA$ the canonical
 structure for $T$; $\A$ a closed formula of $T$. Then $\SA(\A) = \top$ iff
 $\vdash_T \A$.
 
+\anchor{4.2.lemma2_cor}
 \proclaim Corollary. If $T$ is a complete Henkin theory, then the canonical
 structure for $T$ is a model of $T$.
 
+\anchor{4.2.lemma3}
 \proclaim Lemma 3. $T_c$ is a conservative extension of $T$.
 
+\anchor{4.2.teichmuller-tukey}
 \proclaim Teichm\"uller-Tukey Lemma. If $J$ is a nonempty class of subsets of $E$ which is
 of finite character, then $J$ contains a maximal element.
 
-\anchor{Lindenbaum's Theorem}
+\anchor{4.2.lindenbaum}
 \proclaim Lindenbaum's Theorem. If $T$ is a consistent theory, then $T$ has a complete
 simple extension.
 
+\anchor{4.2.lemma4}
 \proclaim Lemma 4. Let $T$ be a theory, and let $U$ be a consistent simple extension of
 $T_c$. Then $U$ has a model $\SA$ such that each individual of $\SA$ is $\SA(\r)$ for
 infinitely many special constants $\r$.
 
+\anchor{4.2.lemma4_cor}
 \proclaim Corollary. Let $T$ and $T'$ be theories with the same language. Then $T'$ is an
 extension of $T$ iff every model of $T'$ is a model of $T$. Hence $T$ and $T'$ are
 equivalent iff they have the same models.

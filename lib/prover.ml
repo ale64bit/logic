@@ -99,10 +99,10 @@ module ShoenfieldTaut : Prover = struct
           let* ctx, s4 = Rule.associative ctx s3 in
           let* ctx, s5 = Meta.commute ctx s4 in
           let* ctx, s6 = Meta.disj_dneg ctx s5 in
-          let* ctx, s7 = Meta.modus_ponens ctx s2 s6 in
+          let* ctx, s7 = Meta.detachment ctx s2 s6 in
           let* ctx, s8 = Meta.commute ctx s7 in
           let* ctx, s9 = Meta.disj_dneg ctx s8 in
-          let* ctx, s10 = Meta.modus_ponens ctx s1 s9 in
+          let* ctx, s10 = Meta.detachment ctx s1 s9 in
           assert (s10 = a);
           proves ctx s10)
         else

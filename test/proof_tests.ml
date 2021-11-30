@@ -110,13 +110,13 @@ let commute _ =
   let want = Or (qx, px) in
   TestUtil.check_conclusion proof want
 
-let modus_ponens _ =
+let detachment _ =
   let open Theorems.Common in
   let proof =
     let ctx = empty_proof in
     let* ctx, s1 = premise ctx px in
     let* ctx, s2 = premise ctx (Defined.impl px qx) in
-    let* ctx, s3 = Meta.modus_ponens ctx s1 s2 in
+    let* ctx, s3 = Meta.detachment ctx s1 s2 in
     proves ctx s3
   in
   let want = qx in
@@ -295,6 +295,17 @@ let shoenfield_ch3_6c _ =
   in
   TestUtil.check_conclusion proof want
 
+let witness _ =
+  let open Theorems.Common in
+  let a = Const "2" in
+  let proof =
+    let ctx = empty_proof in
+    let* ctx, s1 = Meta.witness ctx "x" a in
+    proves ctx s1
+  in
+  let want = Exists ("x", Atom ("=", [ x; a ])) in
+  TestUtil.check_conclusion proof want
+
 let suite =
   "ProofTests"
   >::: [
@@ -307,7 +318,7 @@ let suite =
          "shoenfield_ch2_5g" >:: shoenfield_ch2_5g;
          "shoenfield_ch2_5i" >:: shoenfield_ch2_5i;
          "commute" >:: commute;
-         "modus_ponens" >:: modus_ponens;
+         "detachment" >:: detachment;
          "taut_theorem_case_b" >:: taut_theorem_case_b;
          "taut_theorem_case_c" >:: taut_theorem_case_c;
          "general_expansion" >:: general_expansion;
@@ -317,6 +328,7 @@ let suite =
          "shoenfield_ch3_5_exists" >:: shoenfield_ch3_5_exists;
          "shoenfield_ch3_6a" >:: shoenfield_ch3_6a;
          "shoenfield_ch3_6c" >:: shoenfield_ch3_6c;
+         "witness" >:: witness;
        ]
 
 let () = run_test_tt_main suite

@@ -117,7 +117,7 @@ module Meta : sig
   val commute : proof -> formula -> conclusion
   (* A ∨ B ⊢ B ∨ A *)
 
-  val modus_ponens : proof -> formula -> formula -> conclusion
+  val detachment : proof -> formula -> formula -> conclusion
   (* {A, A → B} ⊢ B *)
 
   val conj : proof -> formula -> formula -> conclusion
@@ -161,6 +161,9 @@ module Meta : sig
 
   val a_distribution : proof -> var -> formula -> conclusion
   (* A → B ⊢ ∀xA → ∀xB *)
+
+  val witness : proof -> var -> term -> conclusion
+  (* [witness x a] produces a proof of ∃x(x = a) *)
 end
 
 val print_proof : out_channel -> Base.proof -> unit

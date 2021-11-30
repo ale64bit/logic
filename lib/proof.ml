@@ -338,7 +338,7 @@ module Meta = struct
         proves ctx s2
     | a -> Error (Printf.sprintf "invalid commute: %s" (string_of_formula a))
 
-  let modus_ponens ctx a a_to_b =
+  let detachment ctx a a_to_b =
     match a_to_b with
     | Or (Neg a', b) when a = a' ->
         let* ctx, s1 = Rule.expansion ctx b a in
@@ -356,9 +356,9 @@ module Meta = struct
     let* ctx, s1 = Axiom.propositional ctx (Or (Neg a, Neg b)) in
     let* ctx, s2 = Rule.associative ctx s1 in
     let* ctx, s3 = commute ctx s2 in
-    let* ctx, s4 = modus_ponens ctx b s3 in
+    let* ctx, s4 = detachment ctx b s3 in
     let* ctx, s5 = commute ctx s4 in
-    let* ctx, s6 = modus_ponens ctx a s5 in
+    let* ctx, s6 = detachment ctx a s5 in
     assert (s6 = Defined.conj a b);
     proves ctx s6
 
@@ -380,7 +380,7 @@ module Meta = struct
         let* ctx, s3 = commute ctx s1 in
         let* ctx, s4 = Rule.cut ctx s2 s3 in
         let* ctx, s5 = commute ctx s4 in
-        let* ctx, s6 = modus_ponens ctx a s5 in
+        let* ctx, s6 = detachment ctx a s5 in
         assert (s6 = a');
         proves ctx s6
     | a ->
@@ -519,7 +519,7 @@ module Meta = struct
   let general_expansion ctx a' a =
     if Util.is_subset a' a then (
       let* ctx, s1 = general_expansion_implication ctx a' a in
-      let* ctx, s2 = modus_ponens ctx (disj_of_list a') s1 in
+      let* ctx, s2 = detachment ctx (disj_of_list a') s1 in
       assert (s2 = disj_of_list a);
       proves ctx s2)
     else
@@ -570,7 +570,7 @@ module Meta = struct
         let* ctx, s1 = generalization ctx x a in
         let* ctx, s2 = Axiom.substitution ctx (Neg a) x t in
         let* ctx, s3 = rev_impl ctx s2 in
-        let* ctx, s4 = modus_ponens ctx s1 s3 in
+        let* ctx, s4 = detachment ctx s1 s3 in
         let* ctx, s5 = dneg_elim ctx s4 in
         assert (s5 = a');
         proves ctx s5
@@ -645,6 +645,20 @@ module Meta = struct
     | a ->
         Error
           (Printf.sprintf "invalid ∀-distribution: %s" (string_of_formula a))
+
+  let witness ctx x a =
+    let free, _ = variable_occurrences (Atom ("p", [ a ])) in
+    if free = [] then (
+      let* ctx, s1 = Axiom.identity ctx x in
+      let* ctx, s2 = substitution ctx s1 (Atom ("=", [ a; a ])) in
+      let* ctx, s3 = Axiom.substitution ctx (Atom ("=", [ Var x; a ])) x a in
+      let* ctx, s4 = detachment ctx s2 s3 in
+      assert (s4 = Exists (x, Atom ("=", [ Var x; a ])));
+      proves ctx s4)
+    else
+      Error
+        (Printf.sprintf "invalid witness: term %s must be variable-free"
+           (string_of_term a))
 end
 
 let print_proof out p =

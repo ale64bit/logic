@@ -4,8 +4,8 @@
 \centerline{\xmplbx HENKINS'S PROOF OUTLINE}
 \bigskip
 
-\item{1.} Reduce the characterization of $T[\Gamma]$ to that of $T$ (\jumplink{Reduction Theorem}{Reduction Theorem}).
-\item{2.} Reduce the validity form of the \jumplink{Completeness Theorem}{Completeness Theorem} to the consistency form.
+\item{1.} Reduce the characterization of $T[\Gamma]$ to that of $T$ (\jumplink{4.1.reduction}{Reduction Theorem}).
+\item{2.} Reduce the validity form of the \jumplink{4.2.completeness_form1}{Completeness Theorem} to the consistency form.
 \item{3.} Show that the restriction of a model $\SA' | L(T)$ is a model of $T$; so if we
 obtain a model for an extension, we also obtain a model for the base theory.
 \item{4.} Given a consistent theory $T$ we need to find a model via syntactical means.
@@ -25,7 +25,20 @@ exists for every closed instantiation (also called the {\it witness property}).
 for $T$, is a model of $T$.
 \item{11.} Show that we can construct a Henkin theory $T_c$ from a consistent theory $T$
 using the special constants and axioms, and that $T_c$ is a conservative extension of $T$.
-\item{12.} Show that every consistent theory has a simple complete extension (\jumplink{Lindenbaum's Theorem}{Lindenbaum's Theorem}).
+\item{12.} Show that every consistent theory has a simple complete extension (\jumplink{4.2.lindenbaum}{Lindenbaum's Theorem}).
+
+\vfill 
+
+\bigskip
+\hrule
+
+\centerline{
+\xymatrix@C=10pc@R=4pc{
+\hbox{\bf Language} & \hbox{\bf Theory} & \hbox{\bf Structure} \\
+L\ar[d]^{\hbox{extension}}\ar[r] & {T\hbox{(consistent)}}\ar[d]^{\hbox{\jumplink{4.2.lemma3}{conservative extension}}} & {\SA | L}\ar[l]_{\hbox{\jumplink{4.2.lemma1}{model}}} \\
+L_c\ar[r] & {T_c\hbox{(consistent, Henkin)}}\ar[d]^{\hbox{\jumplink{4.2.lindenbaum}{simple extension}}} \\
+L_c\ar[r] & {U\hbox{(complete, Henkin)}} & {\SA \hbox{(canonical)}}\ar[l]_{\hbox{\jumplink{4.2.lemma2_cor}{model}}}\ar[uu]_{\hbox{restriction}} }
+}
 
 \vfill
 \break
