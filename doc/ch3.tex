@@ -40,6 +40,7 @@ distinct; and $\B$ is open.
 
 \noindent {\bf \S3.1}
 
+\anchor{3.1.tautology}
 \proclaim Tautology Theorem. If $\B$ is a tautological consequence of $\A_1, \dots, \A_n$,
 and $\vdash\A_1, \dots, \vdash \A_n$, then $\vdash \B$.
 
@@ -495,7 +496,7 @@ result for any $i$ in $1 \dots n$
 \itemitem{(2)} $\vdash \x_i=\y_i \to \f\x_1\dots\x_n = \f\x_1\dots\x_n \to \f\x_1\dots\x_n = \f\x_1\dots\x_{i-1}\y_i\x_{i+1}\dots\x_n$ \hfill [from (1) by the Substitution Rule]
 \itemitem{(3)} $\vdash \f\x_1\dots\x_n = \f\x_1\dots\x_n \to \x_i=\y_i \to \f\x_1\dots\x_n = \f\x_1\dots\x_{i-1}\y_i\x_{i+1}\dots\x_n$ \hfill [from (2) by the Tautology Theorem]
 \itemitem{(4)} $\vdash \x=\x$ \hfill [Identity Axiom]
-\itemitem{(5)} $\vdash \f\x_1\dots\x_n = \f\x_1\dots\x_n$ \hfill [from (5) by the Substitution Rule]
+\itemitem{(5)} $\vdash \f\x_1\dots\x_n = \f\x_1\dots\x_n$ \hfill [from (4) by the Substitution Rule]
 \itemitem{(6)} $\vdash \x_i=\y_i \to \f\x_1\dots\x_n = \f\x_1\dots\x_{i-1}\y_i\x_{i+1}\dots\x_n.$ \hfill [from (5) and (3) by the Detachment Rule]
 
 \noindent and expanding for all $i$ we can obtain

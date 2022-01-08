@@ -12,8 +12,10 @@ module Base = struct
 
   type conclusion = (proof * formula, string) result
 
+  let already_proven ctx a = FormulaMap.mem a ctx
+
   let add ctx a premises reason =
-    if FormulaMap.mem a ctx then Ok (ctx, a)
+    if already_proven ctx a then Ok (ctx, a)
     else
       let l =
         {

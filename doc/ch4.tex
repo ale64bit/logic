@@ -66,6 +66,26 @@ has {\it finite character} if for every subset $A$ of $E$, $A$ is in $J$ iff eve
 finite subset of $A$ is in $J$. A set $A$ in $J$ is a {\it maximal element} of $J$
 if $A$ is not a subset of any other member of $J$.
 
+\item{$\bullet$} A theory is {\it open} if all of its nonlogical axioms are open.
+
+\item{$\bullet$} Let $\r$ be the special constant for $\exists\x\A$. A formula 
+{\it belongs} to $\r$ if it is:
+\itemitem{-} the special axiom for $\r$;
+\itemitem{-} a closed substitution axiom in $L(T_c)$ of the form $\A_\x[\a] \to \exists\x\A$.
+
+\item{$\bullet$} $\Delta(T)$ is the set of formulas in $T_c$ which either belong to
+some special constant or are closed instances of identity axioms, equality axioms,
+or nonlogical axioms of $T$.
+
+\item{$\bullet$} A formula is a {\it quasi-tautology} if it is a tautological
+consequence of instances of identity axioms and equality axioms.
+
+\item{$\bullet$} The {\it rank} of the special constant for $\exists\x\A$ is the
+number of occurrences of $\exists$ in $\exists\x\A$. It is at least 1.
+
+\item{$\bullet$} $\A_1,\dots,\A_k$ is a {\it special sequence} if 
+$\neg\A_1 \lor \cdots \lor \neg\A_k$ is a tautology.
+
 % ==============================================================================
 \outline{2} {Results}
 \beginsection RESULTS
@@ -129,6 +149,16 @@ infinitely many special constants $\r$.
 \proclaim Corollary. Let $T$ and $T'$ be theories with the same language. Then $T'$ is an
 extension of $T$ iff every model of $T'$ is a model of $T$. Hence $T$ and $T'$ are
 equivalent iff they have the same models.
+
+\noindent {\bf \S4.3}
+
+\proclaim Lemma 1. If $\vdash_T \A$ and $\A'$ is a closed instance of $\A$ in $L(T_c)$,
+then $\A'$ is a tautological consequence of formulas in $\Delta(T)$.
+
+\anchor{4.3.consistency}
+\proclaim Consistency Theorem. An open theory $T$ is inconsistent iff there is a
+quasi-tautology which is the disjunction of negations of instances of nonlogical
+axioms of $T$.
 
 % ==============================================================================
 \outline{2} {Problems}

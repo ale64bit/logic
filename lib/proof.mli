@@ -24,6 +24,9 @@ module Base : sig
 
   val proves : proof -> formula -> conclusion
   (* Readability function to conclude proofs *)
+
+  val already_proven : proof -> formula -> bool
+  (* Checks if a formula is already derived in current context *)
 end
 
 (* Predicate calculus for first-order logic as described in Shoenfield's "Mathematical Logic", Chapter 2 *)

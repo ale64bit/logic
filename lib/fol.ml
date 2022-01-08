@@ -336,6 +336,12 @@ let rec prenex =
       let c' = disambiguate_bound c' (free @ bound_b) in
       op_cd (Or (b', c'))
 
+let rec collect_elementary acc = function
+  | Atom _ as a' -> acc |> FormulaSet.add a'
+  | Exists _ as a' -> acc |> FormulaSet.add a'
+  | Neg a' -> collect_elementary acc a'
+  | Or (a', b') -> collect_elementary (collect_elementary acc a') b'
+
 (*
     This simply tries all truth valuations over the set of elementary
     formulas of the given formula, so it's very inefficient for 
@@ -343,12 +349,6 @@ let rec prenex =
     useful for smaller formulas and for testing/verification purposes.
 *)
 let is_tautology a =
-  let rec collect_elementary acc = function
-    | Atom _ as a' -> acc |> FormulaSet.add a'
-    | Exists _ as a' -> acc |> FormulaSet.add a'
-    | Neg a' -> collect_elementary acc a'
-    | Or (a', b') -> collect_elementary (collect_elementary acc a') b'
-  in
   (* Collect elementary formulas *)
   let elem = collect_elementary FormulaSet.empty a in
   (* Try every valuation over the set of elementary formulas *)

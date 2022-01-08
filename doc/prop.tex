@@ -1,0 +1,36 @@
+\outline{1} {Appendix A Completeness of Propositional Logic}
+\centerline{\xmplbxi APPENDIX A}
+\medskip
+\centerline{\xmplbx COMPLETENESS OF PROPOSITIONAL LOGIC}
+\bigskip
+
+The proof of the \jumplink{3.1.tautology}{Tautology Theorem} provides a direct way of proving the completeness 
+of propositional logic, i.e. the fragment of the first-order system which does not
+contain quantifiers and employs only propositional variables.
+
+Let's define this fragment more precisely. Consider a {\it propositional language} having as symbols the following:
+\item{a)} the {\it propositional variables}: $x, y, z, w, x', y', z', w', x'', \dots$;
+\item{b)} the symbols $\neg$ and $\lor$.
+
+In this case, the variables range over the set of truth values $\{\top, \bot\}$ and there are no terms. Instead,
+the formulas are defined by the generalized inductive definition:
+\item{i)} a variable is a formula.
+\item{ii)} if $\u$ is a formula, then $\neg\u$ is a formula.
+\item{iii)} if $\u$ and $\v$ are formulas, then $\lor\u\v$ is a formula.
+
+There are no nonlogical symbols in this language. Moreover, all the remarks about defined symbols for
+first-order languages apply when appropriate. Any formula in this language can be assigned a unique
+truth value in the expected way and it is easy to see that every truth function is definable in this language
+(see problem 1.1). Finally, the propositional axiom is the only axiom of the system and the rules are the Expansion Rule, Contraction Rule, 
+the Associative Rule and the Cut Rule (i.e. all the rules except the $\exists$-Introduction Rule). Let's
+call this formal system $P$.
+
+We can see now that a formula $\A$ of $P$ is valid iff every truth valuation of the propositional
+variables makes $\A$ true. This is analogous to a first-order tautology, since in $P$ the propositional
+variables stand for the elementary formulas. Thus, given a propositional tautology $\A$ in $P$, the proof of the
+\jumplink{3.1.tautology}{Tautology Theorem} and its corollary provide a constructive procedure to
+produce a proof $\vdash_P \A$. Together with the \jumplink{2.5.validity}{Validity Theorem}, this
+implies that this system is complete: that is, a formula is valid iff it is a theorem.
+
+\vfill
+\break

@@ -1,5 +1,5 @@
-\outline{1} {Appendix A Henkin's Proof Outline}
-\centerline{\xmplbxi APPENDIX A}
+\outline{1} {Appendix B Henkin's Proof Outline}
+\centerline{\xmplbxi APPENDIX B}
 \medskip
 \centerline{\xmplbx HENKINS'S PROOF OUTLINE}
 \bigskip
@@ -27,18 +27,13 @@ for $T$, is a model of $T$.
 using the special constants and axioms, and that $T_c$ is a conservative extension of $T$.
 \item{12.} Show that every consistent theory has a simple complete extension (\jumplink{4.2.lindenbaum}{Lindenbaum's Theorem}).
 
-\vfill 
-
 \bigskip
-\hrule
 
-\centerline{
-\xymatrix@C=10pc@R=4pc{
-\hbox{\bf Language} & \hbox{\bf Theory} & \hbox{\bf Structure} \\
-L\ar[d]^{\hbox{extension}}\ar[r] & {T\hbox{(consistent)}}\ar[d]^{\hbox{\jumplink{4.2.lemma3}{conservative extension}}} & {\SA | L}\ar[l]_{\hbox{\jumplink{4.2.lemma1}{model}}} \\
-L_c\ar[r] & {T_c\hbox{(consistent, Henkin)}}\ar[d]^{\hbox{\jumplink{4.2.lindenbaum}{simple extension}}} \\
-L_c\ar[r] & {U\hbox{(complete, Henkin)}} & {\SA \hbox{(canonical)}}\ar[l]_{\hbox{\jumplink{4.2.lemma2_cor}{model}}}\ar[uu]_{\hbox{restriction}} }
-}
+\tikzcd[column sep=huge, row sep=huge]
+  L   \arrow[r] \arrow[d,"\hbox{extension}" description] & T \hbox{(consistent)} \arrow[d, "\hbox{\jumplink{4.2.lemma3}{conservative extension}}" description] & {\cal A}|L \arrow[l, "\hbox{\jumplink{4.2.lemma1}{model}}"] \\
+  L_c \arrow[r] \arrow[dr, to path=|- (\tikztotarget)] & T_c \hbox{(consistent, Henkin)} \arrow[d, "\hbox{\jumplink{4.2.lindenbaum}{simple extension}}" description] & \\
+  & U \hbox{(complete, Henkin)} & {\cal A} \arrow[l, "\hbox{\jumplink{4.2.lemma1}{model}}"] \arrow[uu, "\hbox{restriction}" description]
+\endtikzcd
 
 \vfill
 \break
