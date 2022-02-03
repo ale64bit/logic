@@ -86,6 +86,17 @@ number of occurrences of $\exists$ in $\exists\x\A$. It is at least 1.
 \item{$\bullet$} $\A_1,\dots,\A_k$ is a {\it special sequence} if 
 $\neg\A_1 \lor \cdots \lor \neg\A_k$ is a tautology.
 
+\item{$\bullet$} A formula in prenex form is {\it existential} if all of the quantifiers
+in its prefix are existential.
+
+\item{$\bullet$} A {\it special equality axiom} is a formula
+$$
+\forall\x (\A \leftrightarrow \B) \to \r = \s,
+$$
+where $\r$ and $\s$ are the special constants for $\exists\x\A$ and $\exists\x\B$,
+respectively. $T'_c$ is obtained from $T_c$ by adding all the special equality
+axioms as new nonlogical axioms.
+
 % ==============================================================================
 \outline{2} {Results}
 \beginsection RESULTS
@@ -152,6 +163,7 @@ equivalent iff they have the same models.
 
 \noindent {\bf \S4.3}
 
+\anchor{4.3.lemma1}
 \proclaim Lemma 1. If $\vdash_T \A$ and $\A'$ is a closed instance of $\A$ in $L(T_c)$,
 then $\A'$ is a tautological consequence of formulas in $\Delta(T)$.
 
@@ -159,6 +171,25 @@ then $\A'$ is a tautological consequence of formulas in $\Delta(T)$.
 \proclaim Consistency Theorem. An open theory $T$ is inconsistent iff there is a
 quasi-tautology which is the disjunction of negations of instances of nonlogical
 axioms of $T$.
+
+\anchor{4.3.lemma2}
+\proclaim Lemma 2. If $n > 0$ and there is a special sequence consisting of formulas in
+$\Delta_n(T)$, then there is a special sequence consisting of formulas in $\Delta_{n-1}(T)$.
+
+\noindent {\bf \S4.4}
+
+\anchor{4.4.lemma1}
+\proclaim Lemma 1. Let $T$ be a theory with no nonlogical axioms. A closed existential
+formula $\A$ is a theorem of $T$ iff there is a quasi-tautology which is a disjunction
+of instances of the matrix of $\A$.
+
+\anchor{4.4.lemma2}
+\proclaim Lemma 2. $T'_c$ is a conservative extension of $T$.
+
+\anchor{4.4.herbrand}
+\proclaim Herbrand's Theorem. Let $T$ be a theory with no nonlogical axioms, and let
+$\A$ be a closed formula in prenex form in $T$. Then $\A$ is a theorem of $T$ iff
+there is a quasi-tautology which is a disjunction of instances of the matrix of $\A_H$.
 
 % ==============================================================================
 \outline{2} {Problems}

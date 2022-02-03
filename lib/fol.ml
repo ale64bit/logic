@@ -18,6 +18,8 @@ type formula =
   | Or of formula * formula
   | Exists of var * formula
 
+type designator = Term of term | Formula of formula
+
 module FormulaSet = Set.Make (struct
   type t = formula
 
@@ -206,6 +208,12 @@ let rec is_open = function
   | Or (a, b) -> is_open a && is_open b
   | Exists _ -> false
 
+let rec height = function
+  | Atom _ -> 0
+  | Neg a -> 1 + height a
+  | Or (a, b) -> 1 + height a + height b
+  | Exists (_, a) -> 1 + height a
+
 let is_closed a =
   let free, _ = variable_occurrences a in
   free = []
@@ -366,12 +374,50 @@ let is_tautology a =
   in
   aux FormulaMap.empty (List.of_seq (FormulaSet.to_seq elem))
 
-let is_tautological_consequence bs a =
-  let rec impl_of_list = function
-    | [] -> a
-    | b :: bs' -> Defined.impl b (impl_of_list bs')
+let is_tautological_consequence bs a = is_tautology (impl_of_list (bs @ [ a ]))
+
+let herbrandize a =
+  let module StringSet = Set.Make (String) in
+  let rec collect_term_function_symbols = function
+    | Var _ -> StringSet.empty
+    | Const _ -> StringSet.empty
+    | Fun (f, ts) ->
+        List.fold_left
+          (fun acc t -> StringSet.union acc (collect_term_function_symbols t))
+          (StringSet.singleton f) ts
   in
-  is_tautology (impl_of_list bs)
+  let rec collect_formula_function_symbols = function
+    | Atom (_, ts) ->
+        List.fold_left
+          (fun acc t -> StringSet.union acc (collect_term_function_symbols t))
+          StringSet.empty ts
+    | Neg b -> collect_formula_function_symbols b
+    | Or (b, c) ->
+        StringSet.union
+          (collect_formula_function_symbols b)
+          (collect_formula_function_symbols c)
+    | Exists (_, b) -> collect_formula_function_symbols b
+  in
+  let a' = prenex (closure a) in
+  let fs = collect_formula_function_symbols a' in
+  let rec reduce_nonexistential_matrix xs k = function
+    | Exists (x, b) ->
+        let b', k' = reduce_nonexistential_matrix (x :: xs) k b in
+        (Exists (x, b'), k')
+    | Neg (Exists (y, Neg b)) as c ->
+        let f = Printf.sprintf "f%d" k in
+        if StringSet.mem f fs then reduce_nonexistential_matrix xs (k + 1) c
+        else
+          let t =
+            match xs with
+            | [] -> Const f
+            | _ -> Fun (f, List.map (fun x -> Var x) (List.rev xs))
+          in
+          reduce_nonexistential_matrix xs (k + 1) (substitute b y t)
+    | b -> (b, k)
+  in
+  let res, _ = reduce_nonexistential_matrix [] 0 a' in
+  res
 
 let rec term_of_tptp = function
   | Tptp.Var x -> Var x
@@ -462,6 +508,11 @@ let rec extended_string_of_formula ?(top = true) = function
   | Exists (x, a) ->
       Printf.sprintf "%s %s" (Printf.sprintf "∃%s" x)
         (extended_string_of_formula ~top:false a)
+
+let special_constant = function
+  | Exists _ as a' when is_closed a' ->
+      Printf.sprintf "c_{%s}" (string_of_formula a')
+  | _ -> failwith "special constants exist only for closed instantiations"
 
 let rec tex_of_formula ?(top = true) ?(fmap = fun _ -> None) a =
   match fmap a with

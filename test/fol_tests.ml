@@ -26,6 +26,24 @@ let is_open _ =
   let a = Atom ("=", [ x; x ]) in
   assert_equal (is_open a) true
 
+let height _ =
+  let x = Var "x" in
+  let a = Atom ("=", [ x; x ]) in
+  let tests =
+    [
+      (a, 0);
+      (Neg a, 1);
+      (Or (a, a), 1);
+      (Exists ("x", a), 1);
+      (Neg (Exists ("x", Or (a, a))), 3);
+    ]
+  in
+  List.iter
+    (fun (a, want) ->
+      let got = height a in
+      assert_equal ~printer:string_of_int want got)
+    tests
+
 let variable_occurrences _ =
   let x = Var "x" in
   let x_eq_x = Atom ("=", [ x; x ]) in
@@ -162,8 +180,18 @@ let prenex _ =
 let is_tautology _ =
   let x = Var "x" in
   let px = Atom ("p", [ x ]) in
+  let qx = Atom ("q", [ x ]) in
+  let rx = Atom ("r", [ x ]) in
   let x_eq_x = Atom ("=", [ x; x ]) in
-  let tests = [ (Or (px, Neg px), true); (x_eq_x, false) ] in
+  let tests =
+    [
+      (Or (px, Neg px), true);
+      (x_eq_x, false);
+      ( Defined.impl (Defined.impl px rx)
+          (Defined.impl (Neg (Defined.impl px qx)) rx),
+        true );
+    ]
+  in
   List.iter
     (fun (a, want) ->
       let got = is_tautology a in
@@ -181,6 +209,47 @@ let is_tautological_consequence _ =
     (fun (b, a, want) ->
       let got = is_tautological_consequence [ b ] a in
       assert_equal ~printer:string_of_bool want got)
+    tests
+
+let herbrandize _ =
+  let x = Var "x" in
+  let y = Var "y" in
+  let z = Var "z" in
+  let px = Atom ("p", [ x ]) in
+  let tests =
+    [
+      (px, Atom ("p", [ Const "f0" ]));
+      (Exists ("x", px), Exists ("x", px));
+      ( Exists ("x", Defined.forall "y" (Exists ("z", Atom ("p", [ x; y; z ])))),
+        Exists ("x", Exists ("z", Atom ("p", [ x; Fun ("f0", [ x ]); z ]))) );
+      ( Atom ("p", [ x; y; z ]),
+        Atom ("p", [ Const "f0"; Const "f1"; Const "f2" ]) );
+      ( Exists
+          ( "x1",
+            Defined.forall "x2"
+              (Exists
+                 ( "x3",
+                   Defined.forall "x4"
+                     (Atom ("p", [ Var "x1"; Var "x2"; Var "x3"; Var "x4" ])) ))
+          ),
+        Exists
+          ( "x1",
+            Exists
+              ( "x3",
+                Atom
+                  ( "p",
+                    [
+                      Var "x1";
+                      Fun ("f0", [ Var "x1" ]);
+                      Var "x3";
+                      Fun ("f1", [ Var "x1"; Var "x3" ]);
+                    ] ) ) ) );
+    ]
+  in
+  List.iter
+    (fun (a, want) ->
+      let got = herbrandize a in
+      assert_equal ~printer:string_of_formula want got)
     tests
 
 let string_of_formula _ =
@@ -233,6 +302,7 @@ let suite =
   "FolTests"
   >::: [
          "is_open" >:: is_open;
+         "height" >:: height;
          "variable_occurrences" >:: variable_occurrences;
          "closure" >:: closure;
          "disj_list" >:: disj_list;
@@ -242,6 +312,7 @@ let suite =
          "prenex" >:: prenex;
          "is_tautology" >:: is_tautology;
          "is_tautological_consequence" >:: is_tautological_consequence;
+         "herbrandize" >:: herbrandize;
          "string_of_formula" >:: string_of_formula;
          "extended_string_of_formula" >:: extended_string_of_formula;
        ]

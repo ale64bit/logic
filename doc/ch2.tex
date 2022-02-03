@@ -5,22 +5,6 @@
 \bigskip
 
 % ==============================================================================
-\outline{2} {Notation}
-\beginsection NOTATION
-
-{\leftskip 1in
-\item{\a, \b, \c, \d:} syntactical variables over terms.
-\item{\A, \B, \C, \D:} syntactical variables over formulas.
-\item{\e:} syntactical variables over constant symbols.
-\item{\f, \g:} syntactical variables over function symbols.
-\item{\i, \j:} syntactical variables over names.
-\item{\p, \q:} syntactical variables over predicate symbols.
-\item{\r, \s, \t:} syntactical variables over special constants.
-\item{\u, \v:} syntactical variables over expressions.
-\item{\x, \y, \z, \w:} syntactical variables over (individual) variables.
-\par}
-
-% ==============================================================================
 \outline{2} {Definitions}
 \beginsection DEFINITIONS
 
@@ -41,6 +25,9 @@
 \itemitem{iii)} $\lor\A\B$ is a formula;
 \itemitem{iv)} $\exists \x\A$ is a formula.
 \smallskip
+
+\item{$\bullet$} The {\it height} of a formula is the number of occurrences of $\neg$,
+$\lor$ and $\exists$ in the formula.
 
 \item{$\bullet$} A {\it designator} is an expression which is either a term or a formula.
 \smallskip
@@ -81,6 +68,9 @@ if $\A$ is valid in every structure for $L$ in which all of the formulas in $\Ga
 \item{$\bullet$} A {\it model} of a theory $T$, is a structure for $L(T)$ in which all the nonlogical axioms of $T$ are valid.
 
 \item{$\bullet$} A formula $\A$ is {\it valid} in a theory $T$ if it is valid in every model of $T$.
+
+\vfill
+\break
 
 % ==============================================================================
 \outline{2} {Logical Axioms}
@@ -143,6 +133,9 @@ free, then ${\cal A}({\bf A_x}[\a]) = {\cal A}({\bf A_x}[{\bf i}])$.
 \anchor{2.5.validity}
 \proclaim Validity Theorem.
 If $T$ is a theory, then every theorem of $T$ is valid in $T$.
+
+\vfill
+\break
 
 % ==============================================================================
 \outline{2} {Problems}

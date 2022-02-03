@@ -44,14 +44,19 @@ distinct; and $\B$ is open.
 \proclaim Tautology Theorem. If $\B$ is a tautological consequence of $\A_1, \dots, \A_n$,
 and $\vdash\A_1, \dots, \vdash \A_n$, then $\vdash \B$.
 
+\anchor{3.1.tautology_corollary}
 \proclaim Corollary. Every tautology is a theorem.
 
+\anchor{3.1.lemma1}
 \proclaim Lemma 1. If $\vdash \A \lor \B$, then $\vdash \B \lor \A$.
 
+\anchor{3.1.detachment}
 \proclaim Detachment Rule. If $\vdash \A$ and $\vdash \A \to \B$, then $\vdash \B$.
 
+\anchor{3.1.detachment_corollary}
 \proclaim Corollary. If $\vdash \A_1, \dots, \vdash \A_n$, and $\vdash \A_1 \to \dots \to \A_n \to \B$, then $\vdash \B$.
 
+\anchor{3.1.lemma2}
 \proclaim Lemma 2. If $n \ge 2$, and $\A_1 \lor \cdots \lor \A_n$ is a tautology, then $\vdash \A_1 \lor \cdots \lor \A_n$.
 
 \noindent {\bf \S3.2}
@@ -74,8 +79,10 @@ $$\eqalign{&\vdash \A_{\x_1, \dots, \x_n}[\a_1, \dots, \a_n] \to \exists \x_1 \d
 
 \noindent {\bf \S3.3}
 
+\anchor{3.3.deduction}
 \proclaim Deduction Theorem. Let $\A$ be a closed formula in $T$. For every formula $\B$ of $T$, $\vdash_T \A \to \B$ iff $\B$ is a theorem of $T[\A]$.
 
+\anchor{3.3.deduction_corollary}
 \proclaim Corollary. Let $\A_1, \dots, \A_n$ be closed formulas in $T$. For every formula $\B$ in $T$, $\vdash_{T} \A_1 \to \cdots \to \A_n \to \B$ 
 iff $\B$ is a theorem of $T[\A_1, \dots, \A_n]$.
 
@@ -85,6 +92,7 @@ $\vdash_T \A$ iff $\vdash_{T'} \A[\e_1, \dots, \e_n]$.
 
 \noindent {\bf \S3.4}
 
+\anchor{3.4.equivalence}
 \proclaim Equivalence Theorem. Let $\A'$ be obtained from $\A$ by replacing some occurrences of $\B_1, \dots, \B_n$
 by $\B_1', \dots, \B_n'$, respectively. If
 $$
@@ -95,10 +103,13 @@ $$
 \vdash \A \leftrightarrow \A'.
 $$
 
+\anchor{3.4.variant}
 \proclaim Variant Theorem. If $\A'$ is a variant of $\A$, then $\vdash \A \leftrightarrow \A'$.
 
+\anchor{3.4.symmetry}
 \proclaim Symmetry Theorem. $\vdash \a = \b \leftrightarrow \b = \a$.
 
+\anchor{3.4.equality}
 \proclaim Equality Theorem. Let $\b'$ be obtained from $\b$ by replacing some occurrences of $\a_1, \dots, \a_n$
 not immediately following $\exists$ or $\forall$ by $\a_1', \dots, \a_n'$ respectively, and let $\A'$ be
 obtained from $\A$ by the same type of replacements. If $\vdash \a_1 = \a_1', \dots, \vdash \a_n = \a_n'$ then

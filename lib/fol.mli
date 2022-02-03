@@ -17,6 +17,8 @@ type formula =
   | Or of formula * formula
   | Exists of var * formula
 
+type designator = Term of term | Formula of formula
+
 (* Defined symbols to facilitate writing more complex formulas *)
 module Defined : sig
   val conj : formula -> formula -> formula
@@ -71,6 +73,9 @@ val is_free : var -> formula -> bool
 val is_open : formula -> bool
 (* Checks whether a formula is quantifier-free *)
 
+val height : formula -> int
+(* Computes the height of the given formula *)
+
 val variable_occurrences : formula -> var list * var list
 (*
     Computes the list of free and bound variable occurrences in a formula.
@@ -87,13 +92,16 @@ val is_instance : formula -> formula -> (var * term) list * bool
 (* [is_instance a' a] tests whether formula a' is an instance of formula a *)
 
 val prenex : formula -> formula
-(* Converts a formula into an equivalent formula in prenex form. *)
+(* Converts a formula into an equivalent formula in prenex form *)
 
 val is_tautology : formula -> bool
 (* [is_tautology a] tests whether formula a is a tautology *)
 
 val is_tautological_consequence : formula list -> formula -> bool
 (* [is_tautological_consequence bs a] tests whether formula a is a tautological consequence of a list of formulas bs *)
+
+val herbrandize : formula -> formula
+(* Computes the Herbrandization of a given formula *)
 
 val formula_of_tptp : Tptp.formula -> formula
 (* Converts a formula in TPTP format into the internal format *)
@@ -106,6 +114,9 @@ val string_of_formula : ?top:bool -> formula -> string
 
 val extended_string_of_formula : ?top:bool -> formula -> string
 (* Converts a formula to a human-readable string with additional defined symbols *)
+
+val special_constant : formula -> const
+(* Constructs the special constant name for the given closed instantiation *)
 
 val tex_of_formula :
   ?top:bool -> ?fmap:(formula -> string option) -> formula -> string
