@@ -1,14 +1,9 @@
 (* Types representing first-order formulas *)
 type var = string
-
 type pred = string
-
 type func = string
-
 type const = string
-
 type term = Var of var | Const of const | Fun of func * term list
-
 type atom = pred * term list
 
 type formula =
@@ -22,23 +17,16 @@ type designator = Term of term | Formula of formula
 (* Defined symbols to facilitate writing more complex formulas *)
 module Defined : sig
   val conj : formula -> formula -> formula
-
   val impl : formula -> formula -> formula
-
   val eq : formula -> formula -> formula
-
   val forall : var -> formula -> formula
 
   (* Operator aliases for human-readability *)
   module Operators : sig
     val ( ! ) : formula -> formula
-
     val ( || ) : formula -> formula -> formula
-
     val ( && ) : formula -> formula -> formula
-
     val ( => ) : formula -> formula -> formula
-
     val ( <=> ) : formula -> formula -> formula
   end
 end
@@ -140,5 +128,4 @@ val random_formula :
   formula
 
 module FormulaSet : Set.S with type elt = formula
-
 module FormulaMap : Map.S with type key = formula

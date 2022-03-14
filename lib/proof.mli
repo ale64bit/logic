@@ -2,11 +2,9 @@ open Fol
 
 module Base : sig
   type proof_line
-
   type proof
 
   val empty_proof : proof
-
   val proof_length : proof -> int
 
   type conclusion = (proof * formula, string) result

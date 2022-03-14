@@ -42,5 +42,4 @@ let shoenfield _ =
     tests
 
 let suite = "ProverTests" >::: [ "shoenfield" >:: shoenfield ]
-
 let () = run_test_tt_main suite

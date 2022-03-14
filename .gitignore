@@ -1,6 +1,8 @@
 # project-specific
 doc/*.log
 doc/*.pgf
+lk/proofs/*.log
+lk/proofs/*.aux
 
 # vim swap
 [._]*.s[a-v][a-z]

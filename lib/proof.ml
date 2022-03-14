@@ -3,11 +3,9 @@ open Util
 
 module Base = struct
   type proof_line = { index : int; refs : int list; reason : string }
-
   type proof = proof_line FormulaMap.t
 
   let empty_proof = FormulaMap.empty
-
   let proof_length = FormulaMap.cardinal
 
   type conclusion = (proof * formula, string) result
@@ -27,9 +25,7 @@ module Base = struct
       Ok (ctx |> FormulaMap.add a l, a)
 
   let premise ctx a = add ctx a [] "premise"
-
   let ( let* ) r f = match r with Error _ as err -> err | Ok (p, a) -> f (p, a)
-
   let proves ctx a = add ctx a [] "goal"
 end
 

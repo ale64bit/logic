@@ -1,13 +1,8 @@
 type var = string
-
 type pred = string
-
 type func = string
-
 type const = string
-
 type term = Var of var | Const of const | Fun of func * term list
-
 type atom = pred * term list
 
 type formula =
@@ -21,7 +16,6 @@ type formula =
   | Exists of var list * formula
 
 type role = Axiom | Hypothesis | Conjecture
-
 type fof = { name : string; role : role; formula : formula }
 
 let string_of_role = function

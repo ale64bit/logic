@@ -1,15 +1,10 @@
 open Util
 
 type var = string
-
 type pred = string
-
 type func = string
-
 type const = string
-
 type term = Var of var | Const of const | Fun of func * term list
-
 type atom = pred * term list
 
 type formula =
@@ -34,22 +29,15 @@ end)
 
 module Defined = struct
   let conj a b = Neg (Or (Neg a, Neg b))
-
   let impl a b = Or (Neg a, b)
-
   let eq a b = conj (impl a b) (impl b a)
-
   let forall x a = Neg (Exists (x, Neg a))
 
   module Operators = struct
     let ( ! ) a = Neg a
-
     let ( || ) a b = Or (a, b)
-
     let ( && ) = conj
-
     let ( => ) = impl
-
     let ( <=> ) = eq
   end
 end

@@ -4,33 +4,19 @@ open Defined.Operators
 (* Some symbols/formulas which are useful in general contexts. *)
 module Common = struct
   let x = Var "x"
-
   let y = Var "y"
-
   let z = Var "z"
-
   let px = Atom ("p", [ x ])
-
   let qx = Atom ("q", [ x ])
-
   let rx = Atom ("r", [ x ])
-
   let sx = Atom ("s", [ x ])
-
   let py = Atom ("p", [ y ])
-
   let pxy = Atom ("p", [ x; y ])
-
   let x_eq_x = Atom ("=", [ x; x ])
-
   let x_eq_y = Atom ("=", [ x; y ])
-
   let x_eq_z = Atom ("=", [ x; z ])
-
   let y_eq_y = Atom ("=", [ y; y ])
-
   let y_eq_z = Atom ("=", [ y; z ])
-
   let z_eq_z = Atom ("=", [ z; z ])
 end
 
@@ -138,6 +124,5 @@ module DeMorgan = struct
   include Common
 
   let conj = !(px && qx) <=> (!px || !qx)
-
   let disj = !(px || qx) <=> (!px && !qx)
 end

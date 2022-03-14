@@ -49,9 +49,9 @@ module ShoenfieldTaut : Prover = struct
     let fs =
       [
         prove_elementary_by_identity;
-        prove_elementary_by_propositional;
+        prove_elementary_by_propositional
         (* TODO: axiom: equality *)
-        (* TODO: axiom: substitution *)
+        (* TODO: axiom: substitution *);
       ]
     in
     let p =
