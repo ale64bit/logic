@@ -1,3 +1,5 @@
+type mode = Classic | Intuitionistic
+
 type cmd =
   | Axiom of LK.formula
   | Weakening of LK.side * int * LK.formula
@@ -21,6 +23,9 @@ type cmd =
   | Print
   | TeX of string
   | Clear
+  | Mode of mode
+
+let string_of_mode = function Classic -> "LK" | Intuitionistic -> "LJ"
 
 let gen_string_of_cmd sof sot sov = function
   | Axiom f -> Printf.sprintf "axiom %s" (sof f)
@@ -63,6 +68,7 @@ let gen_string_of_cmd sof sot sov = function
            (List.map
               (fun (f, f') -> Printf.sprintf "%s/%s" (sof f) (sof f'))
               repl))
+  | Mode mode -> Printf.sprintf "mode %s" (string_of_mode mode)
   | _ -> ""
 
 let string_of_cmd =

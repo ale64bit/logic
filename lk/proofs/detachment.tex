@@ -1,14 +1,8 @@
 \begin{prooftree}
 \AxiomC{$A \rightarrow A$}
-\RightLabel{[WR]}
-\UnaryInfC{$A \rightarrow A, B$}
-\RightLabel{[XR]}
-\UnaryInfC{$A \rightarrow B, A$}
 \AxiomC{$B \rightarrow B$}
 \RightLabel{[$\supset$L]}
-\BinaryInfC{$(A \supset B), A \rightarrow B, B$}
-\RightLabel{[CR]}
-\UnaryInfC{$(A \supset B), A \rightarrow B$}
+\BinaryInfC{$(A \supset B), A \rightarrow B$}
 \RightLabel{[XL]}
 \UnaryInfC{$A, (A \supset B) \rightarrow B$}
 \end{prooftree}

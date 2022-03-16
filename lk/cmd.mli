@@ -1,3 +1,5 @@
+type mode = Classic | Intuitionistic
+
 type cmd =
   | Axiom of LK.formula
   | Weakening of LK.side * int * LK.formula
@@ -21,6 +23,8 @@ type cmd =
   | Print
   | TeX of string
   | Clear
+  | Mode of mode
 
+val string_of_mode : mode -> string
 val string_of_cmd : cmd -> string
 val ascii_string_of_cmd : cmd -> string

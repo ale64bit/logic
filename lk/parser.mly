@@ -33,6 +33,7 @@
 %token TEX
 %token LOAD SAVE
 %token CLEAR
+%token MODE LK LJ
 
 (* Precedence *)
 %right IMPL 
@@ -121,3 +122,5 @@ let cmd :=
   | LOAD; ~ = STRING; <Cmd.Load>
   | SAVE; ~ = STRING; <Cmd.Save>
   | CLEAR; { Cmd.Clear }
+  | MODE; LK; { Cmd.Mode Cmd.Classic }
+  | MODE; LJ; { Cmd.Mode Cmd.Intuitionistic }

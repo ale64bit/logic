@@ -1,7 +1,4 @@
 axiom A
 axiom B
-rweak 1 B
-rexch 3 0
-limpl 4 2
-rcont 5
-lexch 6 0
+limpl 1 2
+lexch 3 0

@@ -10,7 +10,7 @@
 \UnaryInfC{$\forall x A(x), (A(a) \supset B(a)) \rightarrow \exists x B(x)$}
 \RightLabel{[$\supset$R]}
 \UnaryInfC{$(A(a) \supset B(a)) \rightarrow (\forall x A(x) \supset \exists x B(x))$}
-\RightLabel{[$\forall$R]}
+\RightLabel{[$\exists$L]}
 \UnaryInfC{$\exists x (A(x) \supset B(x)) \rightarrow (\forall x A(x) \supset \exists x B(x))$}
 \RightLabel{[$\supset$R]}
 \UnaryInfC{$ \rightarrow (\exists x (A(x) \supset B(x)) \supset (\forall x A(x) \supset \exists x B(x)))$}
@@ -39,7 +39,7 @@
 \UnaryInfC{$B(a) \rightarrow (A(a) \supset B(a))$}
 \RightLabel{[$\exists$R]}
 \UnaryInfC{$B(a) \rightarrow \exists x (A(x) \supset B(x))$}
-\RightLabel{[$\forall$R]}
+\RightLabel{[$\exists$L]}
 \UnaryInfC{$\exists x B(x) \rightarrow \exists x (A(x) \supset B(x))$}
 \RightLabel{[$\lor$L]}
 \BinaryInfC{$(\neg \forall x A(x) \lor \exists x B(x)) \rightarrow \exists x (A(x) \supset B(x))$}

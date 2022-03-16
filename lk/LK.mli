@@ -62,6 +62,7 @@ val tex_of_sequent : sequent -> string
 (* A set of variables *)
 module VarSet : Set.S with type elt = var
 
+val substitute_term : formula -> term -> term -> formula
 val validate_formula : formula -> (VarSet.t, string) result
 val validate_sequent : sequent -> (VarSet.t, string) result
 val with_replacements : (formula * formula) list -> formula -> formula

@@ -188,6 +188,25 @@ module VarSet = Set.Make (struct
   let compare = Stdlib.compare
 end)
 
+let substitute_term f s t =
+  let rec aux_term = function
+    | s' when s = s' -> t
+    | Fun (f, ss) -> Fun (f, List.map aux_term ss)
+    | Term (s, ss) -> Term (s, List.map aux_term ss)
+    | s' -> s'
+  in
+  let rec aux_formula = function
+    | Atom (r, ss) -> Atom (r, List.map aux_term ss)
+    | Neg a -> Neg (aux_formula a)
+    | Disj (a, b) -> Disj (aux_formula a, aux_formula b)
+    | Conj (a, b) -> Conj (aux_formula a, aux_formula b)
+    | Impl (a, b) -> Impl (aux_formula a, aux_formula b)
+    | Exists (x, a) -> Exists (x, aux_formula a)
+    | ForAll (x, a) -> ForAll (x, aux_formula a)
+    | Formula (a, ts) -> Formula (a, List.map aux_term ts)
+  in
+  aux_formula f
+
 let ( let* ) = Result.bind
 
 let validate_formula a =

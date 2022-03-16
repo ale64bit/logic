@@ -76,4 +76,7 @@ let rec token buf =
   | "load" -> LOAD
   | "save" -> SAVE
   | "clear" -> CLEAR
+  | "mode" -> MODE
+  | "LK" -> LK
+  | "LJ" -> LJ
   | _ -> raise (Error "unexpected character")
