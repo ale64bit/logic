@@ -2,6 +2,7 @@ type mode = Classic | Intuitionistic
 
 type cmd =
   | Axiom of LK.formula
+  | Premise of LK.sequent
   | Weakening of LK.side * int * LK.formula
   | Contraction of LK.side * int
   | Exchange of LK.side * int * int
@@ -27,8 +28,9 @@ type cmd =
 
 let string_of_mode = function Classic -> "LK" | Intuitionistic -> "LJ"
 
-let gen_string_of_cmd sof sot sov = function
+let gen_string_of_cmd sos sof sot sov = function
   | Axiom f -> Printf.sprintf "axiom %s" (sof f)
+  | Premise s -> Printf.sprintf "premise %s" (sos s)
   | Weakening (side, i, f) ->
       Printf.sprintf "%sweak %d %s"
         (String.lowercase_ascii (LK.string_of_side side))
@@ -72,8 +74,9 @@ let gen_string_of_cmd sof sot sov = function
   | _ -> ""
 
 let string_of_cmd =
-  gen_string_of_cmd LK.string_of_formula LK.string_of_term LK.string_of_var
+  gen_string_of_cmd LK.string_of_sequent LK.string_of_formula LK.string_of_term
+    LK.string_of_var
 
 let ascii_string_of_cmd =
-  gen_string_of_cmd LK.ascii_string_of_formula LK.ascii_string_of_term
-    LK.ascii_string_of_var
+  gen_string_of_cmd LK.ascii_string_of_sequent LK.ascii_string_of_formula
+    LK.ascii_string_of_term LK.ascii_string_of_var

@@ -49,6 +49,7 @@ let rec token buf =
   | seq -> SEQ
   | eof -> EOF
   | "axiom" -> AXIOM
+  | "premise" -> PREMISE
   | "lweak" -> LWEAK
   | "rweak" -> RWEAK
   | "lcont" -> LCONT

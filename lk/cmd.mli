@@ -2,6 +2,7 @@ type mode = Classic | Intuitionistic
 
 type cmd =
   | Axiom of LK.formula
+  | Premise of LK.sequent
   | Weakening of LK.side * int * LK.formula
   | Contraction of LK.side * int
   | Exchange of LK.side * int * int

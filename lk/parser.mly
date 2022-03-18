@@ -18,7 +18,7 @@
 %token EOF
 
 (* Commands *)
-%token AXIOM 
+%token AXIOM PREMISE
 %token LWEAK RWEAK 
 %token LCONT RCONT
 %token LEXCH REXCH
@@ -95,6 +95,7 @@ let replacement :=
 
 let cmd :=
   | AXIOM; ~ = formula; <Cmd.Axiom>
+  | PREMISE; ~ = sequent; <Cmd.Premise>
   | LWEAK; index = INT; d = formula; { Cmd.Weakening (LK.Left, index, d) } 
   | RWEAK; index = INT; d = formula; { Cmd.Weakening (LK.Right, index, d) } 
   | LCONT; index = INT; { Cmd.Contraction (LK.Left, index) } 

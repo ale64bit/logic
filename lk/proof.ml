@@ -44,17 +44,21 @@ let axioms_and_endsequent proof =
   let axioms =
     List.filter_map
       (fun (s, { ent_derivation; _ }) ->
-        match ent_derivation with Axiom _ -> Some s | _ -> None)
+        match ent_derivation with
+        | Axiom _ -> Some [ s ]
+        | Macro (_, _, axioms) -> Some axioms
+        | _ -> None)
       entries
   in
   let endseq, _ = List.hd (List.rev entries) in
-  (axioms, endseq)
+  (List.sort_uniq Stdlib.compare (List.concat axioms), endseq)
 
 let string_of_derivation proof =
   let open LK in
   let open SequentMap in
   function
   | Axiom _ -> "[Axiom]"
+  | Premise _ -> "[Premise]"
   | Weakening (side, s) ->
       Printf.sprintf "[W%s (%d)]" (string_of_side side) (find s proof).ent_index
   | Contraction (side, s) ->
@@ -109,6 +113,7 @@ let tex_of_proof proof =
   let rec aux s =
     match (SequentMap.find s proof).ent_derivation with
     | Axiom f -> Printf.sprintf "\\AxiomC{$%s$}" (tex_of_sequent ([ f ], [ f ]))
+    | Premise s -> Printf.sprintf "\\AxiomC{[$%s$]}" (tex_of_sequent s)
     | Weakening (side, s') ->
         Printf.sprintf "%s\n\\RightLabel{[W%s]}\n\\UnaryInfC{$%s$}" (aux s')
           (string_of_side side) (tex_of_sequent s)

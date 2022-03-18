@@ -21,6 +21,7 @@ type side = Left | Right
 
 type inference =
   | Axiom of formula
+  | Premise of sequent
   | Weakening of side * sequent
   | Contraction of side * sequent
   | Exchange of side * sequent * int

@@ -19,9 +19,20 @@ let with_replacements repl =
   let open Cmd in
   function
   | Axiom f -> Axiom (f |> LK.with_replacements repl)
+  | Premise (ant, suc) ->
+      Premise
+        ( List.map (LK.with_replacements repl) ant,
+          List.map (LK.with_replacements repl) suc )
   | Weakening (side, i, f) -> Weakening (side, i, f |> LK.with_replacements repl)
   | ConjLeft (side, i, f) -> ConjLeft (side, i, f |> LK.with_replacements repl)
   | DisjRight (side, i, f) -> DisjRight (side, i, f |> LK.with_replacements repl)
+  | Macro (name, repl') ->
+      Macro
+        ( name,
+          List.map
+            (fun (f, g) ->
+              (f |> LK.with_replacements repl', g |> LK.with_replacements repl'))
+            repl )
   | other -> other
 
 let validate_sequent = function
@@ -40,6 +51,11 @@ and handle_cmd mode proof cmd =
       let s = ([ a ], [ a ]) in
       let* _ = (validate_sequent mode) s in
       let index, proof = proof |> Proof.add s (LK.Axiom a) cmd in
+      let () = Printf.printf "  (%d) %s\n" index (LK.string_of_sequent s) in
+      Ok (mode, proof, s)
+  | Premise s ->
+      let* _ = (validate_sequent mode) s in
+      let index, proof = proof |> Proof.add s (LK.Premise s) cmd in
       let () = Printf.printf "  (%d) %s\n" index (LK.string_of_sequent s) in
       Ok (mode, proof, s)
   | Weakening (side, index, d) ->
@@ -342,7 +358,7 @@ and handle_cmd mode proof cmd =
         with End_of_file -> Ok (mode, proof)
       in
       let proof' = Proof.empty in
-      let* _, proof' = aux Cmd.Classic proof' in
+      let* _, proof' = aux mode proof' in
       let axioms, s = Proof.axioms_and_endsequent proof' in
       let filename = List.hd (List.rev (String.split_on_char '/' path)) in
       let name =
