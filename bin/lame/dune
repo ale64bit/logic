@@ -1,0 +1,3 @@
+(executable
+ (name lame)
+ (libraries core parser lang system prover))

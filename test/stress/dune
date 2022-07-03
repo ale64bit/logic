@@ -1,4 +1,0 @@
-(executable
- (name stress)
- (modes byte exe)
- (libraries lib))

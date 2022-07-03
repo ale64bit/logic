@@ -1,0 +1,3 @@
+(library
+ (name prover)
+ (libraries core parser lang system util))
